@@ -1,0 +1,2 @@
+"0","deV07_mod <- deV07_mod %>%"
+"0","  mutate(squared_distance = (place_self-place_votedprty)^2)  "

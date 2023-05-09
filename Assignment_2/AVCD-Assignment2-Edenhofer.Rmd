@@ -1,0 +1,480 @@
+---
+title: "Analysing Vote Choice Data"
+subtitle: "Assignment 2"
+author: "Jacob Edenhofer^[jacob.edenhofer@some.ox.ac.uk]"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+header-includes: 
+  - \usepackage[T1]{fontenc}
+  - \usepackage{fouriernc}
+  - \usepackage{setspace}\onehalfspacing
+  - \usepackage{amsfonts}
+  - \usepackage{dcolumn}
+  - \usepackage{pifont}
+  - \usepackage{booktabs} 
+  - \usepackage{placeins}
+  - \usepackage{amssymb}
+mainfont: fouriernc
+output:
+  pdf_document:
+    fig_caption: true
+    keep_tex: true
+    includes:
+      in_header: preamble.tex
+html_document: default
+word_document: default
+citation_package: natbib
+bibliography: references.bib 
+link-citations: yes
+linkcolor: cyan
+urlcolor: magenta
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Preliminaries 
+
+Let us import the necessary packages and the data: 
+
+```{r preliminaries, message=FALSE, warning=FALSE}
+# packages 
+library(tidyverse)
+library(here)
+library(modelsummary)
+library(janitor)
+library(scales)
+library(haven)
+library(ggpubr)
+library(coefplot)
+library(MASS)
+library(knitr)
+library(kableExtra)
+library(ggeffects)
+library(margins)
+
+# data
+deV07 <- read_dta(paste0(here(), "/Data/ITANES1994_2001.dta"))
+```
+
+
+# Exercise 1
+
+## 1.1 
+
+
+\textcolor{brown}{In this exploratory phase, get also a sense of the missing values in the dataset: if you want to measure extremism, you need to make sure that you know the left-right placement of parties and respondents. Following De Vries (2007), create a dummy variable for parties and individuals with “extreme” righ-left self-)placements (Hint: you should ask yourself how much an individual/party differ from the average individual/party). Following De Vries (2007), build a measure of “issue salience” for unemployment (Hint: in order to measure issue salience, you should ask yourself what is the share of respondents that think that that issue is very relevant. However, do not forget that this dataset is longitudinal, meaning that there are more years).}
+
+
+To get a feel for the data, I start by creating a table summarising all variables, save for `year` and `prtystd` since the former is co-extensive with `prtyst_name` and the latter only take three values (1994, 1996, 2001). To that end, I run: 
+
+
+```{r datasummary-table-num}
+deV07 %>%
+  dplyr::select(-c(year, prtystd)) %>% 
+  datasummary_skim(histogram = F,
+                   title = "Summary statistics") %>%
+  kable_styling(latex_options = "hold_position") 
+```
+
+
+The second column indicates the number of levels for each factor, with the seventh and eighth columns indicating the range of the variables. The third column indicates that there are significant numbers of missing values for two variables in particular, namely `place_votedprty` and `unemp_issue`. 
+
+
+To create the dummy variable, I consider the median and standard deviations for `place_self` and `place_votedprty` respectively. Since the median is three for both for three variables and the standard deviation (roughly) one, I consider those parties/individuals extreme whose distance from the median exceeds one standard deviation. This applies for individuals and parties whose values for the respective variables are one and five respectively. Furthermore, I rescale the `gndr` variable to the 0/1 format. Finally, to create the unemployment salience variable, `unemp_salience_per_year`, I compute the share of respondents per year for whom unemployment is the most important issue. To wrangle the data in that way, I run:   
+
+
+```{r data-wrangling}
+deV07_mod <- deV07 %>%
+  mutate(gndr_dummy = ifelse(gndr == 1, 1, 0), # 1 for male, 0 for female
+         extreme_dummy_individuals = ifelse(place_self %in% c(1, 5), 1, 0), # extreme dummy for individuals
+         extreme_dummy_parties = ifelse(place_votedprty %in% c(1, 5), 1, 0)) %>% # extreme dummy for parties 
+  group_by(year) %>% # group by year to account for longitudinal nature of data
+  mutate(unemp_salience_per_year = sum(unemp_issue == 1, na.rm = T)/n(), 
+         n = n()) %>%
+  ungroup()
+```
+
+
+
+## 1.2 
+
+\textcolor{brown}{Plot the mean right-left self-placement of individuals over years. Has the public become more or less (left-) right-wing? Can you actually say anything meaningful about this? Compare the mean and the median values for each year.}
+
+To create the desired plot, I run: 
+
+
+```{r mean-self-rl-over-time, fig.pos="h"}
+deV07_mod %>%
+  group_by(year) %>%
+  summarise(mean_lr = mean(place_self, na.rm = T),
+            median_lr = median(place_self, na.rm = T)) %>%
+  pivot_longer(cols = !year, names_to = "measure", values_to = "values") %>%
+  ggplot(aes(x = year, y = values, colour = measure)) +
+  geom_point(size = 2) +
+  geom_line(linewidth = 1) +
+  expand_limits(y = c(1, 5)) +
+  scale_colour_manual("", 
+                       labels = c("mean_lr" = "Mean", 
+                                  "median_lr" = "Median"),
+                       values = c("#1C9E77", "#023047")) +
+  scale_x_continuous("Year survey was taken", 
+                     breaks = seq(1994, 2001, 1)) +
+  labs(y = "Self right-left placement", 
+       title = "Mean and median of self right-left placement over time") +
+  theme_bw() +
+  theme(legend.position = "bottom")
+```
+
+
+We can see that, in 1994 and 2001, the mean and median are both roughly three, suggesting that in these two years the distribution of ideological self-placement is roughly normal. In 1996, however, the mean is higher than the median, i.e. the median has ideologically shifted to the right. Because of the labelling of `place_self` (1 == right, 5 == left), the distribution of `place_self` in that election year is, in statistical language, skewed to the left, which, substantively, is due to an increase in the share of fairly extreme right-wing respondents in that year.   
+
+Without taking into account the variance or standard deviation of the mean of `place_self`, we cannot determine whether the ideological right-ward shift in 1996 is a statistically significant one. To that end, I run the following code: 
+
+
+```{r ideo-shift-table}
+deV07_mod %>%
+  group_by(year) %>%
+  summarise(round(mean_cl_normal(place_self), digits = 2)) %>%
+  kbl(booktabs = T, 
+      col.names = c("Year", "Mean", "Lower bound of 95% CI",
+                      "Upper bound of 95% CI"), 
+      caption = "Mean of ideological shift") %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+
+Since the lower bound of the 1994 mean value is greater than the upper bound for the 1996 mean value, we can conclude^[Non-overlapping confidence intervals imply significance, while the overlapping ones do not allow us to make any inferences about significance [@gailmard_statistical_2014].] that the ideological right-ward shift is statistically significant at the 5\% level. The overall conclusion is then that there is a significant right-ward shift from the 1994 to 1996 survey, which, however, is fully reversed by 2001. 
+
+
+
+\textcolor{brown}{Following De Vries (2007), measure the perceived distance betwen voters and their party of choice. Why would do you square it? And what is the main implication for results interpretation?}
+
+
+To create the desired variable, I subtract `place_self` from `place_votedprty` and then square that difference.  
+
+
+```{r perceived-distance-variable}
+deV07_mod <- deV07_mod %>%
+  mutate(squared_distance = (place_self-place_votedprty)^2)  
+```
+
+
+The resulting difference is referred to as the *Euclidean* distance, which is minimised when the voter's self-placement equals the party's ideological position, as perceived by that voter. Consequently, increases in the Euclidean distance indicate increases in the perceived ideological distance between a voter-party pair, with the square ensuring that (i) left and right differences are treated identically, and (ii) that greater deviations are weighted more heavily, i.e. the possible differences are 0, 1, 4, 9, and 16.
+
+
+## 1.3 
+
+\textcolor{brown}{What pushes individuals to vote for parties with extreme right-left placements? Estimate the appropriate model and report it a nice, tidy table. Explain why you controlled for the covariates that you picked.What model did you use in the previous point? Why? Plot the coefficients and comment their magnitude and level of statistical significance}
+
+
+My dependent variable is the `extreme_dummy_parties` variable created in 1.1, which is unity of voters perceive a party as either extreme right or left wing. To identify the correlates of extreme voting, I run six models. 
+
++ In the first model, I simply regress the dependent variable on `squared_distance`. This is motivated by the spatial theory of voting, which predicts that individuals will vote for those parties that they perceive to be ideologically closest to them. Hence, I expect the coefficient estimate to be *negative* since increases `squared_distance` mean lower ideological proximity, as explained in 1.2. 
+
++ In the second model, I add the `gndr_dummy`. This is motivated by recent findings [e.g. @anduiza2022sexism; @oshri2022risk] that men are, ceteris paribus, more likely than women to vote for radical right parties. Therefore, I expect the coefficient estimate to be *positive*^[The dummy variable, recall, is unity for men and zero otherwise.], though this is more of a tentative hypothesis. This is because the dependent variable also includes radical left parties and the theoretical expectations are less clear for that party family. 
+
++ The third model adds education, which is widely considered to be one of the most powerful predictors of vote choice. Given that higher values indicate greater education, I expect the coefficient estimate to be *negative*. 
+
++ The fourth model adds religiosity, reflecting theoretical arguments relating religiosity to extreme voting. Some argue that greater religiosity decreases the probability of voting for an extreme party by creating a strong attachment to religious parties, notably the Christian democrats [@arzheimer2009christian]. Others contend that religiosity can push individuals to the extreme right on account of promoting social conservatism [@marcinkiewicz2022religious]. Hence, the sign is theoretically indeterminate.
+
++ The fifth model adds the salience of unemployment in a given election year, with greater salience potentially pushing voters towards the extremes (*positive* coefficient estimate). On the other hand, voters may care more about competence in economically hard times, and elect moderate parties, provided, of course, that they believe these parties to be more competent.
+
++ The sixth model adds a proxy for political interest. Given the coding of the variable, I expect a *positive* coefficient estimate, indicating that less interested individuals are more likely to vote for extreme parties, holding all other included variables constant.
+
+
+```{r extreme-party-model}
+extreme_party1 <- glm(extreme_dummy_parties ~ squared_distance, 
+                     family = binomial(link = "logit"),
+                     data = deV07_mod)
+extreme_party2 <- glm(extreme_dummy_parties ~ squared_distance + gndr_dummy, 
+                     family = binomial(link = "logit"),
+                     data = deV07_mod)
+extreme_party3 <- glm(extreme_dummy_parties ~ squared_distance + gndr_dummy + edu, 
+                     family = binomial(link = "logit"),
+                     data = deV07_mod)
+extreme_party4 <- glm(extreme_dummy_parties ~ squared_distance + gndr_dummy + edu + relig, 
+                     family = binomial(link = "logit"),
+                     data = deV07_mod)
+extreme_party5 <- glm(extreme_dummy_parties ~ squared_distance + gndr_dummy + edu + relig + unemp_salience_per_year, 
+                     family = binomial(link = "logit"),
+                     data = deV07_mod)
+extreme_party6 <- glm(extreme_dummy_parties ~ squared_distance + gndr_dummy + edu + relig + unemp_salience_per_year + debate, 
+                     family = binomial(link = "logit"),
+                     data = deV07_mod)
+# modelsummary 
+modelsummary(list(extreme_party1, extreme_party2, extreme_party3, extreme_party4, extreme_party5, extreme_party6), 
+             estimate = "{estimate}{stars}", 
+             coef_map = c("squared_distance" = "Perceived squared distance", 
+                          "gndr_dummy" = "Gender dummy", 
+                          "edu" = "Education", 
+                          "relig" = "Religiosity", 
+                          "unemp_salience_per_year" = "Salience of unemployment",
+                          "debate" = "Political interest"),
+             title = "Correlates of extreme voting") %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+
+To represent the results in a coefficient plot, I use the `modelplot()` function because the latter can be more easily integrated with the `kableExtra` package than the `coefplot()` function.
+
+
+```{r coefplots-extreme-choice}
+modelplot(list(extreme_party1, extreme_party2, extreme_party3, extreme_party4, extreme_party5, extreme_party6),
+         coef_map = c("squared_distance" = "Perceived squared distance", 
+                      "gndr_dummy" = "Gender dummy", 
+                      "edu" = "Education", 
+                      "relig" = "Religiosity", 
+                      "debate" = "Political interest",
+                      "unemp_salience_per_year" = "Salience of unemployment")) +
+  expand_limits(x = 1) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(title = "Coefficient plot of the six models") +
+  theme(legend.position = "bottom")
+```
+
+
+The above plot and table 3 reveal four significant correlates of extreme voting: 
+
++ The `squared_distance` term is significant, but the sign is the opposite of what spatial voting theory would lead us to expect. That is, as the squared distance increases by one unit (i.e. as there is less ideological proximity), the probability of extreme voting increases. Specifically, the log odds increase by roughly 24\% ($100*(exp(0.215)-1)$), holding all other included covariates constant.
+
++ Greater levels of education are, as expected, significantly associated with a lower probability of extreme voting, with the log odds decreasing by roughly 16.4\% ($100*(exp(-0.179)-1)$) for a unit increase in the level of education.
+
++ As the share of voters that regard unemployment as the most important issue rises, the probability of extreme voting decreases significantly - the log odds increase by approximately 95\% ($100*(exp(-2.759)-1)$). Put simply: there is a strong inverse association between the salience of unemployment and extreme voting. This is consistent with the "competence" mechanism outlined above, though the results should not be interpreted as direct evidence for that mechanism.
+
++ As expected, less politically interested voters are, ceteris paribus, more likely to vote for extreme parties, with the log odds increasing by roughly 64\% ($100*(exp(0.494)-1)$) for a unit increase in political interest.
+
+
+# Exercise 2 
+
+
+## 2.1 
+
+\textcolor{brown}{What is the effect of gender on interest for politics (measured as watching TV debate)? Does it change when individuals are very concerned by unemployment? If so, how? Write down the formal models you have estimated, explain what the coefficients represent, and interpret the results.}
+
+
+To examine the relationship of interest, I begin by dichotomising the `debate` variable such that it is unity when a respondent watches TV debates at all and zero otherwise. I then regress this variable on the gender dummy in the first model, and add an interaction term between the latter and the unemployment issue dummy in the second model. The interaction terms allows us to examine whether the effect of gender on political interest varies by the importance respondents attach to unemployment as a political issue. In the third model, I add education and religiosity as covariates to probe the robustness of the results obtained from the previous models. My estimating equation for this final model is: 
+
+
+$$
+\begin{aligned}
+log(\frac{Interest_{i}}{1-Interest_{i}}) = \alpha + \beta_{1}Gender_{i} +  \beta_{2}Unemployment_{i} + \beta_{3}Gender_{i}*Unemployment_{i} \\ 
++ \beta_{4}Education_{i} + \beta_{5}Religiosity_{i} + \epsilon_{i}
+\end{aligned}
+$$
+
+In R, I estimate this equation by running: 
+
+
+```{r gender-interest-relation}
+# create dummy variable 
+deV07_mod <- deV07_mod %>%
+  mutate(interest_dummy = ifelse(debate %in% c(1, 2), 1, 0),
+         # factorise to increase interpretability
+         gndr_dummy_f = factor(gndr_dummy, 
+                               levels = c("0", "1"), 
+                               labels = c("Female", "Male")), 
+         unemp_issue_f = factor(unemp_issue,
+                               levels = c("0", "1"), 
+                               labels = c("No", "Yes")))
+
+# estimate logit model 
+interest1 <- glm(interest_dummy ~ gndr_dummy_f, 
+                 family = binomial(link = "logit"), 
+                 data = deV07_mod)
+interest2 <- glm(interest_dummy ~ gndr_dummy_f*unemp_issue_f, 
+                 family = binomial(link = "logit"), 
+                 data = deV07_mod)
+interest3 <- glm(interest_dummy ~ gndr_dummy_f*unemp_issue_f + edu + relig, 
+                 family = binomial(link = "logit"), 
+                 data = deV07_mod)
+
+# modelsummary 
+modelsummary(list(interest1, interest2, interest3), 
+             estimate = "{estimate}{stars}",
+             coef_map = c("gndr_dummy_fMale" = "Gender", 
+                          "unemp_issue_f1" = "Unemployment most important issue", 
+                          "gndr_dummy_fMale:unemp_issue_f1" = "Gender x Unemployment most important issue",
+                          "edu" = "Education", 
+                          "relig" = "Religiosity"), 
+             title = "Association between interest in politics and gender") %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+
+To interpret the coefficient estimates, it is worth writing out the conditional expectations the above regression implies. To that end, let us define $\phi$ as a shorthand for $log(\frac{Interest_{i}}{1-Interest_{i}})$, and let $\hat{Educ}$ and $\hat{Relig}$ denote fixed values of these covariates. Then, we can write: 
+
+$$
+\begin{aligned}
+\mathbb{E}[\phi \vert Gender_{i} = 0, Unemployment_{i} = 0, \hat{Educ_{i}}, \hat{Relig_{i}}] = \alpha + \beta_{4}\hat{Educ_{i}} + \beta_{5}\hat{Relig_{i}} \\
+\mathbb{E}[\phi \vert Gender_{i} = 1, Unemployment_{i} = 0, \hat{Educ_{i}}, \hat{Relig_{i}}] = \alpha + \beta_{1} + \beta_{4}\hat{Educ_{i}} + \beta_{5}\hat{Relig_{i}} \\
+\mathbb{E}[\phi \vert Gender_{i} = 0, Unemployment_{i} = 1, \hat{Educ_{i}}, \hat{Relig_{i}}] = \alpha + \beta_{2} + \beta_{4}\hat{Educ_{i}} + \beta_{5}\hat{Relig_{i}} \\
+\mathbb{E}[\phi \vert Gender_{i} = 1, Unemployment_{i} = 1, \hat{Educ_{i}}, \hat{Relig_{i}}] = \alpha + \beta_{1} + \beta_{2} + \beta_{3} + \beta_{4}\hat{Educ_{i}} + \beta_{5}\hat{Relig_{i}} \\
+\end{aligned}
+$$
+
+
+Subtracting the first equation from the second gives us $\beta_{1}$. Substantively, $\beta_{1}$ therefore represents the marginal effect of gender on political interest, i.e. the change in the expected probability of watching TV debates for males (gender = 1) compared to females (gender = 0), holding the values of education and religiosity constant. Similarly, subtracting the third equation from the first gives us $\beta_{2}$. Hence, $\beta_{2}$ represents the marginal effect of unemployment importance on political interest, i.e. the change in the expected probability of watching TV debates for those viewing unemployment as the most important political issue, compared to those who do not do so, holding the values of education and religiosity constant. Finally, the coefficient on the interaction term is obtained by subtracting (i) equation three from four, (ii) subtracting one from two, and (iii) subtracting the second difference from the first. Intuitively, this means that the interaction term represents the difference in the marginal effect of gender between those who view unemployment as the most important issue, compared to those who do not, holding all other covariates constant.
+
+
+Table 4 allows us to draw four lessons: 
+
++ Males exhibit significantly greater political interest than females, holding all other included covariates constant, with the log odds of watching TV debates being approximately 34.6\% ($100*(exp(0.297)-1)$) higher for males than females. 
+
++ Similarly, those considering unemployment the most important political issue exhibit, ceteris paribus, greater political interest than those who do consider unemployment as important, with the log odds being being 74\% ($100*(exp(0.554)-1)$) higher for the former, compared to the latter.
+
++ The marginal effect of gender on political interest does not significantly vary with the unemployment dummy, as the coefficient estimate in the third row shows. 
+
++ Both greater religiosity and higher education levels are positively and significantly associated with political interest. 
+
+
+## 2.2
+
+\textcolor{brown}{Represent graphically: The predicted probabilities of gender on interest in politics when unemployment is the most important issue (or not), The marginal effects of gender on interest in politics when unemployment is the most important issue (or not), Put the two graphs in a singular imagine}
+
+To plot the predicted probabilities, I use the `ggeffects` package. The plot below includes connecting lines as visual aids for tracking how the effect of gender varies across unemployment. 
+
+```{r gender-interest-relation-pp, message=FALSE}
+pp_plot <- plot(ggpredict(interest3, terms = c("unemp_issue_f", "gndr_dummy_f")), 
+     connect.lines = T) +
+  scale_colour_manual("Gender",
+                      labels = c("0" = "Female",
+                                 "1" = "Male"),
+                      values = c(c("#1C9E77", "#023047"))) +
+  expand_limits(y = 0.8) +
+  labs(y = "Predicted probability of watching debates",
+       x = "Unemployment most important issue?",
+       title = "Predicted probabilities\nof being interested in politics", 
+       caption = "Covariates include: education and religiosity.") +
+  theme(legend.position = "bottom") +
+  theme(plot.title = element_text(size = 10),
+        plot.caption = element_text(hjust = 0, size = 6))
+```
+
+
+To compute the marginal effect, I use the `cplot()` from the `margins` package. 
+
+
+```{r gender-interest-relation-me}
+# compute marginal effect
+interest4 <- glm(interest_dummy ~ gndr_dummy*unemp_issue_f + edu + relig, 
+                 family = binomial(link = "logit"), 
+                 data = deV07_mod)
+me <- margins::cplot(interest4, dx = "gndr_dummy", 
+               x = "unemp_issue_f", what = "effect", draw = F)
+# marginal effect plot 
+me_plot <- me %>%
+  ggplot(aes(x = xvals, y = yvals)) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  expand_limits(y = 0.12) +
+  labs(y = "Marginal effect", 
+       x = "Unemployment most important issue?",
+       title = "Marginal effect of gender on\npolitical interest by unemployment salience",
+       caption = "Covariates include: education and religiosity.") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 10),
+        plot.caption = element_text(hjust = 0, size = 6))
+```
+
+
+I combine the two plots using the `ggarrange()` function.
+
+
+```{r pp-and-me-combined}
+ggarrange(pp_plot, me_plot, nrow = 1)
+```
+
+
+As explained above, the marginal effect of gender is the vertical difference in predicted probabilities for males and females respectively. Analogously, the marginal effect of unemployment is the horizontal difference between the blue and green point estimates respectively. The two horizontal differences are almost identical. This, in combination with the almost completely overlapping confidence intervals for the marginal effects, confirms our conclusion that the effect of gender does not change significantly with unemployment.
+
+
+
+## 2.3
+
+
+\textcolor{brown}{Estimate a multinomial model: who do individuals with an extreme right-left self-placement vote for? Report it in a nice, tidy table.}
+
+
+To run a multinomial model, I start by factorising the `prtystd_name` variable (with the right-wing Lega as my reference category), and regressing it on the `extreme_dummy_individuals` dummy as well as gender, education, religiosity and the unemployment importance dummy. 
+
+
+```{r multinomial-model}
+# factorise DV
+deV07_mod <- deV07_mod %>%
+  mutate(prtystd_name_f = relevel(factor(prtystd_name), "Lega"))
+
+# models
+multinomial1 <- polr(prtystd_name_f ~ extreme_dummy_individuals, 
+                     data = deV07_mod, 
+                     Hess = T)
+multinomial2 <- polr(prtystd_name_f ~ extreme_dummy_individuals + gndr_dummy, 
+                     data = deV07_mod, 
+                     Hess = T)
+multinomial3 <- polr(prtystd_name_f ~ extreme_dummy_individuals + gndr_dummy + edu, 
+                     data = deV07_mod, 
+                     Hess = T)
+multinomial4 <- polr(prtystd_name_f ~ extreme_dummy_individuals + gndr_dummy + edu + relig + unemp_issue, 
+                     data = deV07_mod, 
+                     Hess = T)
+
+# modelsummary 
+modelsummary(list(multinomial1, multinomial2, multinomial3, multinomial4),
+             estimate = "{estimate}{stars}", 
+             # coef_map = c("AN|FI" = "AN vs FI",
+             #              "FI|Lega" = "FI vs Lega",
+             #              "Lega|PDS" = "Lega vs PDS",
+             #              "PDS|PPI" = "PDS vs PPI",
+             #              "PPI|RC" = "PPI vs RC",
+             #              "RC|UD" = "RC vs UD",
+             #              "extreme_dummy_individuals" = "Extreme voter dummy",
+             #              "gndr_dummy" = "Gender",
+             #              "edu" = "Education",
+             #              "relig" = "Religiosity",
+             #              "unemp_issue" = "Unemployment most important issue"),
+             title = "Multinomial models for predicting vote choice") %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+
+\textcolor{red}{How to interpret these coefficients?}
+
+
+## 2.4 
+
+
+\textcolor{brown}{What is a Conditional Logit Model, and does it differ from a Multinomial Logit Model? What types of data should be used (or need to be used) for this type of model? What is the best advantage of a Conditional Logit Model?}
+
+
+
+A conditional logit model is essentially a fixed-effects model with a binary outcome variable. For multinomial logit models, by contrast, the dependent variable is a multi-level factor variable, rather than a binary one. Given the fixed effects, conditional logit models require repeated cross-sectional or panel data.  The advantage of such models, as with all fixed effects models, is that they allow us to restrict our attention only to variation within a given time period. In this way, we can control for unobserved time-invariant unobservables, which, generally, strengthens our confidence that the relationship we observe is not spurious. Despite that, fixed effects are usually not sufficient to claim causality since we often cannot rule out the presence of unobservable, time-varying confounders. 
+
+
+
+# Appendix 
+
+
+```{r datasummary-table-cat, fig.pos="h"}
+deV07 %>%
+  dplyr::select(-c(year, prtystd)) %>% 
+  mutate(across(.cols = everything(), 
+                .fns = ~factor(.))) %>%
+  datasummary_skim(type = "categorical", 
+                   title = "Summary statistics (categorical)") %>%
+  kable_styling(latex_options = "hold_position") %>%
+  column_spec(1, width = "100px") %>%
+  column_spec(2, width = "50px") %>%
+  column_spec(3, width = "50px") %>%
+  column_spec(4, width = "50px")
+```
+
+
+
+
+\FloatBarrier
+
+# References
+
