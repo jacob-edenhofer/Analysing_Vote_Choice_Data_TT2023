@@ -175,7 +175,7 @@
 \makeatother
 \subtitle{Assignment 2}
 \author{Jacob Edenhofer\footnote{\href{mailto:jacob.edenhofer@some.ox.ac.uk}{\nolinkurl{jacob.edenhofer@some.ox.ac.uk}}}}
-\date{09 May 2023}
+\date{10 May 2023}
 
 \begin{document}
 \maketitle
@@ -537,8 +537,8 @@ integrated with the \texttt{kableExtra} package than the
 
 \includegraphics{AVCD-Assignment2-Edenhofer_files/figure-latex/coefplots-extreme-choice-1.pdf}
 
-The above plot and table 3 reveal four significant correlates of extreme
-voting:
+The above plot and table 3 reveal four statistically significant
+correlates of extreme voting:
 
 \begin{itemize}
 \item
@@ -578,17 +578,15 @@ voting:
 
 \textcolor{brown}{What is the effect of gender on interest for politics (measured as watching TV debate)? Does it change when individuals are very concerned by unemployment? If so, how? Write down the formal models you have estimated, explain what the coefficients represent, and interpret the results.}
 
-To examine the relationship of interest, I begin by dichotomising the
-\texttt{debate} variable such that it is unity when a respondent watches
-TV debates at all and zero otherwise. I then regress this variable on
-the gender dummy in the first model, and add an interaction term between
-the latter and the unemployment issue dummy in the second model. The
-interaction terms allows us to examine whether the effect of gender on
-political interest varies by the importance respondents attach to
-unemployment as a political issue. In the third model, I add education
-and religiosity as covariates to probe the robustness of the results
-obtained from the previous models. My estimating equation for this final
-model is:
+To examine the relationship of interest, I regress the \texttt{debate}
+variable on the gender dummy in the first model, and add an interaction
+term between the latter and the unemployment issue dummy in the second
+model. The interaction terms allows us to examine whether the effect of
+gender on political interest varies by the importance respondents attach
+to unemployment as a political issue. In the third model, I add
+education and religiosity as covariates to probe the robustness of the
+results obtained from the previous models. My estimating equation for
+this final model is:
 
 \[
 \begin{aligned}
@@ -597,13 +595,14 @@ log(\frac{Interest_{i}}{1-Interest_{i}}) = \alpha + \beta_{1}Gender_{i} +  \beta
 \end{aligned}
 \]
 
-In R, I estimate this equation by running:
+In R, I estimate this ordered logisitic regression by running:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# create dummy variable }
 \NormalTok{deV07\_mod }\OtherTok{\textless{}{-}}\NormalTok{ deV07\_mod }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{interest\_dummy =} \FunctionTok{ifelse}\NormalTok{(debate }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{),}
+         \AttributeTok{interest\_factor =} \FunctionTok{factor}\NormalTok{(debate),}
          \CommentTok{\# factorise to increase interpretability}
          \AttributeTok{gndr\_dummy\_f =} \FunctionTok{factor}\NormalTok{(gndr\_dummy, }
                                \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"0"}\NormalTok{, }\StringTok{"1"}\NormalTok{), }
@@ -613,24 +612,26 @@ In R, I estimate this equation by running:
                                \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"No"}\NormalTok{, }\StringTok{"Yes"}\NormalTok{)))}
 
 \CommentTok{\# estimate logit model }
-\NormalTok{interest1 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(interest\_dummy }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gndr\_dummy\_f, }
-                 \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
-                 \AttributeTok{data =}\NormalTok{ deV07\_mod)}
-\NormalTok{interest2 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(interest\_dummy }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gndr\_dummy\_f}\SpecialCharTok{*}\NormalTok{unemp\_issue\_f, }
-                 \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
-                 \AttributeTok{data =}\NormalTok{ deV07\_mod)}
-\NormalTok{interest3 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(interest\_dummy }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gndr\_dummy\_f}\SpecialCharTok{*}\NormalTok{unemp\_issue\_f }\SpecialCharTok{+}\NormalTok{ edu }\SpecialCharTok{+}\NormalTok{ relig, }
-                 \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
-                 \AttributeTok{data =}\NormalTok{ deV07\_mod)}
+\NormalTok{interest1 }\OtherTok{\textless{}{-}} \FunctionTok{polr}\NormalTok{(interest\_factor }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gndr\_dummy\_f, }
+                 \AttributeTok{data =}\NormalTok{ deV07\_mod, }
+                 \AttributeTok{Hess =}\NormalTok{ T)}
+\NormalTok{interest2 }\OtherTok{\textless{}{-}} \FunctionTok{polr}\NormalTok{(interest\_factor }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gndr\_dummy\_f}\SpecialCharTok{*}\NormalTok{unemp\_issue\_f, }
+                 \AttributeTok{data =}\NormalTok{ deV07\_mod, }
+                 \AttributeTok{Hess =}\NormalTok{ T)}
+\NormalTok{interest3 }\OtherTok{\textless{}{-}} \FunctionTok{polr}\NormalTok{(interest\_factor }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gndr\_dummy\_f}\SpecialCharTok{*}\NormalTok{unemp\_issue\_f }\SpecialCharTok{+}\NormalTok{ edu }\SpecialCharTok{+}\NormalTok{ relig, }
+                 \AttributeTok{data =}\NormalTok{ deV07\_mod, }
+                 \AttributeTok{Hess =}\NormalTok{ T)}
 
 \CommentTok{\# modelsummary }
 \FunctionTok{modelsummary}\NormalTok{(}\FunctionTok{list}\NormalTok{(interest1, interest2, interest3), }
              \AttributeTok{estimate =} \StringTok{"\{estimate\}\{stars\}"}\NormalTok{,}
-             \AttributeTok{coef\_map =} \FunctionTok{c}\NormalTok{(}\StringTok{"gndr\_dummy\_fMale"} \OtherTok{=} \StringTok{"Gender"}\NormalTok{, }
-                          \StringTok{"unemp\_issue\_f1"} \OtherTok{=} \StringTok{"Unemployment most important issue"}\NormalTok{, }
-                          \StringTok{"gndr\_dummy\_fMale:unemp\_issue\_f1"} \OtherTok{=} \StringTok{"Gender x Unemployment most important issue"}\NormalTok{,}
-                          \StringTok{"edu"} \OtherTok{=} \StringTok{"Education"}\NormalTok{, }
-                          \StringTok{"relig"} \OtherTok{=} \StringTok{"Religiosity"}\NormalTok{), }
+             \AttributeTok{coef\_map =} \FunctionTok{c}\NormalTok{(}\StringTok{"1|2"} \OtherTok{=} \StringTok{"1 vs 2"}\NormalTok{,}
+                          \StringTok{"2|3"} \OtherTok{=} \StringTok{"2 vs 3"}\NormalTok{,}
+                          \StringTok{"gndr\_dummy\_fMale"} \OtherTok{=} \StringTok{"Gender"}\NormalTok{,}
+                          \StringTok{"unemp\_issue\_fYes"} \OtherTok{=} \StringTok{"Unemployment most important issue"}\NormalTok{,}
+                          \StringTok{"gndr\_dummy\_fMale:unemp\_issue\_fYes"} \OtherTok{=} \StringTok{"Gender x Unemployment most important issue"}\NormalTok{,}
+                          \StringTok{"edu"} \OtherTok{=} \StringTok{"Education"}\NormalTok{,}
+                          \StringTok{"relig"} \OtherTok{=} \StringTok{"Religiosity"}\NormalTok{),}
              \AttributeTok{title =} \StringTok{"Association between interest in politics and gender"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{latex\_options =} \StringTok{"hold\_position"}\NormalTok{)}
 \end{Highlighting}
@@ -644,19 +645,25 @@ In R, I estimate this equation by running:
 \toprule
   & (1) & (2) & (3)\\
 \midrule
-Gender & \num{0.231}*** & \num{0.212}* & \num{0.297}**\\
- & (\num{0.067}) & (\num{0.098}) & (\num{0.111})\\
-Education &  &  & \num{0.652}***\\
- &  &  & (\num{0.029})\\
-Religiosity &  &  & \num{0.125}***\\
- &  &  & (\num{0.034})\\
+1 vs 2 & \num{-0.682}*** & \num{-1.033}*** & \num{-3.894}***\\
+ & (\num{0.046}) & (\num{0.073}) & (\num{0.170})\\
+2 vs 3 & \num{0.511}*** & \num{0.024} & \num{-2.676}***\\
+ & (\num{0.045}) & (\num{0.070}) & (\num{0.163})\\
+Gender & \num{-0.342}*** & \num{-0.296}** & \num{-0.359}***\\
+ & (\num{0.058}) & (\num{0.092}) & (\num{0.098})\\
+Unemployment most important issue &  & \num{-0.546}*** & \num{-0.426}***\\
+ &  & (\num{0.097}) & (\num{0.102})\\
+Gender x Unemployment most important issue &  & \num{-0.022} & \num{0.043}\\
+ &  & (\num{0.130}) & (\num{0.137})\\
+Education &  &  & \num{-0.542}***\\
+ &  &  & (\num{0.024})\\
+Religiosity &  &  & \num{-0.077}**\\
+ &  &  & (\num{0.027})\\
 \midrule
-Num.Obs. & \num{4091} & \num{3299} & \num{3278}\\
-AIC & \num{5200.5} & \num{4319.0} & \num{3665.7}\\
-BIC & \num{5213.1} & \num{4343.4} & \num{3702.2}\\
-Log.Lik. & \num{-2598.229} & \num{-2155.511} & \num{-1826.836}\\
-F & \num{11.971} & \num{31.815} & \num{112.216}\\
-RMSE & \num{0.47} & \num{0.48} & \num{0.44}\\
+Num.Obs. & \num{4089} & \num{3299} & \num{3278}\\
+AIC & \num{8902.8} & \num{7057.9} & \num{6450.6}\\
+BIC & \num{8921.7} & \num{7088.4} & \num{6493.2}\\
+RMSE & \num{1.83} & \num{1.91} & \num{1.91}\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -694,22 +701,21 @@ two, and (iii) subtracting the second difference from the first.
 Intuitively, this means that the interaction term represents the
 difference in the marginal effect of gender between those who view
 unemployment as the most important issue, compared to those who do not,
-holding all other covariates constant.
+holding all other covariates constant. Finally, the intercepts represent
+the probability of ``choosing'' level one (high interest), as opposed to
+level two, and ``choosing'' level two, as opposed to level three (no
+interest).
 
 Table 4 allows us to draw four lessons:
 
 \begin{itemize}
 \item
   Males exhibit significantly greater political interest than females,
-  holding all other included covariates constant, with the log odds of
-  watching TV debates being approximately 34.6\%
-  (\(100*(exp(0.297)-1)\)) higher for males than females.
+  holding all other included covariates constant.
 \item
   Similarly, those considering unemployment the most important political
   issue exhibit, ceteris paribus, greater political interest than those
-  who do consider unemployment as important, with the log odds being
-  being 74\% (\(100*(exp(0.554)-1)\)) higher for the former, compared to
-  the latter.
+  who do consider unemployment as important.
 \item
   The marginal effect of gender on political interest does not
   significantly vary with the unemployment dummy, as the coefficient
@@ -736,7 +742,7 @@ tracking how the effect of gender varies across unemployment.
                       \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"0"} \OtherTok{=} \StringTok{"Female"}\NormalTok{,}
                                  \StringTok{"1"} \OtherTok{=} \StringTok{"Male"}\NormalTok{),}
                       \AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"\#1C9E77"}\NormalTok{, }\StringTok{"\#023047"}\NormalTok{))) }\SpecialCharTok{+}
-  \FunctionTok{expand\_limits}\NormalTok{(}\AttributeTok{y =} \FloatTok{0.8}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{expand\_limits}\NormalTok{(}\AttributeTok{y =} \FloatTok{0.6}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted probability of watching debates"}\NormalTok{,}
        \AttributeTok{x =} \StringTok{"Unemployment most important issue?"}\NormalTok{,}
        \AttributeTok{title =} \StringTok{"Predicted probabilities}\SpecialCharTok{\textbackslash{}n}\StringTok{of being interested in politics"}\NormalTok{, }
@@ -747,31 +753,34 @@ tracking how the effect of gender varies across unemployment.
 \end{Highlighting}
 \end{Shaded}
 
-To compute the marginal effect, I use the \texttt{cplot()} from the
-\texttt{margins} package.
+To compute the marginal effect, I use the \texttt{slopes()} function
+from the \texttt{marginaleffects} package.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# compute marginal effect}
-\NormalTok{interest4 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(interest\_dummy }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gndr\_dummy}\SpecialCharTok{*}\NormalTok{unemp\_issue\_f }\SpecialCharTok{+}\NormalTok{ edu }\SpecialCharTok{+}\NormalTok{ relig, }
-                 \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
-                 \AttributeTok{data =}\NormalTok{ deV07\_mod)}
-\NormalTok{me }\OtherTok{\textless{}{-}}\NormalTok{ margins}\SpecialCharTok{::}\FunctionTok{cplot}\NormalTok{(interest4, }\AttributeTok{dx =} \StringTok{"gndr\_dummy"}\NormalTok{, }
-               \AttributeTok{x =} \StringTok{"unemp\_issue\_f"}\NormalTok{, }\AttributeTok{what =} \StringTok{"effect"}\NormalTok{, }\AttributeTok{draw =}\NormalTok{ F)}
-\CommentTok{\# marginal effect plot }
-\NormalTok{me\_plot }\OtherTok{\textless{}{-}}\NormalTok{ me }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals, }\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+\NormalTok{interest4 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{polr}\NormalTok{(interest\_factor }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gndr\_dummy}\SpecialCharTok{*}\NormalTok{unemp\_issue\_f }\SpecialCharTok{+}\NormalTok{ edu }\SpecialCharTok{+}\NormalTok{ relig, }
+                 \AttributeTok{data =}\NormalTok{ deV07\_mod, }
+                 \AttributeTok{Hess =}\NormalTok{ T)}
+
+\CommentTok{\# marginal effect}
+\NormalTok{me\_plot }\OtherTok{\textless{}{-}}\NormalTok{ marginaleffects}\SpecialCharTok{::}\FunctionTok{slopes}\NormalTok{(interest4, }
+                        \AttributeTok{variables =} \StringTok{"gndr\_dummy"}\NormalTok{, }\AttributeTok{by =} \StringTok{"unemp\_issue\_f"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ unemp\_issue\_f, }\AttributeTok{y =}\NormalTok{ estimate, }
+             \AttributeTok{group =} \FunctionTok{factor}\NormalTok{(term))) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ estimate }\SpecialCharTok{{-}}\NormalTok{ std.error, }\AttributeTok{ymax =}\NormalTok{ estimate }\SpecialCharTok{+}\NormalTok{ std.error),}
+                \AttributeTok{width =} \FloatTok{0.12}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{expand\_limits}\NormalTok{(}\AttributeTok{y =} \FloatTok{0.12}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Marginal effect"}\NormalTok{, }
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{group) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Marginal effect of gender"}\NormalTok{, }
        \AttributeTok{x =} \StringTok{"Unemployment most important issue?"}\NormalTok{,}
        \AttributeTok{title =} \StringTok{"Marginal effect of gender on}\SpecialCharTok{\textbackslash{}n}\StringTok{political interest by unemployment salience"}\NormalTok{,}
        \AttributeTok{caption =} \StringTok{"Covariates include: education and religiosity."}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
   \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),}
-        \AttributeTok{plot.caption =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{size =} \DecValTok{6}\NormalTok{))}
+        \AttributeTok{plot.caption =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{size =} \DecValTok{6}\NormalTok{)) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -791,8 +800,9 @@ respectively. Analogously, the marginal effect of unemployment is the
 horizontal difference between the blue and green point estimates
 respectively. The two horizontal differences are almost identical. This,
 in combination with the almost completely overlapping confidence
-intervals for the marginal effects, confirms our conclusion that the
-effect of gender does not change significantly with unemployment.
+intervals for the marginal effects at levels one and two, confirms our
+conclusion that the effect of gender does not change significantly with
+unemployment.
 
 \hypertarget{section-5}{%
 \subsection{2.3}\label{section-5}}
@@ -811,79 +821,53 @@ religiosity and the unemployment importance dummy.
 \NormalTok{deV07\_mod }\OtherTok{\textless{}{-}}\NormalTok{ deV07\_mod }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{prtystd\_name\_f =} \FunctionTok{relevel}\NormalTok{(}\FunctionTok{factor}\NormalTok{(prtystd\_name), }\StringTok{"Lega"}\NormalTok{))}
 
-\CommentTok{\# models}
-\NormalTok{multinomial1 }\OtherTok{\textless{}{-}} \FunctionTok{polr}\NormalTok{(prtystd\_name\_f }\SpecialCharTok{\textasciitilde{}}\NormalTok{ extreme\_dummy\_individuals, }
-                     \AttributeTok{data =}\NormalTok{ deV07\_mod, }
-                     \AttributeTok{Hess =}\NormalTok{ T)}
-\NormalTok{multinomial2 }\OtherTok{\textless{}{-}} \FunctionTok{polr}\NormalTok{(prtystd\_name\_f }\SpecialCharTok{\textasciitilde{}}\NormalTok{ extreme\_dummy\_individuals }\SpecialCharTok{+}\NormalTok{ gndr\_dummy, }
-                     \AttributeTok{data =}\NormalTok{ deV07\_mod, }
-                     \AttributeTok{Hess =}\NormalTok{ T)}
-\NormalTok{multinomial3 }\OtherTok{\textless{}{-}} \FunctionTok{polr}\NormalTok{(prtystd\_name\_f }\SpecialCharTok{\textasciitilde{}}\NormalTok{ extreme\_dummy\_individuals }\SpecialCharTok{+}\NormalTok{ gndr\_dummy }\SpecialCharTok{+}\NormalTok{ edu, }
-                     \AttributeTok{data =}\NormalTok{ deV07\_mod, }
-                     \AttributeTok{Hess =}\NormalTok{ T)}
-\NormalTok{multinomial4 }\OtherTok{\textless{}{-}} \FunctionTok{polr}\NormalTok{(prtystd\_name\_f }\SpecialCharTok{\textasciitilde{}}\NormalTok{ extreme\_dummy\_individuals }\SpecialCharTok{+}\NormalTok{ gndr\_dummy }\SpecialCharTok{+}\NormalTok{ edu }\SpecialCharTok{+}\NormalTok{ relig }\SpecialCharTok{+}\NormalTok{ unemp\_issue, }
-                     \AttributeTok{data =}\NormalTok{ deV07\_mod, }
-                     \AttributeTok{Hess =}\NormalTok{ T)}
-
+\CommentTok{\# model}
+\NormalTok{multinomial }\OtherTok{\textless{}{-}}\NormalTok{ nnet}\SpecialCharTok{::}\FunctionTok{multinom}\NormalTok{(prtystd\_name\_f }\SpecialCharTok{\textasciitilde{}}\NormalTok{ extreme\_dummy\_individuals }\SpecialCharTok{+}\NormalTok{ gndr\_dummy }\SpecialCharTok{+}\NormalTok{ edu }\SpecialCharTok{+}\NormalTok{ relig }\SpecialCharTok{+}\NormalTok{ unemp\_issue, }
+                     \AttributeTok{data =}\NormalTok{ deV07\_mod, }\AttributeTok{trace =}\NormalTok{ F)}
 \CommentTok{\# modelsummary }
-\FunctionTok{modelsummary}\NormalTok{(}\FunctionTok{list}\NormalTok{(multinomial1, multinomial2, multinomial3, multinomial4),}
+\FunctionTok{modelsummary}\NormalTok{(multinomial,}
              \AttributeTok{estimate =} \StringTok{"\{estimate\}\{stars\}"}\NormalTok{, }
-             \CommentTok{\# coef\_map = c("AN|FI" = "AN vs FI",}
-             \CommentTok{\#              "FI|Lega" = "FI vs Lega",}
-             \CommentTok{\#              "Lega|PDS" = "Lega vs PDS",}
-             \CommentTok{\#              "PDS|PPI" = "PDS vs PPI",}
-             \CommentTok{\#              "PPI|RC" = "PPI vs RC",}
-             \CommentTok{\#              "RC|UD" = "RC vs UD",}
-             \CommentTok{\#              "extreme\_dummy\_individuals" = "Extreme voter dummy",}
-             \CommentTok{\#              "gndr\_dummy" = "Gender",}
-             \CommentTok{\#              "edu" = "Education",}
-             \CommentTok{\#              "relig" = "Religiosity",}
-             \CommentTok{\#              "unemp\_issue" = "Unemployment most important issue"),}
-             \AttributeTok{title =} \StringTok{"Multinomial models for predicting vote choice"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{latex\_options =} \StringTok{"hold\_position"}\NormalTok{)}
+             \AttributeTok{title =} \StringTok{"Multinomial model for predicting vote choice"}\NormalTok{,}
+             \AttributeTok{output =} \StringTok{"data.frame"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(}\StringTok{"extreme\_dummy\_individuals|(Intercept)"}\NormalTok{, term), }
+         \FunctionTok{grepl}\NormalTok{(}\StringTok{"estimate"}\NormalTok{, statistic)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kbl}\NormalTok{(}\AttributeTok{booktabs =}\NormalTok{ T) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{latex\_options =} \StringTok{"hold\_position"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_footnote}\NormalTok{(}\AttributeTok{label =} \StringTok{"The model includes the following covariates: gender, education, religiosity and unemployment importance."}\NormalTok{, }\AttributeTok{notation =} \StringTok{"none"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{table}[!h]
-
-\caption{\label{tab:multinomial-model}Multinomial models for predicting vote choice}
 \centering
-\begin{tabular}[t]{lcccc}
+\begin{tabular}[t]{lll}
 \toprule
-  & (1) & (2) & (3) & (4)\\
+term & statistic & (1)\\
 \midrule
-Lega|AN & \num{-3.830}*** & \num{-3.856}*** & \num{-2.023}*** & \num{-1.973}***\\
- & (\num{0.113}) & (\num{0.118}) & (\num{0.136}) & (\num{0.213})\\
-AN|FI & \num{-2.211}*** & \num{-2.236}*** & \num{-0.390}*** & \num{-0.024}\\
- & (\num{0.056}) & (\num{0.064}) & (\num{0.095}) & (\num{0.146})\\
-FI|PDS & \num{-0.613}*** & \num{-0.638}*** & \num{1.332}*** & \num{1.651}***\\
- & (\num{0.038}) & (\num{0.049}) & (\num{0.091}) & (\num{0.140})\\
-PDS|PPI & \num{0.133}*** & \num{0.108}* & \num{2.207}*** & \num{2.525}***\\
- & (\num{0.037}) & (\num{0.048}) & (\num{0.097}) & (\num{0.144})\\
-PPI|RC & \num{1.430}*** & \num{1.405}*** & \num{3.667}*** & \num{4.191}***\\
- & (\num{0.044}) & (\num{0.054}) & (\num{0.107}) & (\num{0.156})\\
-RC|UDC & \num{1.556}*** & \num{1.530}*** & \num{3.799}*** & \num{4.266}***\\
- & (\num{0.045}) & (\num{0.055}) & (\num{0.107}) & (\num{0.156})\\
-extreme\_dummy\_individuals & \num{0.246}*** & \num{0.246}*** & \num{0.272}*** & \num{0.286}***\\
- & (\num{0.059}) & (\num{0.059}) & (\num{0.060}) & (\num{0.070})\\
-gndr\_dummy &  & \num{-0.045} & \num{-0.109}+ & \num{-0.008}\\
- &  & (\num{0.056}) & (\num{0.056}) & (\num{0.064})\\
-edu &  &  & \num{0.472}*** & \num{0.472}***\\
- &  &  & (\num{0.019}) & (\num{0.021})\\
-relig &  &  &  & \num{0.144}***\\
- &  &  &  & (\num{0.026})\\
-unemp\_issue &  &  &  & \num{0.315}***\\
- &  &  &  & (\num{0.064})\\
-\midrule
-Num.Obs. & \num{4091} & \num{4091} & \num{4089} & \num{3278}\\
-AIC & \num{13636.6} & \num{13638.0} & \num{12954.1} & \num{9801.3}\\
-BIC & \num{13680.8} & \num{13688.5} & \num{13010.9} & \num{9868.3}\\
-RMSE & \num{4.58} & \num{4.58} & \num{4.58} & \num{4.84}\\
+(Intercept) & estimate & -0.196\\
+(Intercept) & estimate & -1.093\\
+(Intercept) & estimate & 0.000\\
+(Intercept) & estimate & 1.025\\
+(Intercept) & estimate & 3.113***\\
+\addlinespace
+(Intercept) & estimate & 3.683***\\
+extreme\_dummy\_individuals & estimate & 0.381\\
+extreme\_dummy\_individuals & estimate & 0.719\\
+extreme\_dummy\_individuals & estimate & 0.975*\\
+extreme\_dummy\_individuals & estimate & 0.987+\\
+\addlinespace
+extreme\_dummy\_individuals & estimate & 1.303**\\
+extreme\_dummy\_individuals & estimate & 2.000***\\
 \bottomrule
+\multicolumn{3}{l}{\textsuperscript{} The model includes the following covariates: gender,}\\
+\multicolumn{3}{l}{education, religiosity and unemployment importance.}\\
 \end{tabular}
 \end{table}
 
-\textcolor{red}{How to interpret these coefficients?}
+Given the reference category, the coefficient estimates show that
+extreme individuals, as opposed to moderate ones, are more likely to
+vote for RC and UCD than the Lega.\footnote{See the appendix for the
+  ugly summary output, which includes the parties' names.}
 
 \hypertarget{section-6}{%
 \subsection{2.4}\label{section-6}}
@@ -894,81 +878,53 @@ A conditional logit model is essentially a fixed-effects model with a
 binary outcome variable. For multinomial logit models, by contrast, the
 dependent variable is a multi-level factor variable, rather than a
 binary one. Given the fixed effects, conditional logit models require
-repeated cross-sectional or panel data. The advantage of such models, as
-with all fixed effects models, is that they allow us to restrict our
-attention only to variation within a given time period. In this way, we
-can control for unobserved time-invariant unobservables, which,
-generally, strengthens our confidence that the relationship we observe
-is not spurious. Despite that, fixed effects are usually not sufficient
-to claim causality since we often cannot rule out the presence of
-unobservable, time-varying confounders.
+repeated cross-sectional or panel data.
+
+The most significant advantage of such models, as with all fixed effects
+models, is that they allow us to restrict attention to variation within
+a given time period. In this way, we can control for unobserved
+time-invariant unobservables, which, generally, strengthens our
+confidence that the relationship we observe is not spurious. Despite
+that, fixed effects are usually not sufficient to claim causality since
+we often cannot rule out the presence of unobservable, time-varying
+confounders.
 
 \hypertarget{appendix}{%
 \section{Appendix}\label{appendix}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{deV07 }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(year, prtystd)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\AttributeTok{.cols =} \FunctionTok{everything}\NormalTok{(), }
-                \AttributeTok{.fns =} \SpecialCharTok{\textasciitilde{}}\FunctionTok{factor}\NormalTok{(.))) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{datasummary\_skim}\NormalTok{(}\AttributeTok{type =} \StringTok{"categorical"}\NormalTok{, }
-                   \AttributeTok{title =} \StringTok{"Summary statistics (categorical)"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{latex\_options =} \StringTok{"hold\_position"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{column\_spec}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{width =} \StringTok{"100px"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{column\_spec}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{width =} \StringTok{"50px"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{column\_spec}\NormalTok{(}\DecValTok{3}\NormalTok{, }\AttributeTok{width =} \StringTok{"50px"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{column\_spec}\NormalTok{(}\DecValTok{4}\NormalTok{, }\AttributeTok{width =} \StringTok{"50px"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(nnet}\SpecialCharTok{::}\FunctionTok{multinom}\NormalTok{(prtystd\_name\_f }\SpecialCharTok{\textasciitilde{}}\NormalTok{ extreme\_dummy\_individuals,}
+                       \AttributeTok{data =}\NormalTok{ deV07\_mod, }\AttributeTok{trace =}\NormalTok{ F))}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{table}[!h]
-
-\caption{\label{tab:datasummary-table-cat}Summary statistics (categorical)}
-\centering
-\begin{tabular}[t]{>{\raggedright\arraybackslash}p{100px}>{\raggedright\arraybackslash}p{50px}>{\raggedleft\arraybackslash}p{50px}>{\raggedleft\arraybackslash}p{50px}}
-\toprule
-  &    & N & \%\\
-\midrule
-prtystd\_name & AN & 298 & \num{7.3}\\
- & FI & 988 & \num{24.2}\\
- & Lega & 81 & \num{2.0}\\
- & PDS & 731 & \num{17.9}\\
- & PPI & 1147 & \num{28.0}\\
- & RC & 81 & \num{2.0}\\
- & UDC & 765 & \num{18.7}\\
-place\_self & 1 & 776 & \num{19.0}\\
- & 2 & 931 & \num{22.8}\\
- & 3 & 642 & \num{15.7}\\
- & 4 & 995 & \num{24.3}\\
- & 5 & 507 & \num{12.4}\\
-place\_votedprty & 1 & 497 & \num{12.1}\\
- & 2 & 712 & \num{17.4}\\
- & 3 & 865 & \num{21.1}\\
- & 4 & 655 & \num{16.0}\\
- & 5 & 422 & \num{10.3}\\
-gndr & 1 & 2282 & \num{55.8}\\
- & 2 & 1809 & \num{44.2}\\
-edu & 1 & 102 & \num{2.5}\\
- & 2 & 376 & \num{9.2}\\
- & 3 & 766 & \num{18.7}\\
- & 4 & 660 & \num{16.1}\\
- & 5 & 848 & \num{20.7}\\
- & 6 & 1032 & \num{25.2}\\
- & 7 & 305 & \num{7.5}\\
-unemp\_issue & 0 & 1702 & \num{41.6}\\
- & 1 & 1597 & \num{39.0}\\
-debate & 1 & 1553 & \num{38.0}\\
- & 2 & 1174 & \num{28.7}\\
- & 3 & 1362 & \num{33.3}\\
-relig & 1 & 449 & \num{11.0}\\
- & 2 & 1044 & \num{25.5}\\
- & 3 & 937 & \num{22.9}\\
- & 4 & 798 & \num{19.5}\\
- & 5 & 757 & \num{18.5}\\
-\bottomrule
-\end{tabular}
-\end{table}
+\begin{verbatim}
+## Call:
+## nnet::multinom(formula = prtystd_name_f ~ extreme_dummy_individuals, 
+##     data = deV07_mod, trace = F)
+## 
+## Coefficients:
+##     (Intercept) extreme_dummy_individuals
+## AN     1.130424                 0.5885418
+## FI     2.549992                -0.2266472
+## PDS    1.993200                 0.6826851
+## PPI    2.467315                 0.6188516
+## RC    -1.082562                 2.2324194
+## UDC    2.188262                 0.2238060
+## 
+## Std. Errors:
+##     (Intercept) extreme_dummy_individuals
+## AN    0.1460749                 0.2887893
+## FI    0.1318678                 0.2741743
+## PDS   0.1353790                 0.2730906
+## PPI   0.1322787                 0.2693127
+## RC    0.2524841                 0.3647497
+## UDC   0.1339328                 0.2743771
+## 
+## Residual Deviance: 13473.09 
+## AIC: 13497.09
+\end{verbatim}
 
 \FloatBarrier
 

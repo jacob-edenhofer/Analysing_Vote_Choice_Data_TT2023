@@ -236,7 +236,7 @@ modelplot(list(extreme_party1, extreme_party2, extreme_party3, extreme_party4, e
 ```
 
 
-The above plot and table 3 reveal four significant correlates of extreme voting: 
+The above plot and table 3 reveal four statistically significant correlates of extreme voting: 
 
 + The `squared_distance` term is significant, but the sign is the opposite of what spatial voting theory would lead us to expect. That is, as the squared distance increases by one unit (i.e. as there is less ideological proximity), the probability of extreme voting increases. Specifically, the log odds increase by roughly 24\% ($100*(exp(0.215)-1)$), holding all other included covariates constant.
 
@@ -255,7 +255,7 @@ The above plot and table 3 reveal four significant correlates of extreme voting:
 \textcolor{brown}{What is the effect of gender on interest for politics (measured as watching TV debate)? Does it change when individuals are very concerned by unemployment? If so, how? Write down the formal models you have estimated, explain what the coefficients represent, and interpret the results.}
 
 
-To examine the relationship of interest, I begin by dichotomising the `debate` variable such that it is unity when a respondent watches TV debates at all and zero otherwise. I then regress this variable on the gender dummy in the first model, and add an interaction term between the latter and the unemployment issue dummy in the second model. The interaction terms allows us to examine whether the effect of gender on political interest varies by the importance respondents attach to unemployment as a political issue. In the third model, I add education and religiosity as covariates to probe the robustness of the results obtained from the previous models. My estimating equation for this final model is: 
+To examine the relationship of interest, I regress the `debate` variable on the gender dummy in the first model, and add an interaction term between the latter and the unemployment issue dummy in the second model. The interaction terms allows us to examine whether the effect of gender on political interest varies by the importance respondents attach to unemployment as a political issue. In the third model, I add education and religiosity as covariates to probe the robustness of the results obtained from the previous models. My estimating equation for this final model is: 
 
 
 $$
@@ -265,13 +265,14 @@ log(\frac{Interest_{i}}{1-Interest_{i}}) = \alpha + \beta_{1}Gender_{i} +  \beta
 \end{aligned}
 $$
 
-In R, I estimate this equation by running: 
+In R, I estimate this ordered logisitic regression by running: 
 
 
 ```{r gender-interest-relation}
 # create dummy variable 
 deV07_mod <- deV07_mod %>%
   mutate(interest_dummy = ifelse(debate %in% c(1, 2), 1, 0),
+         interest_factor = factor(debate),
          # factorise to increase interpretability
          gndr_dummy_f = factor(gndr_dummy, 
                                levels = c("0", "1"), 
@@ -281,30 +282,33 @@ deV07_mod <- deV07_mod %>%
                                labels = c("No", "Yes")))
 
 # estimate logit model 
-interest1 <- glm(interest_dummy ~ gndr_dummy_f, 
-                 family = binomial(link = "logit"), 
-                 data = deV07_mod)
-interest2 <- glm(interest_dummy ~ gndr_dummy_f*unemp_issue_f, 
-                 family = binomial(link = "logit"), 
-                 data = deV07_mod)
-interest3 <- glm(interest_dummy ~ gndr_dummy_f*unemp_issue_f + edu + relig, 
-                 family = binomial(link = "logit"), 
-                 data = deV07_mod)
+interest1 <- polr(interest_factor ~ gndr_dummy_f, 
+                 data = deV07_mod, 
+                 Hess = T)
+interest2 <- polr(interest_factor ~ gndr_dummy_f*unemp_issue_f, 
+                 data = deV07_mod, 
+                 Hess = T)
+interest3 <- polr(interest_factor ~ gndr_dummy_f*unemp_issue_f + edu + relig, 
+                 data = deV07_mod, 
+                 Hess = T)
 
 # modelsummary 
 modelsummary(list(interest1, interest2, interest3), 
              estimate = "{estimate}{stars}",
-             coef_map = c("gndr_dummy_fMale" = "Gender", 
-                          "unemp_issue_f1" = "Unemployment most important issue", 
-                          "gndr_dummy_fMale:unemp_issue_f1" = "Gender x Unemployment most important issue",
-                          "edu" = "Education", 
-                          "relig" = "Religiosity"), 
+             coef_map = c("1|2" = "1 vs 2",
+                          "2|3" = "2 vs 3",
+                          "gndr_dummy_fMale" = "Gender",
+                          "unemp_issue_fYes" = "Unemployment most important issue",
+                          "gndr_dummy_fMale:unemp_issue_fYes" = "Gender x Unemployment most important issue",
+                          "edu" = "Education",
+                          "relig" = "Religiosity"),
              title = "Association between interest in politics and gender") %>%
   kable_styling(latex_options = "hold_position")
 ```
 
 
 To interpret the coefficient estimates, it is worth writing out the conditional expectations the above regression implies. To that end, let us define $\phi$ as a shorthand for $log(\frac{Interest_{i}}{1-Interest_{i}})$, and let $\hat{Educ}$ and $\hat{Relig}$ denote fixed values of these covariates. Then, we can write: 
+
 
 $$
 \begin{aligned}
@@ -316,14 +320,14 @@ $$
 $$
 
 
-Subtracting the first equation from the second gives us $\beta_{1}$. Substantively, $\beta_{1}$ therefore represents the marginal effect of gender on political interest, i.e. the change in the expected probability of watching TV debates for males (gender = 1) compared to females (gender = 0), holding the values of education and religiosity constant. Similarly, subtracting the third equation from the first gives us $\beta_{2}$. Hence, $\beta_{2}$ represents the marginal effect of unemployment importance on political interest, i.e. the change in the expected probability of watching TV debates for those viewing unemployment as the most important political issue, compared to those who do not do so, holding the values of education and religiosity constant. Finally, the coefficient on the interaction term is obtained by subtracting (i) equation three from four, (ii) subtracting one from two, and (iii) subtracting the second difference from the first. Intuitively, this means that the interaction term represents the difference in the marginal effect of gender between those who view unemployment as the most important issue, compared to those who do not, holding all other covariates constant.
+Subtracting the first equation from the second gives us $\beta_{1}$. Substantively, $\beta_{1}$ therefore represents the marginal effect of gender on political interest, i.e. the change in the expected probability of watching TV debates for males (gender = 1) compared to females (gender = 0), holding the values of education and religiosity constant. Similarly, subtracting the third equation from the first gives us $\beta_{2}$. Hence, $\beta_{2}$ represents the marginal effect of unemployment importance on political interest, i.e. the change in the expected probability of watching TV debates for those viewing unemployment as the most important political issue, compared to those who do not do so, holding the values of education and religiosity constant. Finally, the coefficient on the interaction term is obtained by subtracting (i) equation three from four, (ii) subtracting one from two, and (iii) subtracting the second difference from the first. Intuitively, this means that the interaction term represents the difference in the marginal effect of gender between those who view unemployment as the most important issue, compared to those who do not, holding all other covariates constant. Finally, the intercepts represent the probability of "choosing" level one (high interest), as opposed to level two, and "choosing" level two, as opposed to level three (no interest).
 
 
 Table 4 allows us to draw four lessons: 
 
-+ Males exhibit significantly greater political interest than females, holding all other included covariates constant, with the log odds of watching TV debates being approximately 34.6\% ($100*(exp(0.297)-1)$) higher for males than females. 
++ Males exhibit significantly greater political interest than females, holding all other included covariates constant. 
 
-+ Similarly, those considering unemployment the most important political issue exhibit, ceteris paribus, greater political interest than those who do consider unemployment as important, with the log odds being being 74\% ($100*(exp(0.554)-1)$) higher for the former, compared to the latter.
++ Similarly, those considering unemployment the most important political issue exhibit, ceteris paribus, greater political interest than those who do consider unemployment as important.
 
 + The marginal effect of gender on political interest does not significantly vary with the unemployment dummy, as the coefficient estimate in the third row shows. 
 
@@ -343,7 +347,7 @@ pp_plot <- plot(ggpredict(interest3, terms = c("unemp_issue_f", "gndr_dummy_f"))
                       labels = c("0" = "Female",
                                  "1" = "Male"),
                       values = c(c("#1C9E77", "#023047"))) +
-  expand_limits(y = 0.8) +
+  expand_limits(y = 0.6) +
   labs(y = "Predicted probability of watching debates",
        x = "Unemployment most important issue?",
        title = "Predicted probabilities\nof being interested in politics", 
@@ -354,30 +358,33 @@ pp_plot <- plot(ggpredict(interest3, terms = c("unemp_issue_f", "gndr_dummy_f"))
 ```
 
 
-To compute the marginal effect, I use the `cplot()` from the `margins` package. 
+To compute the marginal effect, I use the `slopes()` function from the `marginaleffects` package. 
 
 
 ```{r gender-interest-relation-me}
 # compute marginal effect
-interest4 <- glm(interest_dummy ~ gndr_dummy*unemp_issue_f + edu + relig, 
-                 family = binomial(link = "logit"), 
-                 data = deV07_mod)
-me <- margins::cplot(interest4, dx = "gndr_dummy", 
-               x = "unemp_issue_f", what = "effect", draw = F)
-# marginal effect plot 
-me_plot <- me %>%
-  ggplot(aes(x = xvals, y = yvals)) +
-  geom_point(size = 2) +
-  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+interest4 <- MASS::polr(interest_factor ~ gndr_dummy*unemp_issue_f + edu + relig, 
+                 data = deV07_mod, 
+                 Hess = T)
+
+# marginal effect
+me_plot <- marginaleffects::slopes(interest4, 
+                        variables = "gndr_dummy", by = "unemp_issue_f") %>%
+  ggplot(aes(x = unemp_issue_f, y = estimate, 
+             group = factor(term))) +
+  geom_point() +
+  geom_errorbar(aes(ymin = estimate - std.error, ymax = estimate + std.error),
+                width = 0.12) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   expand_limits(y = 0.12) +
-  labs(y = "Marginal effect", 
+  facet_wrap(~group) +
+  labs(y = "Marginal effect of gender", 
        x = "Unemployment most important issue?",
        title = "Marginal effect of gender on\npolitical interest by unemployment salience",
        caption = "Covariates include: education and religiosity.") +
   theme_bw() +
   theme(plot.title = element_text(size = 10),
-        plot.caption = element_text(hjust = 0, size = 6))
+        plot.caption = element_text(hjust = 0, size = 6)) 
 ```
 
 
@@ -389,7 +396,7 @@ ggarrange(pp_plot, me_plot, nrow = 1)
 ```
 
 
-As explained above, the marginal effect of gender is the vertical difference in predicted probabilities for males and females respectively. Analogously, the marginal effect of unemployment is the horizontal difference between the blue and green point estimates respectively. The two horizontal differences are almost identical. This, in combination with the almost completely overlapping confidence intervals for the marginal effects, confirms our conclusion that the effect of gender does not change significantly with unemployment.
+As explained above, the marginal effect of gender is the vertical difference in predicted probabilities for males and females respectively. Analogously, the marginal effect of unemployment is the horizontal difference between the blue and green point estimates respectively. The two horizontal differences are almost identical. This, in combination with the almost completely overlapping confidence intervals for the marginal effects at levels one and two, confirms our conclusion that the effect of gender does not change significantly with unemployment.
 
 
 
@@ -402,45 +409,29 @@ As explained above, the marginal effect of gender is the vertical difference in 
 To run a multinomial model, I start by factorising the `prtystd_name` variable (with the right-wing Lega as my reference category), and regressing it on the `extreme_dummy_individuals` dummy as well as gender, education, religiosity and the unemployment importance dummy. 
 
 
-```{r multinomial-model}
+```{r multinomial-model, message=FALSE, warning=FALSE}
 # factorise DV
 deV07_mod <- deV07_mod %>%
   mutate(prtystd_name_f = relevel(factor(prtystd_name), "Lega"))
 
-# models
-multinomial1 <- polr(prtystd_name_f ~ extreme_dummy_individuals, 
-                     data = deV07_mod, 
-                     Hess = T)
-multinomial2 <- polr(prtystd_name_f ~ extreme_dummy_individuals + gndr_dummy, 
-                     data = deV07_mod, 
-                     Hess = T)
-multinomial3 <- polr(prtystd_name_f ~ extreme_dummy_individuals + gndr_dummy + edu, 
-                     data = deV07_mod, 
-                     Hess = T)
-multinomial4 <- polr(prtystd_name_f ~ extreme_dummy_individuals + gndr_dummy + edu + relig + unemp_issue, 
-                     data = deV07_mod, 
-                     Hess = T)
-
+# model
+multinomial <- nnet::multinom(prtystd_name_f ~ extreme_dummy_individuals + gndr_dummy + edu + relig + unemp_issue, 
+                     data = deV07_mod, trace = F)
 # modelsummary 
-modelsummary(list(multinomial1, multinomial2, multinomial3, multinomial4),
+modelsummary(multinomial,
              estimate = "{estimate}{stars}", 
-             # coef_map = c("AN|FI" = "AN vs FI",
-             #              "FI|Lega" = "FI vs Lega",
-             #              "Lega|PDS" = "Lega vs PDS",
-             #              "PDS|PPI" = "PDS vs PPI",
-             #              "PPI|RC" = "PPI vs RC",
-             #              "RC|UD" = "RC vs UD",
-             #              "extreme_dummy_individuals" = "Extreme voter dummy",
-             #              "gndr_dummy" = "Gender",
-             #              "edu" = "Education",
-             #              "relig" = "Religiosity",
-             #              "unemp_issue" = "Unemployment most important issue"),
-             title = "Multinomial models for predicting vote choice") %>%
-  kable_styling(latex_options = "hold_position")
+             title = "Multinomial model for predicting vote choice",
+             output = "data.frame") %>%
+  filter(grepl("extreme_dummy_individuals|(Intercept)", term), 
+         grepl("estimate", statistic)) %>%
+  dplyr::select(-1) %>%
+  kbl(booktabs = T) %>%
+  kable_styling(latex_options = "hold_position") %>%
+  add_footnote(label = "The model includes the following covariates: gender, education, religiosity and unemployment importance.", notation = "none")
 ```
 
 
-\textcolor{red}{How to interpret these coefficients?}
+Given the reference category, the coefficient estimates show that extreme individuals, as opposed to moderate ones, are more likely to vote for RC and UCD than the Lega.^[See the appendix for the ugly summary output, which includes the parties' names.] 
 
 
 ## 2.4 
@@ -450,27 +441,17 @@ modelsummary(list(multinomial1, multinomial2, multinomial3, multinomial4),
 
 
 
-A conditional logit model is essentially a fixed-effects model with a binary outcome variable. For multinomial logit models, by contrast, the dependent variable is a multi-level factor variable, rather than a binary one. Given the fixed effects, conditional logit models require repeated cross-sectional or panel data.  The advantage of such models, as with all fixed effects models, is that they allow us to restrict our attention only to variation within a given time period. In this way, we can control for unobserved time-invariant unobservables, which, generally, strengthens our confidence that the relationship we observe is not spurious. Despite that, fixed effects are usually not sufficient to claim causality since we often cannot rule out the presence of unobservable, time-varying confounders. 
+A conditional logit model is essentially a fixed-effects model with a binary outcome variable. For multinomial logit models, by contrast, the dependent variable is a multi-level factor variable, rather than a binary one. Given the fixed effects, conditional logit models require repeated cross-sectional or panel data. 
 
+The most significant advantage of such models, as with all fixed effects models, is that they allow us to restrict attention to variation within a given time period. In this way, we can control for unobserved time-invariant unobservables, which, generally, strengthens our confidence that the relationship we observe is not spurious. Despite that, fixed effects are usually not sufficient to claim causality since we often cannot rule out the presence of unobservable, time-varying confounders. 
 
 
 # Appendix 
 
-
-```{r datasummary-table-cat, fig.pos="h"}
-deV07 %>%
-  dplyr::select(-c(year, prtystd)) %>% 
-  mutate(across(.cols = everything(), 
-                .fns = ~factor(.))) %>%
-  datasummary_skim(type = "categorical", 
-                   title = "Summary statistics (categorical)") %>%
-  kable_styling(latex_options = "hold_position") %>%
-  column_spec(1, width = "100px") %>%
-  column_spec(2, width = "50px") %>%
-  column_spec(3, width = "50px") %>%
-  column_spec(4, width = "50px")
+```{r multinom-ugly-summary}
+summary(nnet::multinom(prtystd_name_f ~ extreme_dummy_individuals,
+                       data = deV07_mod, trace = F))
 ```
-
 
 
 

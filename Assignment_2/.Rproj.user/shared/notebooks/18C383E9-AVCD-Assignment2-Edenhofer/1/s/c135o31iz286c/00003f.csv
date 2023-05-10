@@ -1,5 +1,0 @@
-"0","deV07 %>%"
-"0","  dplyr::select(-c(year, prtystd)) %>% "
-"0","  datasummary_skim(histogram = F,"
-"0","                   title = ""Summary statistics"") %>%"
-"0","  kable_styling(latex_options = ""hold_position"") "

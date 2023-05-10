@@ -1,8 +1,0 @@
-"0","deV07_mod <- deV07 %>%"
-"0","  mutate(gndr_dummy = ifelse(gndr == 1, 1, 0), # 1 for male, 0 for female"
-"0","         extreme_dummy_individuals = ifelse(place_self %in% c(1, 5), 1, 0), # extreme dummy for individuals"
-"0","         extreme_dummy_parties = ifelse(place_votedprty %in% c(1, 5), 1, 0)) %>% # extreme dummy for parties "
-"0","  group_by(year) %>% # group by year to account for longitudinal nature of data"
-"0","  mutate(unemp_salience_per_year = sum(unemp_issue == 1, na.rm = T)/n(), "
-"0","         n = n()) %>%"
-"0","  ungroup()"
