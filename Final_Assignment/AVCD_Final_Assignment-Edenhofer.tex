@@ -102,6 +102,30 @@
 \usepackage{pifont}
 \usepackage{booktabs}
 \usepackage{placeins}
+\usepackage{booktabs}
+\usepackage{siunitx}
+
+  \newcolumntype{d}{S[
+    input-open-uncertainty=,
+    input-close-uncertainty=,
+    parse-numbers = false,
+    table-align-text-pre=false,
+    table-align-text-post=false
+  ]}
+  
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -127,7 +151,7 @@
 \makeatother
 \subtitle{Final assignment}
 \author{Jacob Edenhofer\footnote{\href{mailto:jacob.edenhofer@some.ox.ac.uk}{\nolinkurl{jacob.edenhofer@some.ox.ac.uk}}}}
-\date{09 May 2023}
+\date{10 May 2023}
 
 \begin{document}
 \maketitle
@@ -157,7 +181,7 @@ Next, we will create some new variables:
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{gles\_mod }\OtherTok{\textless{}{-}}\NormalTok{ gles }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{select}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{, }\FunctionTok{grep}\NormalTok{(}\StringTok{"d38|d4|q18|d63|d18|q63|d17|d8|d7|wum6|q18|q35|q37|q46|q78|q79|q125|q143"}\NormalTok{, }\FunctionTok{names}\NormalTok{(gles))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{, }\FunctionTok{grep}\NormalTok{(}\StringTok{"d38|d4|q18|d63|d18|q63|d17|d8|d7|wum6|q13|q14|q15|q16|q18|q23|q24|q25|q26||q27q35|q37|q46|q78|q79|q125|q143"}\NormalTok{, }\FunctionTok{names}\NormalTok{(gles))) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{btw17\_zweitstimme =} \FunctionTok{ifelse}\NormalTok{(q34ba }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{, q34ba),}
          \AttributeTok{btw21\_zweitstimme =} \FunctionTok{ifelse}\NormalTok{(q114ba }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{, q114ba),}
          \AttributeTok{btw21\_turnout =} \FunctionTok{ifelse}\NormalTok{(q111 }\SpecialCharTok{\textless{}} \DecValTok{0} \SpecialCharTok{|}\NormalTok{ q111 }\SpecialCharTok{==} \DecValTok{8}\NormalTok{, }\ConstantTok{NA}\NormalTok{, q111),}
@@ -168,7 +192,8 @@ Next, we will create some new variables:
                                  \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }
                                  \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"ost"}\NormalTok{, }\StringTok{"west"}\NormalTok{)),}
          \AttributeTok{sex =} \FunctionTok{ifelse}\NormalTok{(d1 }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{, d1),}
-         \AttributeTok{sex1 =} \FunctionTok{factor}\NormalTok{(sex, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+         \AttributeTok{sex1 =} \FunctionTok{factor}\NormalTok{(sex, }
+                       \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }
                        \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"male"}\NormalTok{, }\StringTok{"female"}\NormalTok{)),}
          \AttributeTok{year\_born1 =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(year\_born)),}
          \AttributeTok{age =} \DecValTok{2021} \SpecialCharTok{{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(year\_born)),}
@@ -251,7 +276,14 @@ Next, we will create some new variables:
          \AttributeTok{out\_group\_immig\_crime\_factor =} \FunctionTok{as.factor}\NormalTok{(out\_group\_immig\_crime),}
          \AttributeTok{scale\_pol\_lasceht =} \FunctionTok{ifelse}\NormalTok{(q18a }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{, q18a),}
          \AttributeTok{scale\_pol\_scholz =} \FunctionTok{ifelse}\NormalTok{(q18b }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{, q18b),}
-         \AttributeTok{scale\_pol\_baerbock =} \FunctionTok{ifelse}\NormalTok{(q18c }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{, q18c))}
+         \AttributeTok{scale\_pol\_baerbock =} \FunctionTok{ifelse}\NormalTok{(q18c }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{, q18c),}
+         \AttributeTok{econ\_current\_eval\_general =} \FunctionTok{ifelse}\NormalTok{(q23 }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{, q23), }
+         \AttributeTok{econ\_current\_eval\_general\_factor =} \FunctionTok{as.factor}\NormalTok{(econ\_current\_eval\_general),}
+         \AttributeTok{econ\_current\_personal =} \FunctionTok{ifelse}\NormalTok{(q13 }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{, q13), }
+         \AttributeTok{econ\_current\_personal\_factor =} \FunctionTok{factor}\NormalTok{(econ\_current\_personal),}
+         \AttributeTok{econ\_personal\_gov\_resp =} \FunctionTok{ifelse}\NormalTok{(q15 }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{, q15),}
+         \AttributeTok{gender\_too\_far =} \FunctionTok{ifelse}\NormalTok{(q27g }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{, q27g),}
+         \AttributeTok{gender\_too\_far\_factor =} \FunctionTok{factor}\NormalTok{(gender\_too\_far))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -269,7 +301,9 @@ Relationship between household income and SPD voting
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{spd\_income }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(spd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{spd\_income }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(spd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }
+                  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
+                  \AttributeTok{data =}\NormalTok{ gles\_mod)}
 \CommentTok{\# plot }
 \FunctionTok{cplot}\NormalTok{(spd\_income, }\AttributeTok{x =} \StringTok{"household\_income"}\NormalTok{,}
       \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{13}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
@@ -294,6 +328,7 @@ Relationship between household income and SPD voting
 \end{Shaded}
 
 \includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/spd-household-income-1.pdf}
+
 There is no robust relationship between net monthly household income and
 voting for the SPD.
 
@@ -301,7 +336,9 @@ Relationship between subjective class and SPD voting
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{spd\_sclass }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(spd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ subjective\_class }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{spd\_sclass }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(spd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ subjective\_class }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }
+                  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
+                  \AttributeTok{data =}\NormalTok{ gles\_mod)}
 \CommentTok{\# plot }
 \FunctionTok{cplot}\NormalTok{(spd\_sclass, }\AttributeTok{x =} \StringTok{"subjective\_class"}\NormalTok{, }
       \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
@@ -329,7 +366,9 @@ voting?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{spd\_left\_right\_self }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(spd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ left\_right\_self }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(left\_right\_self}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{spd\_left\_right\_self }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(spd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ left\_right\_self }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(left\_right\_self}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }
+                           \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
+                           \AttributeTok{data =}\NormalTok{ gles\_mod)}
 \CommentTok{\# plot }
 \FunctionTok{cplot}\NormalTok{(spd\_left\_right\_self, }\AttributeTok{x =} \StringTok{"left\_right\_self"}\NormalTok{, }
       \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
@@ -351,7 +390,9 @@ Relationship between age and SPD voting
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{spd\_age }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(spd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{spd\_age }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(spd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }
+               \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
+               \AttributeTok{data =}\NormalTok{ gles\_mod)}
 \CommentTok{\# plot }
 \FunctionTok{cplot}\NormalTok{(spd\_age, }\AttributeTok{x =} \StringTok{"age"}\NormalTok{, }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
@@ -548,20 +589,6 @@ Relationship between education and SPD
 
 \hypertarget{gruene}{%
 \subsection{Gruene}\label{gruene}}
-
-Valence -\textgreater{} motivation: Baerbock's campaign
-
-How can we measure valence vs spatial distance?
-
-Who punished the Greens because of Baerbock? Who punished the CDU/CSU
-because of Laschet? (Lacher and so on) -\textgreater{} Those who are
-struggling / hard times.
-
--\textgreater{} egoistic vs sociotropic motivations/evaluations?
--\textgreater{} egoistic evaluations matter more when one is
-ideologically closer to a candidate; spell this out -\textgreater{}
-sociotropic evaluations matter more when one thinks highly of a
-candidate
 
 \hypertarget{spatial-distance}{%
 \subsubsection{Spatial distance}\label{spatial-distance}}
@@ -941,5 +968,283 @@ Correlates}\label{socio-demographic-correlates-1}}
 \end{Shaded}
 
 \includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/gruene-majority-will-1.pdf}
+
+\hypertarget{further-analysis}{%
+\section{Further analysis}\label{further-analysis}}
+
+Valence -\textgreater{} motivation: Baerbock's campaign
+
+How can we measure valence vs spatial distance?
+
+Who punished the Greens because of Baerbock? Who punished the CDU/CSU
+because of Laschet? (Lachet and so on) -\textgreater{} Those who are
+struggling / hard times.
+
+-\textgreater{} egoistic vs sociotropic motivations/evaluations?
+-\textgreater{} egoistic evaluations matter more when one is
+ideologically closer to a candidate/party; spell this out
+-\textgreater{} sociotropic evaluations matter more when one thinks
+highly of a candidate
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ego\_socio\_model1 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(union\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ econ\_current\_personal}\SpecialCharTok{*}\NormalTok{econ\_current\_eval\_general}\SpecialCharTok{*}\NormalTok{scale\_pol\_lasceht,}
+                       \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+                       \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{ego\_socio\_model2 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(union\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ econ\_current\_personal}\SpecialCharTok{*}\NormalTok{econ\_current\_eval\_general}\SpecialCharTok{*}\NormalTok{scale\_pol\_lasceht }\SpecialCharTok{+}\NormalTok{ distance\_cdu }\SpecialCharTok{+}\NormalTok{  household\_income }\SpecialCharTok{+}\NormalTok{ age,}
+                       \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+                       \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{ego\_socio\_model3 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(union\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ distance\_cdu}\SpecialCharTok{*}\NormalTok{econ\_current\_personal }\SpecialCharTok{+}\NormalTok{ econ\_current\_eval\_general}\SpecialCharTok{*}\NormalTok{scale\_pol\_lasceht }\SpecialCharTok{+}\NormalTok{  household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1,}
+                       \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+                       \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{ego\_socio\_model4 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(union\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ distance\_cdu}\SpecialCharTok{*}\NormalTok{econ\_current\_personal }\SpecialCharTok{+}\NormalTok{ econ\_current\_eval\_general}\SpecialCharTok{*}\NormalTok{scale\_pol\_lasceht }\SpecialCharTok{+}\NormalTok{  household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor,}
+                       \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+                       \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{ego\_socio\_model5 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(union\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ distance\_cdu}\SpecialCharTok{*}\NormalTok{econ\_current\_personal}\SpecialCharTok{*}\NormalTok{scale\_pol\_lasceht }\SpecialCharTok{+}\NormalTok{ econ\_current\_eval\_general}\SpecialCharTok{*}\NormalTok{scale\_pol\_lasceht }\SpecialCharTok{+}\NormalTok{  household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor,}
+                       \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+                       \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{ego\_socio\_model6 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(union\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ distance\_cdu }\SpecialCharTok{+}\NormalTok{ econ\_current\_eval\_general}\SpecialCharTok{*}\NormalTok{econ\_current\_personal}\SpecialCharTok{*}\NormalTok{scale\_pol\_lasceht }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor,}
+                       \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+                       \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\CommentTok{\# modelsummary}
+\FunctionTok{modelsummary}\NormalTok{(}\FunctionTok{list}\NormalTok{(ego\_socio\_model1, ego\_socio\_model2, ego\_socio\_model3, }
+\NormalTok{                  ego\_socio\_model4, ego\_socio\_model5),}
+             \AttributeTok{estimate =} \StringTok{"\{estimate\}\{stars\}"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+\centering
+\begin{tabular}[t]{lccccc}
+\toprule
+  & (1) & (2) & (3) & (4) & (5)\\
+\midrule
+(Intercept) & \num{-2.121}* & \num{-4.105}** & \num{-3.769}*** & \num{-4.012}*** & \num{-3.372}***\\
+ & (\num{1.067}) & (\num{1.396}) & (\num{0.697}) & (\num{0.713}) & (\num{0.750})\\
+econ\_current\_personal & \num{-0.110} & \num{0.097} & \num{-0.084} & \num{-0.088} & \num{-0.380}+\\
+ & (\num{0.457}) & (\num{0.582}) & (\num{0.106}) & (\num{0.106}) & (\num{0.199})\\
+econ\_current\_eval\_general & \num{-0.304} & \num{0.166} & \num{-0.014} & \num{-0.027} & \num{-0.005}\\
+ & (\num{0.406}) & (\num{0.495}) & (\num{0.177}) & (\num{0.179}) & (\num{0.191})\\
+scale\_pol\_lasceht & \num{0.363}+ & \num{0.490}* & \num{0.410}*** & \num{0.403}*** & \num{0.265}**\\
+ & (\num{0.189}) & (\num{0.228}) & (\num{0.081}) & (\num{0.082}) & (\num{0.094})\\
+econ\_current\_personal × econ\_current\_eval\_general & \num{0.034} & \num{-0.055} &  &  & \\
+ & (\num{0.159}) & (\num{0.201}) &  &  & \\
+econ\_current\_personal × scale\_pol\_lasceht & \num{0.013} & \num{-0.027} &  &  & \num{0.068}+\\
+ & (\num{0.082}) & (\num{0.100}) &  &  & (\num{0.034})\\
+econ\_current\_eval\_general × scale\_pol\_lasceht & \num{-0.004} & \num{-0.102} & \num{-0.054}+ & \num{-0.050} & \\
+ & (\num{0.074}) & (\num{0.089}) & (\num{0.032}) & (\num{0.032}) & \\
+econ\_current\_personal × econ\_current\_eval\_general × scale\_pol\_lasceht & \num{-0.006} & \num{0.017} &  &  & \\
+ & (\num{0.029}) & (\num{0.036}) &  &  & \\
+distance\_cdu &  & \num{-0.138}*** & \num{-0.213}*** & \num{-0.210}*** & \num{-0.345}***\\
+ &  & (\num{0.015}) & (\num{0.038}) & (\num{0.038}) & (\num{0.061})\\
+household\_income &  & \num{0.062}* & \num{0.076}* & \num{0.072}* & \num{0.070}*\\
+ &  & (\num{0.031}) & (\num{0.032}) & (\num{0.032}) & (\num{0.032})\\
+age &  & \num{0.022}*** & \num{0.019}*** & \num{0.019}*** & \num{0.019}***\\
+ &  & (\num{0.004}) & (\num{0.004}) & (\num{0.004}) & (\num{0.004})\\
+abitur\_factorno\_abitur &  &  & \num{0.386}** & \num{0.351}* & \num{0.335}*\\
+ &  &  & (\num{0.139}) & (\num{0.141}) & (\num{0.141})\\
+sex1female &  &  & \num{-0.090} & \num{-0.077} & \num{-0.076}\\
+ &  &  & (\num{0.123}) & (\num{0.124}) & (\num{0.124})\\
+distance\_cdu × econ\_current\_personal &  &  & \num{0.035}* & \num{0.034}* & \num{0.085}***\\
+ &  &  & (\num{0.014}) & (\num{0.014}) & (\num{0.017})\\
+urban\_rural\_factor2 &  &  &  & \num{0.262} & \num{0.279}\\
+ &  &  &  & (\num{0.210}) & (\num{0.210})\\
+urban\_rural\_factor3 &  &  &  & \num{0.313}+ & \num{0.335}+\\
+ &  &  &  & (\num{0.182}) & (\num{0.183})\\
+urban\_rural\_factor4 &  &  &  & \num{0.331}+ & \num{0.344}+\\
+ &  &  &  & (\num{0.188}) & (\num{0.188})\\
+urban\_rural\_factor5 &  &  &  & \num{0.634} & \num{0.586}\\
+ &  &  &  & (\num{0.484}) & (\num{0.492})\\
+ostwest\_factorwest &  &  &  & \num{0.082} & \num{0.078}\\
+ &  &  &  & (\num{0.139}) & (\num{0.140})\\
+distance\_cdu × scale\_pol\_lasceht &  &  &  &  & \num{0.035}***\\
+ &  &  &  &  & (\num{0.010})\\
+scale\_pol\_lasceht × econ\_current\_eval\_general &  &  &  &  & \num{-0.056}\\
+ &  &  &  &  & (\num{0.035})\\
+distance\_cdu × econ\_current\_personal × scale\_pol\_lasceht &  &  &  &  & \num{-0.015}***\\
+ &  &  &  &  & (\num{0.004})\\
+\midrule
+Num.Obs. & \num{2792} & \num{2225} & \num{2221} & \num{2211} & \num{2211}\\
+AIC & \num{2473.1} & \num{1732.5} & \num{1718.2} & \num{1715.3} & \num{1709.5}\\
+BIC & \num{2520.5} & \num{1795.3} & \num{1780.9} & \num{1806.6} & \num{1817.8}\\
+Log.Lik. & \num{-1228.528} & \num{-855.242} & \num{-848.079} & \num{-841.671} & \num{-835.737}\\
+RMSE & \num{0.37} & \num{0.35} & \num{0.35} & \num{0.35} & \num{0.35}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ego\_socio\_model11 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(union\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ distance\_cdu}\SpecialCharTok{*}\NormalTok{scale\_pol\_lasceht }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ urban\_rural }\SpecialCharTok{+}\NormalTok{ ostwest\_factor }\SpecialCharTok{+}\NormalTok{ age,}
+                       \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+                       \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{ego\_socio\_model12 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(spd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ distance\_spd}\SpecialCharTok{*}\NormalTok{scale\_pol\_scholz }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ urban\_rural }\SpecialCharTok{+}\NormalTok{ ostwest\_factor }\SpecialCharTok{+}\NormalTok{ age,}
+                       \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+                       \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{ego\_socio\_model13 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(gruene\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ distance\_green}\SpecialCharTok{*}\NormalTok{scale\_pol\_baerbock }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ urban\_rural }\SpecialCharTok{+}\NormalTok{ ostwest\_factor }\SpecialCharTok{+}\NormalTok{ age,}
+                       \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+                       \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{ego\_socio\_model14 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ distance\_afd }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ urban\_rural }\SpecialCharTok{+}\NormalTok{ ostwest\_factor }\SpecialCharTok{+}\NormalTok{ age,}
+                       \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+                       \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{ego\_socio\_model15 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(fdp\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ econ\_current\_personal}\SpecialCharTok{*}\NormalTok{econ\_current\_eval\_general,}
+                       \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+                       \AttributeTok{data =}\NormalTok{ gles\_mod)}
+
+\CommentTok{\# modelsummar\textless{}}
+\FunctionTok{modelsummary}\NormalTok{(}\FunctionTok{list}\NormalTok{(ego\_socio\_model11, ego\_socio\_model12, ego\_socio\_model13, ego\_socio\_model14), }
+             \AttributeTok{estimate =} \StringTok{"\{estimate\}\{stars\}"}\NormalTok{,}
+             \AttributeTok{output =} \StringTok{"kableExtra"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  kableExtra}\SpecialCharTok{::}\FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{latex\_options =} \StringTok{"scale\_down"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{lcccc}
+\toprule
+  & (1) & (2) & (3) & (4)\\
+\midrule
+(Intercept) & \num{-4.012}*** & \num{-6.204}*** & \num{-4.509}*** & \num{1.651}*\\
+ & (\num{0.491}) & (\num{0.524}) & (\num{0.538}) & (\num{0.737})\\
+distance\_cdu & \num{-0.138}*** &  &  & \\
+ & (\num{0.030}) &  &  & \\
+scale\_pol\_lasceht & \num{0.287}*** &  &  & \\
+ & (\num{0.027}) &  &  & \\
+sex & \num{-0.119} & \num{-0.126} & \num{0.215}+ & \num{-0.269}\\
+ & (\num{0.121}) & (\num{0.113}) & (\num{0.128}) & (\num{0.229})\\
+household\_income & \num{0.060}* & \num{-0.041} & \num{0.065}* & \num{-0.179}***\\
+ & (\num{0.028}) & (\num{0.025}) & (\num{0.028}) & (\num{0.045})\\
+urban\_rural & \num{0.111}* & \num{0.015} & \num{-0.047} & \num{0.172}+\\
+ & (\num{0.055}) & (\num{0.049}) & (\num{0.056}) & (\num{0.100})\\
+ostwest\_factorwest & \num{0.092} & \num{0.112} & \num{0.503}** & \num{-1.011}***\\
+ & (\num{0.137}) & (\num{0.124}) & (\num{0.153}) & (\num{0.216})\\
+age & \num{0.022}*** & \num{0.009}** & \num{-0.030}*** & \num{0.001}\\
+ & (\num{0.004}) & (\num{0.003}) & (\num{0.004}) & (\num{0.007})\\
+distance\_cdu × scale\_pol\_lasceht & \num{0.000} &  &  & \\
+ & (\num{0.006}) &  &  & \\
+distance\_spd &  & \num{0.012} &  & \\
+ &  & (\num{0.031}) &  & \\
+scale\_pol\_scholz &  & \num{0.678}*** &  & \\
+ &  & (\num{0.043}) &  & \\
+distance\_spd × scale\_pol\_scholz &  & \num{-0.007}* &  & \\
+ &  & (\num{0.004}) &  & \\
+distance\_green &  &  & \num{-0.106} & \\
+ &  &  & (\num{0.074}) & \\
+scale\_pol\_baerbock &  &  & \num{0.564}*** & \\
+ &  &  & (\num{0.043}) & \\
+distance\_green × scale\_pol\_baerbock &  &  & \num{-0.005} & \\
+ &  &  & (\num{0.010}) & \\
+distance\_afd &  &  &  & \num{-0.183}***\\
+ &  &  &  & (\num{0.016})\\
+\midrule
+Num.Obs. & \num{2239} & \num{2233} & \num{2224} & \num{2225}\\
+AIC & \num{1754.9} & \num{1974.2} & \num{1539.0} & \num{596.6}\\
+BIC & \num{1806.3} & \num{2025.6} & \num{1590.4} & \num{636.5}\\
+Log.Lik. & \num{-868.431} & \num{-978.124} & \num{-760.511} & \num{-291.289}\\
+RMSE & \num{0.35} & \num{0.38} & \num{0.33} & \num{0.20}\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{afd\_gender1 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gender\_too\_far\_factor }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }
+                  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
+                  \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{afd\_gender2 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gender\_too\_far\_factor}\SpecialCharTok{*}\NormalTok{sex1 }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{  urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }
+                  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
+                  \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{afd\_gender3 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gender\_too\_far\_factor}\SpecialCharTok{*}\NormalTok{sex1 }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{  urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor }\SpecialCharTok{+}\NormalTok{ unemployed\_dummy\_factor, }
+                  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
+                  \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{afd\_gender4 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gender\_too\_far\_factor}\SpecialCharTok{*}\NormalTok{sex1}\SpecialCharTok{*}\NormalTok{unemployed\_dummy }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{  urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }
+                  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
+                  \AttributeTok{data =}\NormalTok{ gles\_mod)}
+\NormalTok{afd\_gender5 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gender\_too\_far\_factor}\SpecialCharTok{*}\NormalTok{sex1}\SpecialCharTok{*}\NormalTok{econ\_current\_personal }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{  urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }
+                  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
+                  \AttributeTok{data =}\NormalTok{ gles\_mod)}
+
+\CommentTok{\# modelsummary }
+\FunctionTok{modelsummary}\NormalTok{(}\FunctionTok{list}\NormalTok{(afd\_gender1, afd\_gender2, afd\_gender3, afd\_gender5), }
+             \AttributeTok{estimate =} \StringTok{"\{estimate\}\{stars\}"}\NormalTok{, }
+             \AttributeTok{output =} \StringTok{"kableExtra"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  kableExtra}\SpecialCharTok{::}\FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{latex\_options =} \StringTok{"scale\_down"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{lcccc}
+\toprule
+  & (1) & (2) & (3) & (4)\\
+\midrule
+(Intercept) & \num{-0.510} & \num{-0.511} & \num{-0.584} & \num{-0.175}\\
+ & (\num{0.439}) & (\num{0.469}) & (\num{0.481}) & (\num{0.968})\\
+gender\_too\_far\_factor2 & \num{-0.997}** & \num{-0.929}* & \num{-0.968}* & \num{-1.446}\\
+ & (\num{0.343}) & (\num{0.410}) & (\num{0.411}) & (\num{1.135})\\
+gender\_too\_far\_factor3 & \num{-1.498}*** & \num{-1.548}*** & \num{-1.601}*** & \num{-2.611}*\\
+ & (\num{0.318}) & (\num{0.377}) & (\num{0.378}) & (\num{1.071})\\
+gender\_too\_far\_factor4 & \num{-2.380}*** & \num{-2.243}*** & \num{-2.312}*** & \num{-4.777}***\\
+ & (\num{0.329}) & (\num{0.390}) & (\num{0.392}) & (\num{1.163})\\
+gender\_too\_far\_factor5 & \num{-2.887}*** & \num{-3.493}*** & \num{-3.766}*** & \num{-5.305}**\\
+ & (\num{0.372}) & (\num{0.565}) & (\num{0.608}) & (\num{1.668})\\
+age & \num{-0.004} & \num{-0.004} & \num{-0.003} & \num{-0.001}\\
+ & (\num{0.005}) & (\num{0.005}) & (\num{0.005}) & (\num{0.005})\\
+abitur\_factorno\_abitur & \num{0.922}*** & \num{0.925}*** & \num{0.889}*** & \num{0.713}**\\
+ & (\num{0.213}) & (\num{0.213}) & (\num{0.217}) & (\num{0.218})\\
+sex1female & \num{-0.373}* & \num{-0.418} & \num{-0.507} & \num{-1.647}\\
+ & (\num{0.171}) & (\num{0.641}) & (\num{0.638}) & (\num{1.969})\\
+urban\_rural\_factor2 & \num{0.243} & \num{0.258} & \num{0.303} & \num{0.261}\\
+ & (\num{0.294}) & (\num{0.295}) & (\num{0.301}) & (\num{0.302})\\
+urban\_rural\_factor3 & \num{0.200} & \num{0.212} & \num{0.205} & \num{0.218}\\
+ & (\num{0.250}) & (\num{0.251}) & (\num{0.259}) & (\num{0.257})\\
+urban\_rural\_factor4 & \num{0.420} & \num{0.433}+ & \num{0.484}+ & \num{0.404}\\
+ & (\num{0.257}) & (\num{0.257}) & (\num{0.264}) & (\num{0.263})\\
+urban\_rural\_factor5 & \num{1.301}* & \num{1.366}* & \num{0.855} & \num{1.368}*\\
+ & (\num{0.552}) & (\num{0.558}) & (\num{0.652}) & (\num{0.565})\\
+ostwest\_factorwest & \num{-1.311}*** & \num{-1.319}*** & \num{-1.255}*** & \num{-1.305}***\\
+ & (\num{0.167}) & (\num{0.167}) & (\num{0.172}) & (\num{0.172})\\
+gender\_too\_far\_factor2 × sex1female &  & \num{-0.179} & \num{-0.124} & \num{-2.211}\\
+ &  & (\num{0.757}) & (\num{0.760}) & (\num{2.441})\\
+gender\_too\_far\_factor3 × sex1female &  & \num{0.161} & \num{0.239} & \num{-0.834}\\
+ &  & (\num{0.702}) & (\num{0.705}) & (\num{2.229})\\
+gender\_too\_far\_factor4 × sex1female &  & \num{-0.373} & \num{-0.314} & \num{0.669}\\
+ &  & (\num{0.728}) & (\num{0.730}) & (\num{2.330})\\
+gender\_too\_far\_factor5 × sex1female &  & \num{0.974} & \num{1.172} & \num{0.057}\\
+ &  & (\num{0.831}) & (\num{0.866}) & (\num{2.619})\\
+unemployed\_dummy\_factor1 &  &  & \num{0.665}** & \\
+ &  &  & (\num{0.257}) & \\
+econ\_current\_personal &  &  &  & \num{-0.148}\\
+ &  &  &  & (\num{0.361})\\
+gender\_too\_far\_factor2 × econ\_current\_personal &  &  &  & \num{0.233}\\
+ &  &  &  & (\num{0.451})\\
+gender\_too\_far\_factor3 × econ\_current\_personal &  &  &  & \num{0.454}\\
+ &  &  &  & (\num{0.422})\\
+gender\_too\_far\_factor4 × econ\_current\_personal &  &  &  & \num{1.040}*\\
+ &  &  &  & (\num{0.446})\\
+gender\_too\_far\_factor5 × econ\_current\_personal &  &  &  & \num{0.764}\\
+ &  &  &  & (\num{0.626})\\
+sex1female × econ\_current\_personal &  &  &  & \num{0.465}\\
+ &  &  &  & (\num{0.677})\\
+gender\_too\_far\_factor2 × sex1female × econ\_current\_personal &  &  &  & \num{0.724}\\
+ &  &  &  & (\num{0.836})\\
+gender\_too\_far\_factor3 × sex1female × econ\_current\_personal &  &  &  & \num{0.384}\\
+ &  &  &  & (\num{0.772})\\
+gender\_too\_far\_factor4 × sex1female × econ\_current\_personal &  &  &  & \num{-0.458}\\
+ &  &  &  & (\num{0.797})\\
+gender\_too\_far\_factor5 × sex1female × econ\_current\_personal &  &  &  & \num{0.176}\\
+ &  &  &  & (\num{0.896})\\
+\midrule
+Num.Obs. & \num{2703} & \num{2703} & \num{2581} & \num{2701}\\
+AIC & \num{1145.5} & \num{1148.1} & \num{1081.3} & \num{1099.9}\\
+BIC & \num{1222.3} & \num{1248.4} & \num{1186.7} & \num{1259.3}\\
+Log.Lik. & \num{-559.768} & \num{-557.047} & \num{-522.647} & \num{-522.957}\\
+RMSE & \num{0.24} & \num{0.24} & \num{0.23} & \num{0.23}\\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 \end{document}

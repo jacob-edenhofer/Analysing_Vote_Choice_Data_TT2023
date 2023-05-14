@@ -58,7 +58,7 @@ Next, we will create some new variables:
 
 ```{r data-wrangling}
 gles_mod <- gles %>% 
-  select(1:100, grep("d38|d4|q18|d63|d18|q63|d17|d8|d7|wum6|q13|q14|q15|q16|q18|q23|q24|q25|q26|q35|q37|q46|q78|q79|q125|q143", names(gles))) %>%
+  select(1:100, grep("d38|d4|q18|d63|d18|q63|d17|d8|d7|wum6|q13|q14|q15|q16|q18|q23|q24|q25|q26||q27q35|q37|q46|q78|q79|q125|q143", names(gles))) %>%
   mutate(btw17_zweitstimme = ifelse(q34ba < 0, NA, q34ba),
          btw21_zweitstimme = ifelse(q114ba < 0, NA, q114ba),
          btw21_turnout = ifelse(q111 < 0 | q111 == 8, NA, q111),
@@ -155,7 +155,12 @@ gles_mod <- gles %>%
          scale_pol_scholz = ifelse(q18b < 0, NA, q18b),
          scale_pol_baerbock = ifelse(q18c < 0, NA, q18c),
          econ_current_eval_general = ifelse(q23 < 0, NA, q23), 
-         econ_current_eval_general_factor = as.factor(econ_current_eval_general))
+         econ_current_eval_general_factor = as.factor(econ_current_eval_general),
+         econ_current_personal = ifelse(q13 < 0, NA, q13), 
+         econ_current_personal_factor = factor(econ_current_personal),
+         econ_personal_gov_resp = ifelse(q15 < 0, NA, q15),
+         gender_too_far = ifelse(q27g < 0, NA, q27g),
+         gender_too_far_factor = factor(gender_too_far))
 ```
 
 
@@ -415,20 +420,6 @@ cplot(spd_immig_crime, x = "out_group_immig_crime",
 
 
 ## Gruene
-
-
-Valence -> 
-motivation: Baerbock's campaign 
-
-How can we measure valence vs spatial distance? 
-
-Who punished the Greens because of Baerbock? 
-Who punished the CDU/CSU because of Laschet? (Lacher and so on)
--> Those who are struggling / hard times. 
-
--> egoistic vs sociotropic motivations/evaluations? 
--> egoistic evaluations matter more when one is ideologically closer to a candidate; spell this out
--> sociotropic evaluations matter more when one thinks highly of a candidate
 
 
 
@@ -728,12 +719,101 @@ cplot(gruene_majority, x = "out_group_majority_will",
 
 
 
+# Further analysis
+
+Valence -> 
+motivation: Baerbock's campaign 
+
+How can we measure valence vs spatial distance? 
+
+Who punished the Greens because of Baerbock? 
+Who punished the CDU/CSU because of Laschet? (Lachet and so on)
+-> Those who are struggling / hard times. 
+
+-> egoistic vs sociotropic motivations/evaluations? 
+-> egoistic evaluations matter more when one is ideologically closer to a candidate/party; spell this out
+-> sociotropic evaluations matter more when one thinks highly of a candidate
+
+
+```{r}
+ego_socio_model1 <- glm(union_21 ~ econ_current_personal*econ_current_eval_general*scale_pol_lasceht,
+                       family = binomial(link = "logit"),
+                       data = gles_mod)
+ego_socio_model2 <- glm(union_21 ~ econ_current_personal*econ_current_eval_general*scale_pol_lasceht + distance_cdu +  household_income + age,
+                       family = binomial(link = "logit"),
+                       data = gles_mod)
+ego_socio_model3 <- glm(union_21 ~ distance_cdu*econ_current_personal + econ_current_eval_general*scale_pol_lasceht +  household_income + age + abitur_factor + sex1,
+                       family = binomial(link = "logit"),
+                       data = gles_mod)
+ego_socio_model4 <- glm(union_21 ~ distance_cdu*econ_current_personal + econ_current_eval_general*scale_pol_lasceht +  household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor,
+                       family = binomial(link = "logit"),
+                       data = gles_mod)
+ego_socio_model5 <- glm(union_21 ~ distance_cdu*econ_current_personal*scale_pol_lasceht + econ_current_eval_general*scale_pol_lasceht +  household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor,
+                       family = binomial(link = "logit"),
+                       data = gles_mod)
+ego_socio_model6 <- glm(union_21 ~ distance_cdu + econ_current_eval_general*econ_current_personal*scale_pol_lasceht + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor,
+                       family = binomial(link = "logit"),
+                       data = gles_mod)
+# modelsummary
+modelsummary(list(ego_socio_model1, ego_socio_model2, ego_socio_model3, 
+                  ego_socio_model4, ego_socio_model5),
+             estimate = "{estimate}{stars}")
+```
 
 
 
 
 
 
+
+```{r}
+ego_socio_model11 <- glm(union_21 ~ distance_cdu*scale_pol_lasceht + sex + household_income + urban_rural + ostwest_factor + age,
+                       family = binomial(link = "logit"),
+                       data = gles_mod)
+ego_socio_model12 <- glm(spd_21 ~ distance_spd*scale_pol_scholz + sex + household_income + urban_rural + ostwest_factor + age,
+                       family = binomial(link = "logit"),
+                       data = gles_mod)
+ego_socio_model13 <- glm(gruene_21 ~ distance_green*scale_pol_baerbock + sex + household_income + urban_rural + ostwest_factor + age,
+                       family = binomial(link = "logit"),
+                       data = gles_mod)
+ego_socio_model14 <- glm(afd_21 ~ distance_afd + sex + household_income + urban_rural + ostwest_factor + age,
+                       family = binomial(link = "logit"),
+                       data = gles_mod)
+ego_socio_model15 <- glm(fdp_21 ~ econ_current_personal*econ_current_eval_general,
+                       family = binomial(link = "logit"),
+                       data = gles_mod)
+
+# modelsummar<
+modelsummary(list(ego_socio_model11, ego_socio_model12, ego_socio_model13, ego_socio_model14), 
+             estimate = "{estimate}{stars}",
+             output = "kableExtra") %>%
+  kableExtra::kable_styling(latex_options = "scale_down")
+```
+
+
+```{r}
+afd_gender1 <- glm(afd_21 ~ gender_too_far_factor + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                  family = binomial(link = "logit"), 
+                  data = gles_mod)
+afd_gender2 <- glm(afd_21 ~ gender_too_far_factor*sex1 + age + abitur_factor +  urban_rural_factor + ostwest_factor, 
+                  family = binomial(link = "logit"), 
+                  data = gles_mod)
+afd_gender3 <- glm(afd_21 ~ gender_too_far_factor*sex1 + age + abitur_factor +  urban_rural_factor + ostwest_factor + unemployed_dummy_factor, 
+                  family = binomial(link = "logit"), 
+                  data = gles_mod)
+afd_gender4 <- glm(afd_21 ~ gender_too_far_factor*sex1*unemployed_dummy + age + abitur_factor +  urban_rural_factor + ostwest_factor, 
+                  family = binomial(link = "logit"), 
+                  data = gles_mod)
+afd_gender5 <- glm(afd_21 ~ gender_too_far_factor*sex1*econ_current_personal + age + abitur_factor +  urban_rural_factor + ostwest_factor, 
+                  family = binomial(link = "logit"), 
+                  data = gles_mod)
+
+# modelsummary 
+modelsummary(list(afd_gender1, afd_gender2, afd_gender3, afd_gender5), 
+             estimate = "{estimate}{stars}", 
+             output = "kableExtra") %>%
+  kableExtra::kable_styling(latex_options = "scale_down")
+```
 
 
 
