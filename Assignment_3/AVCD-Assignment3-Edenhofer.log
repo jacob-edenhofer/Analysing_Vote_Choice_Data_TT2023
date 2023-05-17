@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.3)  17 MAY 2023 09:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.3)  17 MAY 2023 09:44
 entering extended mode
 **./AVCD-Assignment3-Edenhofer.tex
 (AVCD-Assignment3-Edenhofer.tex
@@ -938,14 +938,14 @@ LaTeX Font Info:    Font shape `T1/fnc/b/n' will be
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [3] [4]
-Underfull \hbox (badness 1622) in paragraph at lines 400--406
+Underfull \hbox (badness 1622) in paragraph at lines 402--408
 []\T1/fnc/m/n/10 (+20) My de-pen-dent vari-able, \T1/lmtt/m/n/10 free_better_du
 mmy\T1/fnc/m/n/10 (+20) , is a bi-nary vari-able that takes the value of one if
 
  []
 
 LaTeX Font Info:    Font shape `TS1/fnc/m/n' will be
-(Font)              scaled to size 9.29993pt on input line 409.
+(Font)              scaled to size 9.29993pt on input line 411.
 [5]
 <AVCD-Assignment3-Edenhofer_files/figure-latex/free-better-correlates-1.pdf, id
 =49, 469.755pt x 325.215pt>
@@ -954,7 +954,7 @@ f Graphic file (type pdf)
 <use AVCD-Assignment3-Edenhofer_files/figure-latex/free-better-correlates-1.pdf
 >
 Package pdftex.def Info: AVCD-Assignment3-Edenhofer_files/figure-latex/free-bet
-ter-correlates-1.pdf  used on input line 476.
+ter-correlates-1.pdf  used on input line 478.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [6 <./AVCD-Assignment3-Edenhofer_files/figure-latex/free-better-correlates-1.pd
 f>]
@@ -969,7 +969,7 @@ d-probabilities-plot-1.pdf  used on input line 544.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [7] [8 <./AVCD-Assignment3-Edenhofer_files/figure-latex/predicted-probabilities
 -plot-1.pdf>]
-<AVCD-Assignment3-Edenhofer_files/figure-latex/year-fe-free-better-1.pdf, id=78
+<AVCD-Assignment3-Edenhofer_files/figure-latex/year-fe-free-better-1.pdf, id=81
 , 469.755pt x 325.215pt>
 File: AVCD-Assignment3-Edenhofer_files/figure-latex/year-fe-free-better-1.pdf G
 raphic file (type pdf)
@@ -978,74 +978,72 @@ Package pdftex.def Info: AVCD-Assignment3-Edenhofer_files/figure-latex/year-fe-
 free-better-1.pdf  used on input line 589.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [9 <./AVCD-Assignment3-Edenhofer_files/figure-latex/year-fe-free-better-1.pdf>]
-<AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-year-fe-1.pdf, id=89,
- 469.755pt x 325.215pt>
+[10]
+<AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-year-fe-1.pdf, id=101
+, 469.755pt x 325.215pt>
 File: AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-year-fe-1.pdf Gr
 aphic file (type pdf)
 <use AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-year-fe-1.pdf>
 Package pdftex.def Info: AVCD-Assignment3-Edenhofer_files/figure-latex/socio-co
-ns-year-fe-1.pdf  used on input line 664.
+ns-year-fe-1.pdf  used on input line 667.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[10]
-Overfull \vbox (0.44469pt too high) detected at line 719
- []
-
 [11 <./AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-year-fe-1.pdf>]
-<AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-cntry-fe-1.pdf, id=10
-6, 469.755pt x 325.215pt>
+<AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-cntry-fe-1.pdf, id=11
+3, 469.755pt x 325.215pt>
 File: AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-cntry-fe-1.pdf G
 raphic file (type pdf)
 <use AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-cntry-fe-1.pdf>
 Package pdftex.def Info: AVCD-Assignment3-Edenhofer_files/figure-latex/socio-co
-ns-cntry-fe-1.pdf  used on input line 721.
+ns-cntry-fe-1.pdf  used on input line 727.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [12] [13 <./AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-cntry-fe-1
 .pdf>]
 <AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-cntry-year-re-1.pdf, 
-id=123, 469.755pt x 325.215pt>
+id=130, 469.755pt x 325.215pt>
 File: AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-cntry-year-re-1.
 pdf Graphic file (type pdf)
 <use AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-cntry-year-re-1.p
 df>
 Package pdftex.def Info: AVCD-Assignment3-Edenhofer_files/figure-latex/socio-co
-ns-cntry-year-re-1.pdf  used on input line 769.
+ns-cntry-year-re-1.pdf  used on input line 775.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [14 <./AVCD-Assignment3-Edenhofer_files/figure-latex/socio-cons-cntry-year-re-1
 .pdf>]
 LaTeX Font Info:    Font shape `T1/fnc/m/it' will be
-(Font)              scaled to size 9.29993pt on input line 800.
+(Font)              scaled to size 9.29993pt on input line 806.
 [15]
-<fe_overview.png, id=146, 2196.205pt x 1024.82875pt>
+<fe_overview.png, id=153, 2196.205pt x 1024.82875pt>
 File: fe_overview.png Graphic file (type png)
 <use fe_overview.png>
-Package pdftex.def Info: fe_overview.png  used on input line 873.
+Package pdftex.def Info: fe_overview.png  used on input line 879.
 (pdftex.def)             Requested size: 469.72855pt x 219.19234pt.
 [16]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 916.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 922.
 [17 <./fe_overview.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 916.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 922.
 (AVCD-Assignment3-Edenhofer.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 916.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 916.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 922.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 922.
  ) 
 Here is how much of TeX's memory you used:
- 16177 strings out of 481225
- 234536 string characters out of 2916395
- 554036 words of memory out of 3000000
- 31143 multiletter control sequences out of 15000+200000
- 600022 words of font info for 250 fonts, out of 3000000 for 9000
+ 16186 strings out of 481225
+ 234642 string characters out of 2916395
+ 554080 words of memory out of 3000000
+ 31149 multiletter control sequences out of 15000+200000
+ 600225 words of font info for 249 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  50i,12n,42p,827b,428s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Users/jacob/mik tex/fonts/enc/dvips/base/8r.enc}{C:/Users/jacob/mik tex/f
-onts/enc/dvips/lm/lm-ts1.enc}{C:/Users/jacob/mik tex/fonts/enc/dvips/lm/lm-ec.e
+{C:/Users/jacob/mik tex/fonts/enc/dvips/lm/lm-ec.enc}{C:/Users/jacob/mik tex/
+fonts/enc/dvips/base/8r.enc}{C:/Users/jacob/mik tex/fonts/enc/dvips/lm/lm-ts1.e
 nc}<C:/Users/jacob/mik tex/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/
 jacob/mik tex/fonts/type1/public/lm/lmtt10.pfb><C:/Users/jacob/mik tex/fonts/ty
-pe1/public/lm/lmtti10.pfb><C:/Users/jacob/mik tex/fonts/type1/urw/ncntrsbk/uncb
-8a.pfb><C:/Users/jacob/mik tex/fonts/type1/urw/ncntrsbk/uncr8a.pfb><C:/Users/ja
-cob/mik tex/fonts/type1/urw/ncntrsbk/uncri8a.pfb>
-Output written on AVCD-Assignment3-Edenhofer.pdf (17 pages, 288603 bytes).
+pe1/public/lm/lmtt8.pfb><C:/Users/jacob/mik tex/fonts/type1/public/lm/lmtti10.p
+fb><C:/Users/jacob/mik tex/fonts/type1/urw/ncntrsbk/uncb8a.pfb><C:/Users/jacob/
+mik tex/fonts/type1/urw/ncntrsbk/uncr8a.pfb><C:/Users/jacob/mik tex/fonts/type1
+/urw/ncntrsbk/uncri8a.pfb>
+Output written on AVCD-Assignment3-Edenhofer.pdf (17 pages, 311708 bytes).
 PDF statistics:
- 232 PDF objects out of 1000 (max. 8388607)
- 51 named destinations out of 1000 (max. 500000)
- 57468 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 249 PDF objects out of 1000 (max. 8388607)
+ 56 named destinations out of 1000 (max. 500000)
+ 57484 words of extra memory for PDF output out of 61914 (max. 10000000)
 
