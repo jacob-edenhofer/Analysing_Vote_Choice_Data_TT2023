@@ -181,7 +181,7 @@ Table 3 shows that respondents in EU member states, on average, accord less impo
 \textcolor{brown}{Finally, for each observation, create a variable indicating how much more (or less) the respondent value freedom over equality}
 
 
-To create this variable, I subtract `ipeqopt_recoded` from `impfree_recoded`. This variable is zero for respondents who agree to the same extent with both items, negative for those who agree more strongly with `ipeqopt` than with `impfree`, and positive for those who agree more strongly with `impfree` and `ipeqopt`.
+To create this variable, I subtract `ipeqopt_recoded` from `impfree_recoded`. This variable is zero for respondents who agree to the same extent with both items, negative for those who agree more strongly with `ipeqopt` than with `impfree`, and positive for those for whom the reverse holds. 
 
 
 ```{r free-better-than-equal}
@@ -191,17 +191,17 @@ ess789_mod <- ess789_mod %>%
 
 
 
-
 ## 1.3 
 
 
 \textcolor{brown}{Which are the factors that better predict whether a respondent prefers freedom over equality? (Hint: build your dependent variable first). Plot the coefficients and comment their significance. Plot how the predicted probabilities of preferring freedom over equality change for male and female respondents conditionally on their experience of unemployment.}
 
+
 My dependent variable, `free_better_dummy`, is a binary variable that takes the value of one if `free_equal_diff` is positive, i.e. if a respondent agrees more strongly with `impfree` than with `ipeqopt`, and is zero otherwise. I then estimate four logit specifications, with that variable as my dependent variable: 
 
 + I start by regressing `free_better_dummy` on respondents' age following the literature on long-term value changes [e.g. @inglehart2010changing]. 
 
-+ Then, I add dummy for respondents' gender, reflecting recent arguments that men and women have systematically different social attitudes [e.g. @anduiza2022sexism; @oshri2022risk]. 
++ Then, I add a dummy for respondents' gender, reflecting recent arguments that men and women have systematically different social attitudes [e.g. @anduiza2022sexism; @oshri2022risk]. 
 
 + Next, I add a dummy for unemployment experience, given that adverse economic shocks may affect beliefs about equality and freedom. Since country's EU (non-)membership and its status as a constitutional monarchy might also influence respondents' social attitudes I include dummies for these as well. Finally, I include a country's overall level of social conservatism and environmental concern in a given year since these can be construed as proxies for the broader societal context within which individuals form their own attitudes. 
 
@@ -241,19 +241,20 @@ modelplot(list(free_better_model1, free_better_model2,
   geom_vline(xintercept = 0, linetype = "dashed") +
   expand_limits(x = -0.5) +
   labs(title = "Correlates of valuing freedom more than equality", 
-       caption = "Model 4 includes country fixed effects") +
-  theme(legend.position = "bottom")
+       caption = "Model 4 includes country fixed effects, with its standard errors clustered by country.") +
+  theme(legend.position = "bottom", 
+        plot.title = element_text(size = 12))
 ```
 
 
 
 The coefficient plot implies four lessons: 
 
-+ Gender is consistently a statistically significant (at the 5\% level) predictor of valuing freedom more than equality, with men being, on average, more likely to do so than females, holding all other included covariates constant. Substantively, the log odds are roughly 20\% ($100*(exp(0.18)-1)$) for men than for females.   
++ Gender is a statistically significant (at the 5\% level) predictor of valuing freedom more than equality across all models, with men being, on average, more likely to do so than females, holding all other included covariates constant. Substantively, the log odds are roughly 20\% ($100*(exp(0.18)-1)$) higher for men than for females.   
 
 + Age and unemployment experience do not significantly predict preferring freedom over equality. 
 
-+ On average, respondents residing in EU countries are, compared to their non-EU counterparts, significantly less likely to prefer freedom over equality, holding all other included covariates constant. Similarly, respondents residing in constitutional monarchies are less likely to express such a preferences, relative to those living in republics. Substantively, the log odds are approximately 20\% lower ($100*(exp(-0.239)-1)$) for EU, as opposed to non-EU, respondents, and 30\% ($100*(exp(-0.367)-1)$) lower for respondents in constitutional monarchies. 
++ On average, respondents residing in EU countries are, compared to their non-EU counterparts, significantly less likely to prefer freedom over equality, holding all other included covariates constant. Similarly, respondents residing in constitutional monarchies are less likely to express such a preference, relative to those living in republics. Substantively, the log odds are approximately 20\% lower ($100*(exp(-0.239)-1)$) for EU respondents, and 30\% ($100*(exp(-0.367)-1)$) lower for respondents in constitutional monarchies. 
 
 + The inclusion of country fixed effects leads to a strongly positive association between overall social conservatism in a given year and a preference for freedom over equality, with the log odds increasing by roughly 130\% for a unit increase in social conservatism ($100*(exp(0.84)-1)$). By contrast, the coefficient estimate for pro-environmental attitudes becomes insignificant when including country fixed effects, suggesting that the original positive association is driven by (un)observed confounders. 
 
@@ -276,17 +277,20 @@ free_better_model5 <- glm(free_better_dummy ~ gndr_dummy1*uemp5yr_factor,
 # plot 
 plot(ggpredict(free_better_model5, terms = c("gndr_dummy1", "uemp5yr_factor")),
      connect.lines = T) +
-  scale_colour_discrete("Any period of unemployment or work seeking in the last five years?",
+  scale_colour_manual("Any period of unemployment or work seeking in the last five years?",
                         labels = c("1" = "Yes",
-                                   "2" = "No")) +
+                                   "2" = "No"),
+                        values = c("1" = "#FFA500",
+                                   "2" = "#0072B2")) +
   labs(x = "Gender", y = "Predicted probability", 
        title = "Predicted probabilities for valuing freedom more than equality") +
   expand_limits(y = c(0.2, 0.3)) +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom", 
+        plot.title = element_text(size = 12))
 ```
 
 
-The vertical differences between the point estimates represent the marginal effect of unemployment experience for men and women respectively. For women, the marginal effect of having experience unemployment within the last five years is negative, while it is positive for men. That is, men become more likely to prefer freedom over equality after having experienced unemployment (the difference is significant at the 5\% level, which can be seen by running `summary(free_better_model5)`), with the reverse holding for women.
+The vertical differences between the point estimates represent the marginal effect of unemployment experience for men and women respectively. For women, the marginal effect of having experience unemployment within the last five years is negative, while it is positive for men. That is, men become significantly more likely to prefer freedom over equality after having experienced unemployment (the difference is significant at the 5\% level, which can be seen by running `summary(free_better_model5)`), with the reverse holding for women.
 
 
 
@@ -301,7 +305,7 @@ By including year fixed effects, we restrict our attention to cross-country vari
 ```{r year-fe-free-better}
 free_better_model6 <- bife(free_better_dummy ~ agea + gndr_dummy + uemp5yr + eummbr_factor + mnrchy_factor + cons + env | year, 
            model = "logit", data = ess789_mod)
-# plot 
+# coefficient plot, with previous models for comparison  
 modelplot(list(free_better_model2, free_better_model3, 
                free_better_model4, free_better_model6),
           coef_map = c("agea" = "Age of respondent",
@@ -314,12 +318,12 @@ modelplot(list(free_better_model2, free_better_model3,
   geom_vline(xintercept = 0, linetype = "dashed") +
   labs(title = "Correlates of valuing freedom more than equality", 
        caption = "Model 3 includes country fixed effects; model 4 includes year fixed effects.") +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom", 
+        plot.title = element_text(size = 12))
 ```
 
 
-\textcolor{red}{change in variables}
-
+We can see that the coefficient estimates yielded by the model with year fixed effects are almost identical to the models we ran above, except when comparing them to the coefficient estimates for `cons` and `env` in the model with country fixed effects. For `env`, country fixed effects render the coefficient estimate insignificant, as opposed to it being significantly positive. This suggests that there are time-invariant, country-specific factors that explain a fair amount of the association between `env` and the preference for freedom over equality. For `cons`, country fixed effects render the coefficient estimate significantly positive, rather than significantly positive, suggesting that wave-specific factors common across countries have opposite effects than the time-invariant, country-specific confounders country fixed effects control for. 
 
 
 ## 1.5 
@@ -333,12 +337,11 @@ Ideally, I would want to probe the robustness of the above results by including 
 # Exercise 2
 
 
-
 \textcolor{brown}{Re-estimate the model above using year-level fixed effects. This time, however, use a different dependent variable: the level of country’s conservativism.}
 
-I estimate four specifications with `cons` as the dependent variable. I include fixed effects via the `feols()` function from the `fixest` package, which is computationally more efficient than the `plm()` function, and clusters the standard errors at the level of the fixed effects (here the year level). 
+I estimate four specifications with `cons` as the dependent variable. I include fixed effects via the `feols()` function from the `fixest` package, which is computationally more efficient than the `plm()` function, and automatically clusters the standard errors at the level of the fixed effects (here the year level). 
 
-The justification of all additional covariates is, for the most part, analogous to that offered in 1.3. The only exception is the inclusion of `impfree_recoded` and `ipeqopt_recoded` in the final two models. These variables are only contained in these models because they may be strongly multi-collinear with other variables, thereby inflating the standard errors of the coefficient estimates and increasing the risk of type II errors. To mitigate this risk, I estimate specifications with and without these two variables. 
+The justification of all additional covariates is, for the most part, analogous to that offered in 1.3. The only exception is the inclusion of `impfree_recoded` and `ipeqopt_recoded` in the final two models. These variables are only contained in these models because they may be strongly multi-collinear with other variables, thereby potentially inflating the standard errors of the coefficient estimates and increasing the risk of type II errors. To mitigate this risk, I estimate specifications with and without these two variables. 
 
 
 ```{r socio-cons-year-fe, message=FALSE}
@@ -362,30 +365,40 @@ modelplot(list(socio_cons_year_fe1, socio_cons_year_fe2,
                        "gndr_dummy1" = "Gender dummy")) +
   geom_vline(xintercept = 0, linetype = "dashed") +
   labs(title = "Correlates of social conservatism at the country-year level", 
-       caption = "All models include year fixed effects.") +
-  theme(legend.position = "bottom")
+       caption = "All models include year fixed effects, with standard errors clustered by year.") +
+  theme(legend.position = "bottom", 
+        plot.title = element_text(size = 12))
 ```
 
 
 The coefficient plot shows that only gender is a significant predictor of social conservatism once year fixed effects are taken into account, with males being slightly more likely than females to be socially conservative. 
 
 
-
 \textcolor{brown}{Re-estimate the model above using country-level fixed effects. (Hint: what class is the variable for country? Is it the most appropriate?) Plot the coefficients: What does it change with respect with the model with year fixed effects? Why?}
 
 
 
-The logic of the four models below is analogous to the previous exercise, save for country fixed effects replacing year fixed effects. As discussed above, country fixed effects net out all (un)observed, country-specific factors that are constant over time. To illustrate this, I have included `eummbr_factor` and `mnrchy_factor`, which are constant over time within countries. R automatically drops these variables since they are already accounted for by means of the country fixed effects, which is why they are not represented in the coefficient plot below. 
+The logic of the four models below is analogous to the previous exercise, save for country fixed effects replacing year fixed effects. As discussed above, country fixed effects net out all (un)observed, country-specific factors that are constant over time. To illustrate this, I have included `eummbr_factor` and `mnrchy_factor`, which are constant over time within countries. R automatically drops these variables since they are already accounted for via the country fixed effects, which is why they are not represented in the coefficient plot below. 
+
 
 
 ```{r socio-cons-cntry-fe, message=FALSE}
-socio_cons_cntry_fe1 <- feols(cons ~ gndr_dummy + agea + uemp5yr_factor | cntry, data = ess789_mod)
+# turn country into factor 
+ess789_mod <- ess789_mod %>%
+  mutate(cntry_factor = factor(cntry))
+
+# models
+socio_cons_cntry_fe1 <- feols(cons ~ gndr_dummy + agea + uemp5yr_factor | cntry_factor, 
+                              data = ess789_mod)
 socio_cons_cntry_fe2 <- feols(cons ~ gndr_dummy + agea + uemp5yr_factor + 
-                              eummbr_factor + mnrchy_factor | cntry, data = ess789_mod)
+                              eummbr_factor + mnrchy_factor | cntry_factor, 
+                              data = ess789_mod)
 socio_cons_cntry_fe3 <- feols(cons ~ gndr_dummy + agea + uemp5yr_factor + 
-                              eummbr_factor + mnrchy_factor + impfree_recoded | cntry, data = ess789_mod)
+                              eummbr_factor + mnrchy_factor + impfree_recoded | cntry_factor, 
+                              data = ess789_mod)
 socio_cons_cntry_fe4 <- feols(cons ~ gndr_dummy + agea + uemp5yr_factor + 
-                              eummbr_factor + mnrchy_factor + impfree_recoded + ipeqopt_recoded | cntry, data = ess789_mod)
+                              eummbr_factor + mnrchy_factor + impfree_recoded + ipeqopt_recoded | cntry_factor, 
+                              data = ess789_mod)
 
 # models 
 modelplot(list(socio_cons_cntry_fe1, socio_cons_cntry_fe2, 
@@ -400,8 +413,9 @@ modelplot(list(socio_cons_cntry_fe1, socio_cons_cntry_fe2,
   geom_vline(xintercept = 0, linetype = "dashed") +
   expand_limits(x = -0.005) +
   labs(title = "Correlates of social conservatism at the country-year level", 
-       caption = "All models include country fixed effects.") +
-  theme(legend.position = "bottom")
+       caption = "All models include country fixed effects, with standard errors clustered by country.") +
+  theme(legend.position = "bottom", 
+        plot.title = element_text(size = 12))
 ```
 
 
@@ -442,18 +456,86 @@ modelplot(list(socio_cons_re1, socio_cons_re2, socio_cons_re3),
   expand_limits(x = c(-0.6, 0.4)) +
   labs(title = "Correlates of social conservatism at the country-year level", 
        caption = "All models include random effects for countries and years.") +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom", 
+        plot.title = element_text(size = 12))
 ```
 
 
+Once we include random effects for countries and years, none of the predictors is statistically significant. 
 
-+ Interpretatio.
 
 
 ## 2.4 Some Theory
 
 \textcolor{brown}{What do fixed effects account for? Specify: for years and countries/geographic regions, What do random effects account for?, Following Schimdt-Catran and Fairbrother, illustrate the structure of fixed effects.}
 
+
+Year fixed effects^[@mummolo2018improving make a number of important points about the proper use of fixed effects. To improve the interpretation of fixed effects, the authors recommend: "Identify a plausible counterfactual shift in X given the data: Generate a histogram of the within-unit ranges of the treatment to get a sense of the relevant shifts in X that occur in the data. Compute the standard deviation of the transformed (residualized) independent variable, which can be thought of as a typical shift in the portion of the independent variable that is being used during the fixed effects estimation. Multiply the estimated coefficient of interest by the revised standard deviation of the independent variable to assess substantive importance. Note for readers what share of observations do not exhibit any variation within units to help characterize the generalizability of the result. Alternatively, if describing the effect of a one-unit shift, or any other quantity, note the ratio of this shift in X to the within-unit standard deviation, as well as its location on the recommended histogram, to gauge how typically a shift of this size occurs within units." [@mummolo2018improving, p. 833-834]], applied to repeated cross-sectional or panel data, control for *all* (un)observable confounders, viz. variables that affect both the explanatory and dependent variables of interest, that are constant across units (e.g. individual respondents, regions, countries, etc.), while varying over time. Put more intuitively, year fixed effects allow us to control for "shocks" that vary over, but are common to all units. Regional fixed effects, by contrast, control for all (un)observable confounders that are constant over time, while varying across countries. That is, unit fixed effects exploit only within-unit variation over time. When our regions are countries, country fixed effects can, for instance, net out cultural confounders, which tend to be constant over time. Following @schmidt2016random, we can represent the underlying data structure for these three types of fixed effects as follow: 
+
+
+```{r fe-representation-data-structure, message=FALSE, warning=FALSE, fig.cap='Overview of data structures for different types of fixed effects', out.width='100%'}
+# packages 
+library(DiagrammeRsvg)
+library(magrittr)
+library(svglite)
+library(rsvg)
+library(png)
+library(ggdag)
+library(DiagrammeR)
+library(tidyverse)
+
+# graphs 
+g1 <- grViz("
+	digraph causal {
+	graph [ranksep = 0.2, fontsize = 5, rankdir = TB]
+	  # Nodes
+	  node [shape = square, style = filled, fillcolor = dimgray, width = 2.2, fixedsize=true, fontsize = 16, fontname = 'Gudea']
+	  A [label = 'Fixed effects (FEs)']
+	  node [shape = square, style = filled, fillcolor = darkgreen, width = 2.2, fixedsize=true, fontsize = 16, fontname = 'Gudea']
+	  B [label = 'Regional FEs\n(e.g. country, local\nauthority,\nfederal state)']
+	  C [label = 'Year FEs']
+	  node [shape = circle, style = filled, fillcolor = '#4576B7', width = 2.2, fixedsize=true, fontsize = 16, fontname = 'Gudea']
+	  E [label = 'Region']
+	  F [label = 'Year']
+	  node [shape = circle, style = filled, fillcolor = '#FF9800', width = 2.2, fixedsize=true, fontsize = 16, fontname = 'Gudea']
+	  E1 [label = 'Individual 1\nin year 1']
+	  E2 [label = 'Individual 1\nin year 2']
+	  E3 [label = 'Individual 1\nin year T']
+	  E4 [label = '...']
+	  E5 [label = 'Individual N\nin year T']
+	  F1 [label = 'Individual 1\nin region 1']
+	  F2 [label = 'Individual 2\nin region 1']
+	  F3 [label = 'Individual N\nin region 1']
+	  F4 [label = '...']
+	  F5 [label = 'Individual N\nin region X']
+	  # Edges
+	   edge [color = '#666666', minlen = 4, arrowhead = vee, penwidth = 2.5]
+	  A->{B C}
+	  B->E
+	  C->F
+	  E->{E1 E2 E3 E4 E5}
+	  F->{F1 F2 F3 F4 F5}
+   {rank = same; E; F}
+	}")
+
+# save as image 
+g1 %>%
+  export_svg() %>%
+  charToRaw() %>%
+  rsvg_png("fe_overview.png")
+
+# include image 
+include_graphics(path = "fe_overview.png")
+```
+
+
+
+
+Random effects, by contrast, account for all factors that (i) affect the outcome, and (ii) vary randomly across individuals or groups, provided they are not correlated with (un)observed determinants of the outcome that the error term captures. 
+
+
+
+      
 
 
 
