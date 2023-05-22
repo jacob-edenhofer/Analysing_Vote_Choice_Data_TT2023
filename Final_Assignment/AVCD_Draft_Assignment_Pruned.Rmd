@@ -51,6 +51,8 @@ library(here)
 library(ggeffects)
 library(margins)
 library(marginaleffects)
+library(kableExtra)
+library(knitr)
 
 # import data 
 gles <- read_dta(paste0(here(), "/Data/ZA7701_v2-0-0_en.dta"))
@@ -203,7 +205,7 @@ To the end, let me expatiate on the theoretical intuition outlined above. Like m
 By way of unpacking this argument, note, first, that losers may believe the political system to be incapable of redressing their economic grievances for two distinct reasons. First, they might deem all mainstream parties to be much of a muchness, meaning none of the supposedly different parties is seen by losers as representing their preferences. In that instance, losers are likely to think it does not matter which mainstream party they vote for, or which of those parties governs. Second, even if voters believe at least one mainstream party to endorse policies conducive to redressing their economic grievances, they might not trust any mainstream politician to follow through on these promises.^[This ‘trust’ channel is distinct from a ‘valence’ channel, where voters fundamentally trust politicians, but judge their levels of competence to differ [@green_politics_2017].] 
 
 
-These two reasons also show why the theory predicts economic losers to turn to radical right parties, as opposed to left-wing parties, as a result of their grievances. Many other economic-insecurity-type arguments are unable to resolve this puzzle, which arises because the latter’s platforms tend to be significantly more pro-redistributive than the former’s platforms. Using terminology in @linz_breakdown_1978, the reason is that losers, as @eichengreen_populist_2018 notes, regard left-wing parties as loyal to the political system and in cahoots with the other mainstream actors. So, their redistributive promises lack credibility. By contrast, radical right parties’ semi-loyalty or disloyalty to the system means that voting for them increase the likelihood that the political system, characterised by the mainstream cartel [@katz_cartel_2009], will be disrupted. 
+These two reasons also show why the theory predicts economic losers to turn to radical right parties, as opposed to left-wing parties, as a result of their grievances. Many other economic-insecurity-type arguments are unable to resolve this puzzle, which arises because the latter’s platforms tend to be significantly more pro-redistributive than the former’s platforms. Using the terminology by @linz_breakdown_1978, the reason is that losers, as @eichengreen_populist_2018 notes, regard left-wing parties as loyal to the political system and in cahoots with the other mainstream actors. So, their redistributive promises lack credibility. By contrast, radical right parties’ semi-loyalty or disloyalty to the system means that voting for them increase the likelihood that the political system, characterised by the mainstream cartel [@katz_cartel_2009], will be disrupted. 
 
 In sum, this theoretical argument implies (at least)^[Naturally, the argument could also be taken to imply that (i) a perceived lack of representation and (ii) low trust increase the probability of voting for the radical right. Given the space constraints and my focus on how these two factors moderate the effects of economic security, I prescind from testing these two hypotheses.] three testable hypotheses.
 
@@ -212,38 +214,16 @@ In sum, this theoretical argument implies (at least)^[Naturally, the argument co
 + H3: The effect of economic insecurity is, *ceteris paribus*, stronger for those who are more distrustful of parties and/or parliament. 
 
 
-Before setting out my empirical, let me briefly dwell on case selection, i.e. explain why the case of the 2021 German federal election is suitable for testing these hypotheses. 
-
-+	Third wave of Covid pandemic 
-+	Financial insecurity (footnote on ZEW paper)
-+	Politically contentious period, with heightened salience of lack of representation for some segments of the population 
-+	Both conditions make the two key components likely to be present. 
+Before setting out my empirical strategy, let me briefly discuss my two reasons for choosing the case of the 2021 German federal election. First, the 2021 election occurred in the wake of the “third wave” of the Covid-19 pandemic, which caused widespread financial insecurity among German households, with more than one-third of households reporting in early 2021 that they would be unable to cover unexpected expenses of €2.000 within one month and had already started tapping into their rainy-day funds [@cziriak_publication_nodate]. Secondly, the pandemic was, as in most other countries, a politically contentious period, causing deep divides over the desirability and efficacy of both non-pharmaceutical interventions, such as mask mandates, and vaccination. The *Querdenker* movement, in particular, used their protests to stress that their interests were not represented by any mainstream party. Both factors mean that economic insecurity and subjectively perceived representational deficits were likely salient in the minds of some voters, making this election a suitable case for testing the above hypotheses.
 
 
 
-+ Why this election? 
-    + uncertain time in general 
-    + end of Merkel era 
-    + distributional consequences of pandemic? 
-
-# Data and variables 
-
-+ GLES Nachwahlbefragung 
+# Data, variables and operationalisation
 
 
-## Operationalisation 
+To test the above hypotheses, I use the  *German Longitudinal Election Study's* (GLES) 2021 post-election survey^[The data for the 2021 *Nachwahlbefragung* are available [here](https://search.gesis.org/research_data/ZA7701).] - a high-quality survey of a cross-section of 3424 (quasi-)randomly selected individuals containing a rich set of questions about respondents' social and political attitudes as well as their socio-demographic characteristics. 
 
-+ dependent variable -> binary, Why? 
-    + Eichengreen focuses mainly on radical right, as Sonin notes
-    + hence focus justified 
 
-+ proxy for economic insecurity -> justification
-
-+ summarise this info in table -> also to save words
-
-## Descriptives
-
-+ Do I need this? 
 
 
 + How do I operationalise economic insecurity? 
@@ -255,6 +235,38 @@ Before setting out my empirical, let me briefly dwell on case selection, i.e. ex
 + How do I operationalise lack of representation? 
    + no difference who one is voting for 
    + no difference who governs
+
+
+
+```{r data-summary-table}
+data_summary_table <- tribble(~"Variable", ~"Operationalisation", ~"Survey item(s)",  
+                              "Radical right voting", "dummy for AfD Zweitstimme", "q114ba = 322", 
+                              "Economic insecurity", "dummy for unemployment in past ten years", "d17a-c", 
+                              "", "fear of job loss", "d18",
+                              "", "fear of losing or having to change profession", "d19", 
+                              "Political system not responsive", "no difference which party governs", "q117",
+                              "", "no difference which party one votes for", "q118", 
+                              "Trust in political system", "trust in parliament", "q79b", 
+                              "", "trust in parties", "q79c",
+                              "", "trust in politicians", "q79d")
+# table 
+data_summary_table %>%
+  kbl(caption = "Summary of variables and their operationalisation", booktabs = T) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+  pack_rows("dependent variable", 1, 1) %>%
+  pack_rows("independent variables", 2, 9) %>%
+  add_footnote(label = "Unemployment experience is, following Dauth et al (2021), defined as an individual having been unemployed for at least one year.", notation = "symbol") %>%
+  add_footnote(label = "Source: Codebook for GLES Cross-Section 2021, Post-Election, ZA7701, Dataset Version v1.0.0.", notation = "symbol")
+```
+
+
+
++ dependent variable -> binary, Why? 
+    + Eichengreen focuses mainly on radical right, as Sonin notes
+    + hence focus justified 
+
++ proxy for economic insecurity -> justification
+
    
 
 # Methodology and Results 
@@ -270,6 +282,9 @@ Before setting out my empirical, let me briefly dwell on case selection, i.e. ex
 + Caveats. 
   
   + not causal, correlational analysis
+  
+
+
   
   
   
@@ -388,6 +403,13 @@ modelplot(list(afd_diff_gov_int5, afd_diff_gov_int6,
 
 
 # Appendix 
+
+
+
+## Descriptive statistics 
+
+
+
 
 
 ## Robustness checks 

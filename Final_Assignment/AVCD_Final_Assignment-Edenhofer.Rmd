@@ -50,7 +50,7 @@ library(margins)
 
 # import data 
 gles <- read_dta(paste0(here(), "/Data/german_longitudinal_election_study_cross_section_post_election2021.dta"))
-gles1 <- read_dta(paste0(here(), "/Data/gles_panel_wave20.dta"))
+heu <- read_dta(paste0(here(), "/Data/harmonised_EB_2004-2021_v3-0-0.dta"))
 ```
 
 
@@ -1106,6 +1106,19 @@ cplot(afd_majority_will, x = "out_group_majority_will",
 ```
 
 
+
+# Eurobarometer 
+
+
+```{r}
+heu1 <- heu %>%
+  select(1:100, valpri1, valpri2, issue_14) 
+# per year and country 
+heu1 %>%
+  count(country, year, p_13) %>% # 13 and 57
+  group_by(country, year) %>%
+  mutate(shares = 100*(n/sum(n)))
+```
 
 
 

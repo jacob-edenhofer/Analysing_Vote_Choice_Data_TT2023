@@ -92,6 +92,20 @@
 \lhead{1050713}
 \renewcommand{\headrulewidth}{0pt}
 \cfoot{\thepage}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -243,7 +257,7 @@ turn to radical right parties, as opposed to left-wing parties, as a
 result of their grievances. Many other economic-insecurity-type
 arguments are unable to resolve this puzzle, which arises because the
 latter's platforms tend to be significantly more pro-redistributive than
-the former's platforms. Using terminology in Linz
+the former's platforms. Using the terminology by Linz
 (\protect\hyperlink{ref-linz_breakdown_1978}{1978}), the reason is that
 losers, as Eichengreen
 (\protect\hyperlink{ref-eichengreen_populist_2018}{2018}) notes, regard
@@ -279,68 +293,40 @@ hypotheses.
   parliament.
 \end{itemize}
 
-Before setting out my empirical, let me briefly dwell on case selection,
-i.e.~explain why the case of the 2021 German federal election is
-suitable for testing these hypotheses.
+Before setting out my empirical strategy, let me briefly discuss my two
+reasons for choosing the case of the 2021 German federal election.
+First, the 2021 election occurred in the wake of the ``third wave'' of
+the Covid-19 pandemic, which caused widespread financial insecurity
+among German households, with more than one-third of households
+reporting in early 2021 that they would be unable to cover unexpected
+expenses of €2.000 within one month and had already started tapping into
+their rainy-day funds
+(\protect\hyperlink{ref-cziriak_publication_nodate}{Cziriak 2022}).
+Secondly, the pandemic was, as in most other countries, a politically
+contentious period, causing deep divides over the desirability and
+efficacy of both non-pharmaceutical interventions, such as mask
+mandates, and vaccination. The \emph{Querdenker} movement, in
+particular, used their protests to stress that their interests were not
+represented by any mainstream party. Both factors mean that economic
+insecurity and subjectively perceived representational deficits were
+likely salient in the minds of some voters, making this election a
+suitable case for testing the above hypotheses.
 
-\begin{itemize}
-\item
-  Third wave of Covid pandemic
-\item
-  Financial insecurity (footnote on ZEW paper)
-\item
-  Politically contentious period, with heightened salience of lack of
-  representation for some segments of the population
-\item
-  Both conditions make the two key components likely to be present.
-\item
-  Why this election?
+\hypertarget{data-variables-and-operationalisation}{%
+\section{Data, variables and
+operationalisation}\label{data-variables-and-operationalisation}}
 
-  \begin{itemize}
-  \tightlist
-  \item
-    uncertain time in general
-  \item
-    end of Merkel era
-  \item
-    distributional consequences of pandemic?
-  \end{itemize}
-\end{itemize}
-
-\hypertarget{data-and-variables}{%
-\section{Data and variables}\label{data-and-variables}}
-
-\begin{itemize}
-\tightlist
-\item
-  GLES Nachwahlbefragung
-\end{itemize}
-
-\hypertarget{operationalisation}{%
-\subsection{Operationalisation}\label{operationalisation}}
+To test the above hypotheses, I use the \emph{German Longitudinal
+Election Study's} (GLES) 2021 post-election survey\footnote{The data for
+  the 2021 \emph{Nachwahlbefragung} are available
+  \href{https://search.gesis.org/research_data/ZA7701}{here}.} - a
+high-quality survey of a cross-section of 3424 (quasi-)randomly selected
+individuals containing a rich set of questions about respondents' social
+and political attitudes as well as their socio-demographic
+characteristics.
 
 \begin{itemize}
 \tightlist
-\item
-  dependent variable -\textgreater{} binary, Why?
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Eichengreen focuses mainly on radical right, as Sonin notes
-  \item
-    hence focus justified
-  \end{itemize}
-\item
-  proxy for economic insecurity -\textgreater{} justification
-\end{itemize}
-
-\hypertarget{descriptives}{%
-\subsection{Descriptives}\label{descriptives}}
-
-\begin{itemize}
-\item
-  Do I need this?
 \item
   How do I operationalise economic insecurity?
 
@@ -367,6 +353,51 @@ suitable for testing these hypotheses.
   \item
     no difference who governs
   \end{itemize}
+\end{itemize}
+
+\begin{table}[!h]
+
+\caption{\label{tab:data-summary-table}Summary of variables and their operationalisation}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{lll}
+\toprule
+Variable & Operationalisation & Survey item(s)\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{3}{l}{\textbf{dependent variable}}\\
+\hspace{1em}Radical right voting & dummy for AfD Zweitstimme & q114ba = 322\\
+\addlinespace[0.3em]
+\multicolumn{3}{l}{\textbf{independent variables}}\\
+\hspace{1em}Economic insecurity & dummy for unemployment in past ten years & d17a-c\\
+\hspace{1em} & fear of job loss & d18\\
+\hspace{1em} & fear of losing or having to change profession & d19\\
+\hspace{1em}Political system not responsive & no difference which party governs & q117\\
+\hspace{1em} & no difference which party one votes for & q118\\
+\hspace{1em}Trust in political system & trust in parliament & q79b\\
+\hspace{1em} & trust in parties & q79c\\
+\hspace{1em} & trust in politicians & q79d\\
+\bottomrule
+\multicolumn{3}{l}{\textsuperscript{*} Unemployment experience is, following Dauth et al (2021), defined as an individual having}\\
+\multicolumn{3}{l}{been unemployed for at least one year.}\\
+\multicolumn{3}{l}{\textsuperscript{*} Source: Codebook for GLES Cross-Section 2021, Post-Election, ZA7701, Dataset Version v1.0.0.}\\
+\end{tabular}}
+\end{table}
+
+\begin{itemize}
+\tightlist
+\item
+  dependent variable -\textgreater{} binary, Why?
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Eichengreen focuses mainly on radical right, as Sonin notes
+  \item
+    hence focus justified
+  \end{itemize}
+\item
+  proxy for economic insecurity -\textgreater{} justification
 \end{itemize}
 
 \hypertarget{methodology-and-results}{%
@@ -414,6 +445,9 @@ suitable for testing these hypotheses.
 
 \hypertarget{appendix}{%
 \section{Appendix}\label{appendix}}
+
+\hypertarget{descriptive-statistics}{%
+\subsection{Descriptive statistics}\label{descriptive-statistics}}
 
 \hypertarget{robustness-checks}{%
 \subsection*{Robustness checks}\label{robustness-checks}}
@@ -472,6 +506,12 @@ in {Western} {Europe}.''} \emph{American Journal of Political Science}
 \leavevmode\vadjust pre{\hypertarget{ref-colantone_surge_2019}{}}%
 ---------. 2019. {``The {Surge} of {Economic} {Nationalism} in {Western}
 {Europe}.''} \emph{Journal of Economic Perspectives} 33 (4): 128--51.
+
+\leavevmode\vadjust pre{\hypertarget{ref-cziriak_publication_nodate}{}}%
+Cziriak, Marius. 2022. {``Publication: {Households}' {Financial}
+{Fragility} {During} the {COVID}-19 {Pandemic} in {Germany}.''} {ZEW}
+{Discussion} {Paper}.
+\url{https://www.zew.de/en/publications/households-financial-fragility-during-the-covid-19-pandemic-in-germany-1}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-dauth_rise_2014}{}}%
 Dauth, Wolfgang, Sebastian Findeisen, and Jens Suedekum. 2014. {``The
