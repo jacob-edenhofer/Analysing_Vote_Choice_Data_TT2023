@@ -1,0 +1,394 @@
+---
+title: "Economic insecurity, lack of representation and radical right voting in the context of the 2021 German federal election"
+author: "Candidate number: 1050713"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+header-includes: 
+  - \usepackage[T1]{fontenc}
+  - \usepackage{fouriernc}
+  - \usepackage{setspace}\onehalfspacing
+  - \usepackage{amsfonts}
+  - \usepackage{dcolumn}
+  - \usepackage{pifont}
+  - \usepackage{booktabs} 
+  - \usepackage{placeins}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}  
+  - \fancyhf{}  
+  - \rhead{Final AVCD assignment}  
+  - \lhead{1050713}
+  - \renewcommand{\headrulewidth}{0pt}
+  - \cfoot{\thepage}   
+mainfont: fouriernc
+output:
+  pdf_document:
+    fig_caption: true
+    keep_tex: true
+    includes:
+      in_header: preamble.tex
+html_document: default
+word_document: default
+citation_package: natbib
+bibliography: references.bib 
+link-citations: yes
+linkcolor: gray
+urlcolor: magenta
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r preliminaries, message=FALSE, warning=FALSE}
+# load relevant packages 
+library(tidyverse)
+library(haven)
+library(modelsummary)
+library(survey)
+library(here)
+library(ggeffects)
+library(margins)
+library(marginaleffects)
+
+# import data 
+gles <- read_dta(paste0(here(), "/Data/ZA7701_v2-0-0_en.dta"))
+```
+
+
+
+```{r data-wrangling}
+gles_mod <- gles %>% 
+  select(1:100, grep("d38|d4|q18|d63|d18|q63|d17|d8|d7|wum6|q13|q14|q15|q16|q18|q23|q24|q25|q26||q27q35|q37|q46|q78|q79|q125|q143", names(gles))) %>%
+  mutate(btw17_zweitstimme = ifelse(q34ba < 0, NA, q34ba),
+         btw21_zweitstimme = ifelse(q114ba < 0, NA, q114ba),
+         btw21_turnout = ifelse(q111 < 0 | q111 == 8, NA, q111),
+         btw21_turnout1 = ifelse(btw21_turnout == 1, 1, 0),
+         year_born = ifelse(grepl("-99|frueher", d2a), NA, d2a),
+         ostwest2_dummy = ifelse(ostwest2 < 0, NA, ostwest2),
+         ostwest_factor = factor(ostwest2_dummy, 
+                                 levels = c(0, 1), 
+                                 labels = c("ost", "west")),
+         sex = ifelse(d1 < 0, NA, d1),
+         sex1 = factor(sex, 
+                       levels = c(1, 2), 
+                       labels = c("male", "female")),
+         year_born1 = as.numeric(as.character(year_born)),
+         age = 2021 - as.numeric(as.character(year_born)),
+         spd_21 = ifelse(btw21_zweitstimme == 4, 1, 0),
+         union_21 = ifelse(btw21_zweitstimme == 1, 1, 0),
+         gruene_21 = ifelse(btw21_zweitstimme == 6, 1, 0),
+         fdp_21 = ifelse(btw21_zweitstimme == 5, 1, 0),
+         afd_21 = ifelse(btw21_zweitstimme == 322, 1, 0),
+         linke_21 = ifelse(btw21_zweitstimme == 7, 1, 0), 
+         spd_to_switch = ifelse(btw21_zweitstimme == 4 & btw17_zweitstimme != 4, 1, 0),
+         afd_away_switch = ifelse(btw17_zweitstimme == 322 & btw21_zweitstimme != 322, 1, 0),
+         constituency_centric_rep = ifelse(q63a < 0, NA, q63a),
+         party_centric_rep = ifelse(q63c < 0, NA, q63c),
+         household_income = ifelse(d63 < 0, NA, d63),
+         household_income_factor = as.factor(household_income),
+         bachelor_dummy = ifelse(d8j1 < 0, NA, d8j1),
+         school = ifelse(d7 < 0, NA, d7),
+         abitur = ifelse(d7 == 5, 1, 0),
+         abitur_factor = ifelse(abitur == 1, "abitur", "no_abitur"),
+         urban_rural = ifelse(wum6 < 0, NA, wum6),
+         urban_rural_factor = as.factor(urban_rural),
+         subjective_class = ifelse(d38 < 0, NA, d38),
+         left_right_self = ifelse(q37 < 0, NA, q37),
+         left_right_self_factor = as.factor(left_right_self),
+         left_right_cdu = ifelse(q35b < 0, NA, q35b),
+         left_right_cdu_factor = as.factor(left_right_cdu),
+         distance_cdu = (left_right_cdu-left_right_self)^2,
+         left_right_csu = ifelse(q35c < 0, NA, q35c),
+         left_right_csu_factor = as.factor(left_right_csu),
+         distance_csu = (left_right_csu-left_right_self)^2,
+         left_right_spd = ifelse(q35d < 0, NA, q35d),
+         left_right_spd_factor = as.factor(left_right_spd),
+         distance_spd = (left_right_spd-left_right_self)^2,
+         left_right_afd = ifelse(q35h < 0, NA, q35h),
+         left_right_afd_factor = as.factor(left_right_afd),
+         distance_afd = (left_right_afd-left_right_self)^2,
+         left_right_fdp = ifelse(q35e < 0, NA, q35e),
+         left_right_fdp_factor = as.factor(left_right_fdp),
+         distance_fdp = (left_right_fdp-left_right_self)^2,
+         left_right_green = ifelse(q35f < 0, NA, q35f),
+         left_right_green_factor = as.factor(left_right_green),
+         distance_green = (left_right_green-left_right_self)^2,
+         left_right_linke = ifelse(q35g < 0, NA, q35g),
+         left_right_linke_factor = as.factor(left_right_linke),
+         distance_linke = (left_right_linke-left_right_self)^2,
+         scholz_love = ifelse(q18b < 0, NA, q18b),
+         scholz_love_factor = as.factor(scholz_love),
+         finzanz_abgehangt_subjektiv = ifelse(q46a < 0, NA, q46a),
+         finzanz_abgehangt_subjektiv_factor = as.factor(finzanz_abgehangt_subjektiv),
+         arbeit_abgehant_subjektiv = ifelse(q46b < 0, NA, q46b),
+         arbeit_abgehant_subjektiv_factor = as.factor(arbeit_abgehant_subjektiv),
+         cancel_culture_subjektiv = ifelse(q46d < 0, NA, q46d),
+         cancel_culture_subjektiv_factor = as.factor(cancel_culture_subjektiv),
+         infrastruktur_subjektiv = ifelse(q46c < 0, NA, q46c),
+         infrastruktur_subjektiv_factor = as.factor(infrastruktur_subjektiv),
+         unemployed_last10_yrs = ifelse(d17a < 0, NA, d17a),
+         unemployed_last10yrs_months = ifelse(d17b < 0, NA, d17b),
+         unemployed_last10yrs_weeks = ifelse(d17c < 0, NA, d17c),
+         unemployed_dummy = ifelse(unemployed_last10_yrs != 0, 1, 0),
+         unemployed_dummy_factor = as.factor(unemployed_dummy),
+         trust_in_politicians = ifelse(q79d < 0, NA, q79d),
+         trust_in_politicians_factor = as.factor(trust_in_politicians),
+         trust_in_parliament = ifelse(q79b < 0, NA, q79b),
+         trust_in_parliament_factor = as.factor(trust_in_parliament),
+         trust_in_parties = ifelse(q79c < 0, NA, q79c),
+         trust_in_parties_factor = as.factor(trust_in_parties),
+         trust_in_public_broadcast = ifelse(q79i < 0, NA, q79i),
+         trust_in_public_broadcast_factor = as.factor(trust_in_public_broadcast),
+         trust_general = ifelse(q78 < 0, NA, q78),
+         trust_general_factor = as.factor(trust_general),
+         out_group_minorities_assim = ifelse(q125a < 0, NA, q125a),
+         out_group_minorities_assim_factor = as.factor(out_group_minorities_assim),
+         out_group_majority_will = ifelse(q125b < 0, NA, q125b),
+         out_group_majority_will_factor = as.factor(out_group_majority_will),
+         out_group_immig_econ_good = ifelse(q125c < 0, NA, q125c),
+         out_group_immig_econ_good_factor = as.factor(out_group_immig_econ_good),
+         out_group_immig_culture_threat = ifelse(q125d < 0, NA, q125d),
+         out_group_immig_culture_threat_factor = as.factor(out_group_immig_culture_threat),
+         out_group_immig_crime = ifelse(q125e < 0, NA, q125e),
+         out_group_immig_crime_factor = as.factor(out_group_immig_crime),
+         scale_pol_lasceht = ifelse(q18a < 0, NA, q18a),
+         scale_pol_scholz = ifelse(q18b < 0, NA, q18b),
+         scale_pol_baerbock = ifelse(q18c < 0, NA, q18c),
+         econ_current_eval_general = ifelse(q23 < 0, NA, q23), 
+         econ_current_eval_general_factor = as.factor(econ_current_eval_general),
+         econ_current_personal = ifelse(q13 < 0, NA, q13), 
+         econ_current_personal_factor = factor(econ_current_personal),
+         econ_personal_gov_resp = ifelse(q15 < 0, NA, q15),
+         gender_too_far = ifelse(q27g < 0, NA, q27g),
+         gender_too_far_factor = factor(gender_too_far),
+         job_loss_year_next2yrs = ifelse(d18 < 0, NA, d18),
+         job_loss_year_next2yrs_factor = factor(job_loss_year_next2yrs),
+         length_unemp_last10yrs_yrs = ifelse(d17a < 0, NA, d17a),
+         length_unemp_last10yrs_mon = ifelse(d17b < 0, NA, d17b),
+         unemp_at_least_one_year = ifelse(length_unemp_last10yrs_yrs >= 1, 1, 0),
+         unemp_at_least_one_year_factor = factor(unemp_at_least_one_year),
+         profession_loss_next2yrs = ifelse(d19 < 0, NA, d19),
+         profession_loss_next2yrs_factor = factor(profession_loss_next2yrs),
+         profession_current = ifelse(d11 < 0, NA, d11),
+         type_of_emp_contract = ifelse(d13 < 0, NA, d13),
+         difference_whos_gov = ifelse(q117 < 0, NA, q117),
+         difference_whos_gov_factor = factor(difference_whos_gov),
+         difference_who_votes = ifelse(q118 < 0, NA, q118),
+         difference_who_votes_factor = factor(difference_who_votes))
+```
+
+
+
+# Introduction 
+
++ State research questions.
+
++ Structure of essay. 
+
+
+# Motivation and relation to literature {#motivation}
+
+
+2023 marks the tenth year of the Alternative für Deutschland’s (AfD) existence. Originally founded by a coterie of eurosceptic professors, the AfD ran on an anti-Euro platform in the 2013 federal election [@grimm_rise_2015], failing to clear the five-percent threshold for parliamentary representation only by a whisker.^[The [AfD won 4.7\%](https://www.bundeswahlleiterin.de/bundestagswahlen/2013/ergebnisse/bund-99.html) of the party votes (*Zweitstimmen*).] Starting in mid 2015, as the influx of refugees rose, the AfD increasingly morphed into a nationalistic, anti-immigration party [@arzheimer_alternative_2017; @arzheimer_how_2019; @cantoni_persistence_2020]. With the salience of immigration high during the 2017 federal election [@kellermann_immigration_2022], the [AfD won 12.6\%](https://www.bundeswahlleiterin.de/info/presse/mitteilungen/bundestagswahl-2017/34_17_endgueltiges_ergebnis.html) of party votes, making it the largest opposition party. The AfD’s entry into the *Bundestag* led to the debate about the determinants of radical right support – which had been ongoing among political scientists at least since the late 1990s [e.g. @kitschelt_radical_1995; @arzheimer_contextual_2009] – gaining greater attention in both other disciplines^[@guriev_political_2022 do an excellent job of summarising especially economists' contributions to the literature on the determinants of voting for populist parties.] and public discourse.
+
+
+While much of the debate on the demand-side determinants of radical-right voting has focused on the relative importance of economic and cultural factors respectively,^[Those on the economic side of the debate mostly do not deny the importance of cultural factors, such as nativist attitudes - but attribute these attitudes to economic factors or shocks [e.g. @colantone_surge_2019; @colantone_backlash_2021]. The cultural camp [@art_myth_2022], by contrast, sees such attitudes, at least in part, as exogenous to economic shocks, instead, conceiving of them as the key background condition without which economic insecurity would not have given rise to the electoral success of populists [@margalit_economic_2019; @margalit_cultural_2022].] the theoretical framework I test below belongs to another, somewhat more nascent strand of the literature. This strand argues, inter alia, that the effect of economic grievances is likely moderated by (i) voters' trust in political institutions, notably parties and parliaments, and (ii) the degree to which they feel their preferences are represented in the party system [e.g. @dustmann_europes_2017; @eichengreen_populist_2018; @ivanov_economic_2023]. This set of theoretical hypotheses - though often not explicitly acknowledged by non-political-scientists - echo not only the work by @katz_cartel_2009 on the cartelisation of (Western) European party systems, but also more recent work stressing the importance of representational deficits in driving populist support [e.g. @manow_ent-demokratisierung_2020; @schafer_demokratische_2021; @zurn_how_2022; @silva_parties_2023]. More importantly, these hypotheses have been subjected to little empirical testing, with @ivanov_economic_2023 being a notable exception, as, for instance, @sonin_historical_2022 notes in his review of the work by @eichengreen_populist_2018. This essay is intended as a small step towards filling this gap in the literature. 
+
+# Theory and case selection {#theory}
+
+To the end, let me expatiate on the theoretical intuition outlined above. Like many economic-insecurity-centred theories of radical right support, the theoretical argument starts from the observation that economic shocks, such as automation [@boix_democratic_2019] or trade liberalisation [@autor_china_2013], create winners and losers. This assumption holds true not only for most Western European countries [@colantone_trade_2018; @milner_voting_2021], in general, but also for Germany, in particular [@dauth_rise_2014; @dauth_adjustment_2021]. Those losers, the argument goes on, who do not believe the current political system can address their grievances will then turn to populist radical right parties. 
+
+By way of unpacking this argument, note, first, that losers may believe the political system to be incapable of redressing their economic grievances for two distinct reasons. First, they might deem all mainstream parties to be much of a muchness, meaning none of the supposedly different parties is seen by losers as representing their preferences. In that instance, losers are likely to think it does not matter which mainstream party they vote for, or which of those parties governs. Second, even if voters believe at least one mainstream party to endorse policies conducive to redressing their economic grievances, they might not trust any mainstream politician to follow through on these promises.^[This ‘trust’ channel is distinct from a ‘valence’ channel, where voters fundamentally trust politicians, but judge their levels of competence to differ [@green_politics_2017].] 
+
+
+These two reasons also show why the theory predicts economic losers to turn to radical right parties, as opposed to left-wing parties, as a result of their grievances. Many other economic-insecurity-type arguments are unable to resolve this puzzle, which arises because the latter’s platforms tend to be significantly more pro-redistributive than the former’s platforms. Using terminology in @linz_breakdown_1978, the reason is that losers, as @eichengreen_populist_2018 notes, regard left-wing parties as loyal to the political system and in cahoots with the other mainstream actors. So, their redistributive promises lack credibility. By contrast, radical right parties’ semi-loyalty or disloyalty to the system means that voting for them increase the likelihood that the political system, characterised by the mainstream cartel [@katz_cartel_2009], will be disrupted. 
+
+In sum, this theoretical argument implies (at least)^[Naturally, the argument could also be taken to imply that (i) a perceived lack of representation and (ii) low trust increase the probability of voting for the radical right. Given the space constraints and my focus on how these two factors moderate the effects of economic security, I prescind from testing these two hypotheses.] three testable hypotheses.
+
++ H1: Economic insecurity, *ceteris paribus*, increases probability of voting for the radical right.
++ H2: The effect of economic insecurity on the probability of voting for the radical right is, *ceteris paribus*, stronger for those who believe their interests not be represented in the current party system. 
++ H3: The effect of economic insecurity is, *ceteris paribus*, stronger for those who are more distrustful of parties and/or parliament. 
+
+
+Before setting out my empirical, let me briefly dwell on case selection, i.e. explain why the case of the 2021 German federal election is suitable for testing these hypotheses. 
+
++	Third wave of Covid pandemic 
++	Financial insecurity (footnote on ZEW paper)
++	Politically contentious period, with heightened salience of lack of representation for some segments of the population 
++	Both conditions make the two key components likely to be present. 
+
+
+
++ Why this election? 
+    + uncertain time in general 
+    + end of Merkel era 
+    + distributional consequences of pandemic? 
+
+# Data and variables 
+
++ GLES Nachwahlbefragung 
+
+
+## Operationalisation 
+
++ dependent variable -> binary, Why? 
+    + Eichengreen focuses mainly on radical right, as Sonin notes
+    + hence focus justified 
+
++ proxy for economic insecurity -> justification
+
++ summarise this info in table -> also to save words
+
+## Descriptives
+
++ Do I need this? 
+
+
++ How do I operationalise economic insecurity? 
+    + unemployed (actual experience) (`unemp_at_least_one_year`)
+    + fear of job loss (`job_loss_year_next2yrs`)
+    + fear of losing profession or having to change profession (`profession_loss_next2yrs`)
+    + subjective evaluation of current economic situation 
+    
++ How do I operationalise lack of representation? 
+   + no difference who one is voting for 
+   + no difference who governs
+   
+
+# Methodology and Results 
+
+
+
++ Justify model specification.
+
++ DAG would be cool, but probably not possible.
+
++ Presentation of results + interpretation.
+
++ Caveats. 
+  
+  + not causal, correlational analysis
+  
+  
+  
+```{r simple-models-insecurity}
+# simple models 
+## job loss fear 
+afd_job_loss_fear <- glm(afd_21 ~ job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+## loss of profession 
+afd_prof_loss_fear <- glm(afd_21 ~ profession_loss_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                          family = binomial(link = "logit"), 
+                         data = gles_mod)
+## unemployment experience 
+afd_unemp_exp <- glm(afd_21 ~ unemp_at_least_one_year + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+## econ current general situation 
+afd_econ_current <- glm(afd_21 ~ econ_current_personal + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+# modelplot 
+modelplot(list(afd_job_loss_fear, afd_prof_loss_fear, 
+               afd_unemp_exp, afd_econ_current)) +
+  geom_vline(xintercept = 0)
+```
+
+
+
+
+```{r simple-models-lack-rep}
+# simple models 
+## difference gov
+afd_diff_gov <- glm(afd_21 ~ difference_whos_gov + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+## difference voting 
+afd_prof_loss_fear <- glm(afd_21 ~ difference_who_votes + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+# modelplot
+modelplot(list(afd_diff_gov, afd_prof_loss_fear)) +
+  geom_vline(xintercept = 0)
+```
+
+
+```{r interaction-models-lack-rep1}
+# interaction models 
+## difference gov
+### job loss fear 
+afd_diff_gov_int1 <- glm(afd_21 ~ difference_whos_gov*job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+afd_diff_gov_int11 <- glm(afd_21 ~ difference_whos_gov_factor*job_loss_year_next2yrs_factor + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+### profession loss fear
+afd_diff_gov_int2 <- glm(afd_21 ~ difference_whos_gov*profession_loss_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+### unemployment experience
+afd_diff_gov_int3 <- glm(afd_21 ~ difference_whos_gov*unemp_at_least_one_year + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+afd_diff_gov_int31 <- glm(afd_21 ~ difference_whos_gov_factor*unemp_at_least_one_year_factor + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+plot_predictions(afd_diff_gov_int31, condition = list("difference_whos_gov_factor", "unemp_at_least_one_year_factor"))
+### personal current situation
+afd_diff_gov_int4 <- glm(afd_21 ~ difference_whos_gov*econ_current_personal + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+# modelplot 
+modelplot(list(afd_diff_gov_int1, afd_diff_gov_int2, 
+               afd_diff_gov_int3, afd_diff_gov_int4)) +
+  geom_vline(xintercept = 0)
+```
+
+
+
+
+
+
+```{r interaction-models-lack-rep2}
+# interaction models 
+## difference gov
+### job loss fear 
+afd_diff_gov_int5 <- glm(afd_21 ~ difference_who_votes*job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+### profession loss fear
+afd_diff_gov_int6 <- glm(afd_21 ~ difference_who_votes*profession_loss_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+### unemployment experience
+afd_diff_gov_int7 <- glm(afd_21 ~ difference_who_votes*unemp_at_least_one_year + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+### personal current situation
+afd_diff_gov_int8 <- glm(afd_21 ~ difference_who_votes*econ_current_personal + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+# modelplot 
+modelplot(list(afd_diff_gov_int5, afd_diff_gov_int6, 
+               afd_diff_gov_int7, afd_diff_gov_int8)) +
+  geom_vline(xintercept = 0)
+```
+
+  
+  
+# Conclusion 
+
++ I find only extremely weak support for Eichengreen's theory. 
+
+
+# References 
+
+
+
+\FloatBarrier
+
+
+# Appendix 
+
+
+## Robustness checks 
+

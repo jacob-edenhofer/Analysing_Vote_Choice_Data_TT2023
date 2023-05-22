@@ -151,7 +151,7 @@
 \makeatother
 \subtitle{Final assignment}
 \author{Jacob Edenhofer\footnote{\href{mailto:jacob.edenhofer@some.ox.ac.uk}{\nolinkurl{jacob.edenhofer@some.ox.ac.uk}}}}
-\date{10 May 2023}
+\date{19 May 2023}
 
 \begin{document}
 \maketitle
@@ -1246,5 +1246,349 @@ RMSE & \num{0.24} & \num{0.24} & \num{0.23} & \num{0.23}\\
 \bottomrule
 \end{tabular}}
 \end{table}
+
+\hypertarget{afd}{%
+\subsection{AfD}\label{afd}}
+
+\textbf{Hypotheses?}
+
+\textbf{Distinguish between voting for and having switched to.}
+
+\hypertarget{socio-demographic-correlates-2}{%
+\subsubsection{Socio-demographic
+Correlates}\label{socio-demographic-correlates-2}}
+
+Relationship between household income and AfD voting
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{afd\_income }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\FunctionTok{cplot}\NormalTok{(afd\_income, }\AttributeTok{x =} \StringTok{"household\_income"}\NormalTok{,}
+      \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{13}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\StringTok{"Net Monthly Household Income"}\NormalTok{,}
+                     \AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{13}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+                     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"\textless{}500€"}\NormalTok{, }\StringTok{"[500{-}750€)"}\NormalTok{,}
+                                \StringTok{"[750{-}1000€)"}\NormalTok{, }\StringTok{"[1000{-}1250€)"}\NormalTok{, }
+                                \StringTok{"[1250{-}1500€)"}\NormalTok{, }\StringTok{"[1500{-}2000€)"}\NormalTok{,}
+                                \StringTok{"[2000{-}2500€)"}\NormalTok{, }\StringTok{"[2500{-}3000€)"}\NormalTok{,}
+                                \StringTok{"[3000{-}4000€)"}\NormalTok{, }\StringTok{"[4000{-}5000€)"}\NormalTok{,}
+                                \StringTok{"[5000{-}7000€)"}\NormalTok{, }\StringTok{"[7000{-}10000€)"}\NormalTok{,}
+                                \StringTok{"\textgreater{}10000€"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting for the AfD"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.3}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{15}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-household-income-1.pdf}
+
+Relationship between subjective class and AfD voting
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# model}
+\NormalTok{afd\_class }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ subjective\_class }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\CommentTok{\# plot}
+\FunctionTok{cplot}\NormalTok{(afd\_class, }\AttributeTok{x =} \StringTok{"subjective\_class"}\NormalTok{, }
+      \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\StringTok{"Subjective Class"}\NormalTok{, }
+                     \AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{1}\NormalTok{), }
+                     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Unterschicht"}\NormalTok{, }\StringTok{"Arbeiterschicht"}\NormalTok{, }
+                                \StringTok{"Untere Mittelschicht"}\NormalTok{, }\StringTok{"mittlere Mittelschicht"}\NormalTok{, }\StringTok{"obere Mittelschicht"}\NormalTok{, }\StringTok{"Oberschicht"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{expand\_limits}\NormalTok{(}\AttributeTok{y =} \FloatTok{0.4}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{15}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-subjective-class-1.pdf}
+
+What is the relationship between left-right self-placement and AfD
+voting?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{afd\_left\_right\_placement }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ left\_right\_self }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(left\_right\_self}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\CommentTok{\# plot this model }
+\FunctionTok{cplot}\NormalTok{(afd\_left\_right\_placement, }\AttributeTok{x =} \StringTok{"left\_right\_self"}\NormalTok{, }
+      \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\StringTok{"Left{-}Right Self{-}Placement"}\NormalTok{, }
+                     \AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{expand\_limits}\NormalTok{(}\AttributeTok{y =} \FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{, }
+       \AttributeTok{caption =} \StringTok{"\textquotesingle{}1\textquotesingle{} indicates respondents who locate themselves on the left of the ideological spectrum, while \textquotesingle{}11\textquotesingle{} indicates the opposite."}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-left-right-self-placement-1.pdf}
+
+Relationship between age and AfD voting
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{afd\_age }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(age}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\CommentTok{\# plot }
+\FunctionTok{cplot}\NormalTok{(afd\_age, }\AttributeTok{x =} \StringTok{"age"}\NormalTok{, }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_ribbon}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\StringTok{"Age"}\NormalTok{, }\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{90}\NormalTok{, }\DecValTok{10}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.15}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-age-1.pdf}
+
+Relationship between sex and AfD
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cplot}\NormalTok{(afd\_income, }\AttributeTok{x =} \StringTok{"sex1"}\NormalTok{, }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\StringTok{"Sex"}\NormalTok{, }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Female"}\NormalTok{, }\StringTok{"Male"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.15}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{, }
+       \AttributeTok{caption =} \StringTok{"Covariates include: age, household income, education and rurality of place of residence."}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-sex-1.pdf}
+
+Relationship between education and AfD voting
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cplot}\NormalTok{(afd\_income, }\AttributeTok{x =} \StringTok{"abitur\_factor"}\NormalTok{, }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\StringTok{"Education"}\NormalTok{, }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"At Least Abitur"}\NormalTok{, }
+                                           \StringTok{"No Abitur"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{, }
+       \AttributeTok{caption =} \StringTok{"Covariates include: age, household income, sex and rurality of place of residence."}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.15}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-education-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cplot}\NormalTok{(afd\_income, }\AttributeTok{x =} \StringTok{"urban\_rural\_factor"}\NormalTok{, }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\StringTok{"Urban{-}Rural"}\NormalTok{, }
+                   \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Grossstadt"}\NormalTok{, }\StringTok{"Rand/Vorort grosser Stadt"}\NormalTok{,}
+                              \StringTok{"Mittel{-}oder Kleinstadt"}\NormalTok{, }\StringTok{"laendliches Dorf"}\NormalTok{,}
+                              \StringTok{"Einzelgehoeft"}\NormalTok{)) }\SpecialCharTok{+}
+ \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{) }\SpecialCharTok{+}
+ \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.35}\NormalTok{)) }\SpecialCharTok{+}
+ \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
+ \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{15}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-geography-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cplot}\NormalTok{(afd\_income, }\AttributeTok{x =} \StringTok{"ostwest\_factor"}\NormalTok{, }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\StringTok{"Ost{-}West Dummy"}\NormalTok{, }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Ost"}\NormalTok{, }\StringTok{"West"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.25}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-ost-west-1.pdf}
+
+\hypertarget{attiudinal-correlates-2}{%
+\subsubsection{Attiudinal Correlates}\label{attiudinal-correlates-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{afd\_cancel\_culture }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ cancel\_culture\_subjektiv }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\CommentTok{\# plot}
+\FunctionTok{cplot}\NormalTok{(afd\_cancel\_culture, }\AttributeTok{x =} \StringTok{"cancel\_culture\_subjektiv"}\NormalTok{, }
+      \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\StringTok{"Subjektiv: Keine freie Meinungsaeusserung moeglich"}\NormalTok{, }
+                   \AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+                   \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Stimme voll zu"}\NormalTok{, }\StringTok{"Stimme eher zu"}\NormalTok{,}
+                              \StringTok{"Teils/Teils"}\NormalTok{, }\StringTok{"Stimme eher nicht zu"}\NormalTok{,}
+                              \StringTok{"Stimme ueberhaupt nicht zu"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{15}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-cancel-culture-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{afd\_trust\_parliament }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ trust\_in\_parliament }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\CommentTok{\# plot }
+\FunctionTok{cplot}\NormalTok{(afd\_trust\_parliament, }\AttributeTok{x =} \StringTok{"trust\_in\_parliament"}\NormalTok{,}
+      \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F)  }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\StringTok{"Vertrauen: Bundestag"}\NormalTok{, }
+                     \AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{, }
+       \AttributeTok{caption =} \StringTok{"\textquotesingle{}1\textquotesingle{} indicates \textquotesingle{}no trust\textquotesingle{}, while 11 indicates \textquotesingle{}full trust\textquotesingle{}."}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.6}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-trust-parliament-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{afd\_trust\_parties }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ trust\_in\_parties }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\CommentTok{\# plot }
+\FunctionTok{cplot}\NormalTok{(afd\_trust\_parties, }\AttributeTok{x =} \StringTok{"trust\_in\_parties"}\NormalTok{,}
+      \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\StringTok{"Vertrauen: Parteien"}\NormalTok{, }
+                     \AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{, }
+       \AttributeTok{caption =} \StringTok{"\textquotesingle{}1\textquotesingle{} indicates \textquotesingle{}no trust\textquotesingle{}, while 11 indicates \textquotesingle{}full trust\textquotesingle{}."}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.6}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-trust-parties-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{afd\_trust\_politicians }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ trust\_in\_politicians }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\CommentTok{\# plot }
+\FunctionTok{cplot}\NormalTok{(afd\_trust\_politicians, }\AttributeTok{x =} \StringTok{"trust\_in\_politicians"}\NormalTok{,}
+      \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F)  }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\StringTok{"Vertrauen: Politiker:innen"}\NormalTok{, }
+                     \AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{, }
+       \AttributeTok{caption =} \StringTok{"\textquotesingle{}1\textquotesingle{} indicates \textquotesingle{}no trust\textquotesingle{}, while 11 indicates \textquotesingle{}full trust\textquotesingle{}."}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-trust-politicians-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{afd\_immig\_culture\_threat }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ out\_group\_immig\_culture\_threat }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\CommentTok{\# plot }
+\FunctionTok{cplot}\NormalTok{(afd\_immig\_culture\_threat, }\AttributeTok{x =} \StringTok{"out\_group\_immig\_culture\_threat"}\NormalTok{,}
+      \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\StringTok{"Deutsche Kultur durch Immigration bedroht"}\NormalTok{, }
+                     \AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{), }
+                     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Stimme voll und ganz zu"}\NormalTok{, }\StringTok{"Stimme eher zu"}\NormalTok{, }
+                                \StringTok{"Teils/Teils"}\NormalTok{, }\StringTok{"Lehne eher ab"}\NormalTok{, }
+                                \StringTok{"Lehne voll und ganz ab"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-immig-culture-threat-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{afd\_immig\_crime }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ out\_group\_immig\_crime }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\CommentTok{\# plot }
+\FunctionTok{cplot}\NormalTok{(afd\_immig\_crime, }\AttributeTok{x =} \StringTok{"out\_group\_immig\_crime"}\NormalTok{,}
+      \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\StringTok{"Immigration erhoeht Kriminalitaet in BRD"}\NormalTok{, }
+                     \AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{), }
+                     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Stimme voll und ganz zu"}\NormalTok{, }\StringTok{"Stimme eher zu"}\NormalTok{, }
+                                \StringTok{"Teils/Teils"}\NormalTok{, }\StringTok{"Lehne eher ab"}\NormalTok{, }
+                                \StringTok{"Lehne voll und ganz ab"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.4}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-immig-crime-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{afd\_majority\_will }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(afd\_21 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ out\_group\_majority\_will }\SpecialCharTok{+}\NormalTok{ household\_income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ abitur\_factor }\SpecialCharTok{+}\NormalTok{ sex1 }\SpecialCharTok{+}\NormalTok{ urban\_rural\_factor }\SpecialCharTok{+}\NormalTok{ ostwest\_factor, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ gles\_mod)}
+\CommentTok{\# plot }
+\FunctionTok{cplot}\NormalTok{(afd\_majority\_will, }\AttributeTok{x =} \StringTok{"out\_group\_majority\_will"}\NormalTok{, }
+      \AttributeTok{xvals =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{draw =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ yvals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower, }\AttributeTok{ymax =}\NormalTok{ upper), }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\StringTok{"Wille der Mehrheit hat Vorrang"}\NormalTok{, }
+                     \AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+                     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Stimme voll und ganz zu"}\NormalTok{, }\StringTok{"Stimme eher zu"}\NormalTok{, }
+                                \StringTok{"Teils/Teils"}\NormalTok{, }\StringTok{"Lehne eher ab"}\NormalTok{, }
+                                \StringTok{"Lehne voll und ganz ab"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.2}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Predicted Probability of Voting AfD"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{AVCD_Final_Assignment-Edenhofer_files/figure-latex/afd-majority-will-1.pdf}
 
 \end{document}

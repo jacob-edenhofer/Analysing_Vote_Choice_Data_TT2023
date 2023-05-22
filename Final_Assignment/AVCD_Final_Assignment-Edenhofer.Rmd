@@ -817,5 +817,295 @@ modelsummary(list(afd_gender1, afd_gender2, afd_gender3, afd_gender5),
 
 
 
+## AfD
+
+**Hypotheses?**
+
+**Distinguish between voting for and having switched to.**
+
+### Socio-demographic Correlates 
+
+Relationship between household income and AfD voting
+
+```{r afd-household-income}
+afd_income <- glm(afd_21 ~ household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), data = gles_mod)
+cplot(afd_income, x = "household_income",
+      xvals = seq(1, 13, 1), draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_continuous("Net Monthly Household Income",
+                     breaks = seq(1, 13, 1),
+                     labels = c("<500€", "[500-750€)",
+                                "[750-1000€)", "[1000-1250€)", 
+                                "[1250-1500€)", "[1500-2000€)",
+                                "[2000-2500€)", "[2500-3000€)",
+                                "[3000-4000€)", "[4000-5000€)",
+                                "[5000-7000€)", "[7000-10000€)",
+                                ">10000€")) +
+  labs(y = "Predicted Probability of Voting for the AfD") +
+  ylim(c(0, 0.3)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 15, hjust = 1))
+```
+
+
+
+Relationship between subjective class and AfD voting
+
+
+```{r afd-subjective-class}
+# model
+afd_class <- glm(afd_21 ~ subjective_class + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), data = gles_mod)
+# plot
+cplot(afd_class, x = "subjective_class", 
+      xvals = seq(1, 6, 1), draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_continuous("Subjective Class", 
+                     breaks = seq(1, 6, 1), 
+                     labels = c("Unterschicht", "Arbeiterschicht", 
+                                "Untere Mittelschicht", "mittlere Mittelschicht", "obere Mittelschicht", "Oberschicht")) +
+  labs(y = "Predicted Probability of Voting AfD") +
+  expand_limits(y = 0.4) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 15, hjust = 1))
+```
+
+What is the relationship between left-right self-placement and AfD voting? 
+
+```{r afd-left-right-self-placement}
+afd_left_right_placement <- glm(afd_21 ~ left_right_self + I(left_right_self^2) + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), data = gles_mod)
+# plot this model 
+cplot(afd_left_right_placement, x = "left_right_self", 
+      xvals = seq(1, 11, 1), draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_continuous("Left-Right Self-Placement", 
+                     breaks = seq(1, 11, 1)) +
+  expand_limits(y = 0.3) +
+  labs(y = "Predicted Probability of Voting AfD", 
+       caption = "'1' indicates respondents who locate themselves on the left of the ideological spectrum, while '11' indicates the opposite.") +
+  theme_bw()
+```
+
+
+Relationship between age and AfD voting 
+
+```{r afd-age}
+afd_age <- glm(afd_21 ~ age + I(age^2) + household_income + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), data = gles_mod)
+# plot 
+cplot(afd_age, x = "age", draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_line(aes(y = yvals)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2) +
+  scale_x_continuous("Age", breaks = seq(20, 90, 10)) +
+  labs(y = "Predicted Probability of Voting AfD") +
+  ylim(c(0, 0.15)) +
+  theme_bw()
+```
+
+
+Relationship between sex and AfD
+
+```{r afd-sex}
+cplot(afd_income, x = "sex1", draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_discrete("Sex", labels = c("Female", "Male")) +
+  ylim(c(0, 0.15)) +
+  labs(y = "Predicted Probability of Voting AfD", 
+       caption = "Covariates include: age, household income, education and rurality of place of residence.") +
+  theme_bw()
+```
+
+Relationship between education and AfD voting 
+
+```{r afd-education}
+cplot(afd_income, x = "abitur_factor", draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_discrete("Education", labels = c("At Least Abitur", 
+                                           "No Abitur")) +
+  labs(y = "Predicted Probability of Voting AfD", 
+       caption = "Covariates include: age, household income, sex and rurality of place of residence.") +
+  ylim(c(0, 0.15)) +
+  theme_bw()
+```
+
+
+```{r afd-geography}
+cplot(afd_income, x = "urban_rural_factor", draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_discrete("Urban-Rural", 
+                   labels = c("Grossstadt", "Rand/Vorort grosser Stadt",
+                              "Mittel-oder Kleinstadt", "laendliches Dorf",
+                              "Einzelgehoeft")) +
+ labs(y = "Predicted Probability of Voting AfD") +
+ ylim(c(0, 0.35)) +
+ theme_bw() +
+ theme(axis.text.x = element_text(angle = 15, hjust = 1))
+```
+
+
+
+```{r afd-ost-west}
+cplot(afd_income, x = "ostwest_factor", draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_discrete("Ost-West Dummy", labels = c("Ost", "West")) +
+  ylim(c(0, 0.25)) +
+  labs(y = "Predicted Probability of Voting AfD") +
+  theme_bw()
+```
+
+### Attiudinal Correlates
+
+```{r afd-cancel-culture}
+afd_cancel_culture <- glm(afd_21 ~ cancel_culture_subjektiv + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), data = gles_mod)
+# plot
+cplot(afd_cancel_culture, x = "cancel_culture_subjektiv", 
+      xvals = seq(1, 5, 1), draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_continuous("Subjektiv: Keine freie Meinungsaeusserung moeglich", 
+                   breaks = seq(1, 5, 1),
+                   labels = c("Stimme voll zu", "Stimme eher zu",
+                              "Teils/Teils", "Stimme eher nicht zu",
+                              "Stimme ueberhaupt nicht zu")) +
+  labs(y = "Predicted Probability of Voting AfD") +
+  ylim(c(0, 0.5)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 15, hjust = 1))
+```
+
+```{r afd-trust-parliament}
+afd_trust_parliament <- glm(afd_21 ~ trust_in_parliament + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), data = gles_mod)
+# plot 
+cplot(afd_trust_parliament, x = "trust_in_parliament",
+      xvals = seq(1, 11, 1), draw = F)  %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_continuous("Vertrauen: Bundestag", 
+                     breaks = seq(1, 11, 1)) +
+  labs(y = "Predicted Probability of Voting AfD", 
+       caption = "'1' indicates 'no trust', while 11 indicates 'full trust'.") +
+  ylim(c(0, 0.6)) +
+  theme_bw()
+```
+
+```{r afd-trust-parties}
+afd_trust_parties <- glm(afd_21 ~ trust_in_parties + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), data = gles_mod)
+# plot 
+cplot(afd_trust_parties, x = "trust_in_parties",
+      xvals = seq(1, 11, 1), draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_continuous("Vertrauen: Parteien", 
+                     breaks = seq(1, 11, 1)) +
+  labs(y = "Predicted Probability of Voting AfD", 
+       caption = "'1' indicates 'no trust', while 11 indicates 'full trust'.") +
+  ylim(c(0, 0.6)) +
+  theme_bw()
+```
+
+```{r afd-trust-politicians}
+afd_trust_politicians <- glm(afd_21 ~ trust_in_politicians + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), data = gles_mod)
+# plot 
+cplot(afd_trust_politicians, x = "trust_in_politicians",
+      xvals = seq(1, 11, 1), draw = F)  %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_continuous("Vertrauen: Politiker:innen", 
+                     breaks = seq(1, 11, 1)) +
+  labs(y = "Predicted Probability of Voting AfD", 
+       caption = "'1' indicates 'no trust', while 11 indicates 'full trust'.") +
+  ylim(c(0, 0.5)) +
+  theme_bw()
+```
+
+```{r afd-immig-culture-threat}
+afd_immig_culture_threat <- glm(afd_21 ~ out_group_immig_culture_threat + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), data = gles_mod)
+# plot 
+cplot(afd_immig_culture_threat, x = "out_group_immig_culture_threat",
+      xvals = seq(1, 5, 1), draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_continuous("Deutsche Kultur durch Immigration bedroht", 
+                     breaks = seq(1, 5, 1), 
+                     labels = c("Stimme voll und ganz zu", "Stimme eher zu", 
+                                "Teils/Teils", "Lehne eher ab", 
+                                "Lehne voll und ganz ab")) +
+  labs(y = "Predicted Probability of Voting AfD") +
+  ylim(0, 0.5) +
+  theme_bw() 
+```
+
+
+```{r afd-immig-crime}
+afd_immig_crime <- glm(afd_21 ~ out_group_immig_crime + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), data = gles_mod)
+# plot 
+cplot(afd_immig_crime, x = "out_group_immig_crime",
+      xvals = seq(1, 5, 1), draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_continuous("Immigration erhoeht Kriminalitaet in BRD", 
+                     breaks = seq(1, 5, 1), 
+                     labels = c("Stimme voll und ganz zu", "Stimme eher zu", 
+                                "Teils/Teils", "Lehne eher ab", 
+                                "Lehne voll und ganz ab")) +
+  labs(y = "Predicted Probability of Voting AfD") +
+  ylim(c(0, 0.4)) +
+  theme_bw() 
+```
+
+```{r afd-majority-will}
+afd_majority_will <- glm(afd_21 ~ out_group_majority_will + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), data = gles_mod)
+# plot 
+cplot(afd_majority_will, x = "out_group_majority_will", 
+      xvals = seq(1, 5, 1), draw = F) %>%
+  as_tibble() %>%
+  ggplot(aes(x = xvals)) +
+  geom_point(aes(y = yvals)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_x_continuous("Wille der Mehrheit hat Vorrang", 
+                     breaks = seq(1, 5, 1),
+                     labels = c("Stimme voll und ganz zu", "Stimme eher zu", 
+                                "Teils/Teils", "Lehne eher ab", 
+                                "Lehne voll und ganz ab")) +
+  ylim(c(0, 0.2)) +
+  labs(y = "Predicted Probability of Voting AfD") +
+  theme_bw()
+```
+
+
+
 
 
