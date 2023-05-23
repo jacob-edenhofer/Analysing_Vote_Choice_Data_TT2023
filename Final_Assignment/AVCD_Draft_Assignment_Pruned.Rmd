@@ -65,6 +65,9 @@ gles_mod <- gles %>%
   select(1:100, grep("d38|d4|q18|d63|d18|q63|d17|d8|d7|wum6|q13|q14|q15|q16|q18|q23|q24|q25|q26||q27q35|q37|q46|q78|q79|q125|q143", names(gles))) %>%
   mutate(btw17_zweitstimme = ifelse(q34ba < 0, NA, q34ba),
          btw21_zweitstimme = ifelse(q114ba < 0, NA, q114ba),
+         btw21_zweitstimme_factor = factor(btw21_zweitstimme, 
+                                           levels = c("1", "4", "5", "6", "7", "322", "801"), 
+                                           labels = c("CDU/CSU", "SPD", "FDP", "GRUENE/B90", "LINKE", "AfD", "Other party")),
          btw21_turnout = ifelse(q111 < 0 | q111 == 8, NA, q111),
          btw21_turnout1 = ifelse(btw21_turnout == 1, 1, 0),
          year_born = ifelse(grepl("-99|frueher", d2a), NA, d2a),
@@ -130,11 +133,11 @@ gles_mod <- gles %>%
          cancel_culture_subjektiv_factor = as.factor(cancel_culture_subjektiv),
          infrastruktur_subjektiv = ifelse(q46c < 0, NA, q46c),
          infrastruktur_subjektiv_factor = as.factor(infrastruktur_subjektiv),
-         unemployed_last10_yrs = ifelse(d17a < 0, NA, d17a),
-         unemployed_last10yrs_months = ifelse(d17b < 0, NA, d17b),
-         unemployed_last10yrs_weeks = ifelse(d17c < 0, NA, d17c),
-         unemployed_dummy = ifelse(unemployed_last10_yrs != 0, 1, 0),
-         unemployed_dummy_factor = as.factor(unemployed_dummy),
+         # unemployed_last10_yrs = ifelse(d17a < 0, NA, d17a),
+         # unemployed_last10yrs_months = ifelse(d17b < 0, NA, d17b),
+         # unemployed_last10yrs_weeks = ifelse(d17c < 0, NA, d17c),
+         # unemployed_dummy = ifelse(unemployed_last10_yrs != 0, 1, 0),
+         # unemployed_dummy_factor = as.factor(unemployed_dummy),
          trust_in_politicians = ifelse(q79d < 0, NA, q79d),
          trust_in_politicians_factor = as.factor(trust_in_politicians),
          trust_in_parliament = ifelse(q79b < 0, NA, q79b),
@@ -207,43 +210,33 @@ By way of unpacking this argument, note, first, that losers may believe the poli
 
 These two reasons also show why the theory predicts economic losers to turn to radical right parties, as opposed to left-wing parties, as a result of their grievances. Many other economic-insecurity-type arguments are unable to resolve this puzzle, which arises because the latter’s platforms tend to be significantly more pro-redistributive than the former’s platforms. Using the terminology by @linz_breakdown_1978, the reason is that losers, as @eichengreen_populist_2018 notes, regard left-wing parties as loyal to the political system and in cahoots with the other mainstream actors. So, their redistributive promises lack credibility. By contrast, radical right parties’ semi-loyalty or disloyalty to the system means that voting for them increase the likelihood that the political system, characterised by the mainstream cartel [@katz_cartel_2009], will be disrupted. 
 
-In sum, this theoretical argument implies (at least)^[Naturally, the argument could also be taken to imply that (i) a perceived lack of representation and (ii) low trust increase the probability of voting for the radical right. Given the space constraints and my focus on how these two factors moderate the effects of economic security, I prescind from testing these two hypotheses.] three testable hypotheses.
+In sum, this theoretical argument implies (at least)^[Naturally, the argument could also be taken to imply that (i) a perceived lack of representation and (ii) low trust increase the probability of voting for the radical right. Given the space constraints and my focus on how these two factors moderate the effects of economic security, I prescind from testing these two hypotheses.] four testable hypotheses.
 
 + H1: Economic insecurity, *ceteris paribus*, increases probability of voting for the radical right.
 + H2: The effect of economic insecurity on the probability of voting for the radical right is, *ceteris paribus*, stronger for those who believe their interests not be represented in the current party system. 
-+ H3: The effect of economic insecurity is, *ceteris paribus*, stronger for those who are more distrustful of parties and/or parliament. 
++ H3: The effect of economic insecurity is, *ceteris paribus*, stronger for those who are more distrustful of parties and/or parliament.
++ H4: Economic insecurity, *ceteris paribus*, increases probability of voting for the radical right, relative to pro-redistributive left-wing parties, notably the SPD and LINKE. 
 
 
-Before setting out my empirical strategy, let me briefly discuss my two reasons for choosing the case of the 2021 German federal election. First, the 2021 election occurred in the wake of the “third wave” of the Covid-19 pandemic, which caused widespread financial insecurity among German households, with more than one-third of households reporting in early 2021 that they would be unable to cover unexpected expenses of €2.000 within one month and had already started tapping into their rainy-day funds [@cziriak_publication_nodate]. Secondly, the pandemic was, as in most other countries, a politically contentious period, causing deep divides over the desirability and efficacy of both non-pharmaceutical interventions, such as mask mandates, and vaccination. The *Querdenker* movement, in particular, used their protests to stress that their interests were not represented by any mainstream party. Both factors mean that economic insecurity and subjectively perceived representational deficits were likely salient in the minds of some voters, making this election a suitable case for testing the above hypotheses.
+Before setting out my empirical strategy, let me briefly discuss my two reasons for choosing the case of the 2021 German federal election. First, the 2021 election occurred in the wake of the “third wave” of the Covid-19 pandemic, which caused widespread financial insecurity among German households [@cziriak_publication_nodate]. Secondly, the pandemic was, as in most other countries, a politically contentious period, causing deep divides over the desirability and efficacy of both non-pharmaceutical interventions, such as mask mandates, and vaccination. The *Querdenker* movement, in particular, used their protests to stress that their interests were not represented by any mainstream party. Both factors mean that economic insecurity and subjectively perceived representational deficits were likely salient in the minds of some voters, making this election a suitable case for testing the above hypotheses.
 
 
 
 # Data, variables and operationalisation
 
 
-To test the above hypotheses, I use the  *German Longitudinal Election Study's* (GLES) 2021 post-election survey^[The data for the 2021 *Nachwahlbefragung* are available [here](https://search.gesis.org/research_data/ZA7701).] - a high-quality survey of a cross-section of 3424 (quasi-)randomly selected individuals containing a rich set of questions about respondents' social and political attitudes as well as their socio-demographic characteristics. 
-
-
-
-
-+ How do I operationalise economic insecurity? 
-    + unemployed (actual experience) (`unemp_at_least_one_year`)
-    + fear of job loss (`job_loss_year_next2yrs`)
-    + fear of losing profession or having to change profession (`profession_loss_next2yrs`)
-    + subjective evaluation of current economic situation 
-    
-+ How do I operationalise lack of representation? 
-   + no difference who one is voting for 
-   + no difference who governs
+To test the above hypotheses, I use the *German Longitudinal Election Study's* (GLES) [2021 post-election survey](https://search.gesis.org/research_data/ZA7701) - a high-quality survey of a cross-section of 3424 (quasi-)randomly selected individuals, containing a rich set of questions about respondents' social and political attitudes as well as their socio-demographic characteristics. Indeed, the survey was conducted shortly after the federal election^[The federal election was held on 26 September 2021, while the survey was conducted between 27 September 2021 and 21 November 2021.], meaning we get to observe respondents' (self-reported) voting behaviour, rather than merely their voting intention, while reducing the risk of recall problems biasing our results. That said, this survey, like most others, faces the limitation that we cannot rule out that respondents' actual voting behaviour diverges from their self-reported one.
 
 
 
 ```{r data-summary-table}
 data_summary_table <- tribble(~"Variable", ~"Operationalisation", ~"Survey item(s)",  
-                              "Radical right voting", "dummy for AfD Zweitstimme", "q114ba = 322", 
+                              "Radical right voting", "factor indicating party vote choice", "q114ba",
+                              "", "dummy for AfD Zweitstimme", "q114ba = 322", 
                               "Economic insecurity", "dummy for unemployment in past ten years", "d17a-c", 
                               "", "fear of job loss", "d18",
-                              "", "fear of losing or having to change profession", "d19", 
+                              "", "fear of losing or having to change profession", "d19",
+                              "", "personal economic situation currently", "q13",
                               "Political system not responsive", "no difference which party governs", "q117",
                               "", "no difference which party one votes for", "q118", 
                               "Trust in political system", "trust in parliament", "q79b", 
@@ -252,30 +245,43 @@ data_summary_table <- tribble(~"Variable", ~"Operationalisation", ~"Survey item(
 # table 
 data_summary_table %>%
   kbl(caption = "Summary of variables and their operationalisation", booktabs = T) %>%
-  kable_styling(latex_options = c("scale_down", "hold_position")) %>%
-  pack_rows("dependent variable", 1, 1) %>%
-  pack_rows("independent variables", 2, 9) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 11) %>%
+  pack_rows("dependent variable", 1, 2) %>%
+  pack_rows("independent variables", 3, 10) %>%
   add_footnote(label = "Unemployment experience is, following Dauth et al (2021), defined as an individual having been unemployed for at least one year.", notation = "symbol") %>%
   add_footnote(label = "Source: Codebook for GLES Cross-Section 2021, Post-Election, ZA7701, Dataset Version v1.0.0.", notation = "symbol")
 ```
 
 
 
-+ dependent variable -> binary, Why? 
-    + Eichengreen focuses mainly on radical right, as Sonin notes
-    + hence focus justified 
 
-+ proxy for economic insecurity -> justification
+My dependent variable is voting for radical right, which, in the German context, means casting one’s party vote (*Zweitstimme*) for the AfD. As indicated in table 1,^[See the appendix for summary statistics of all variables in table 1.] I operationalise the dependent variable in two ways. I use a dummy variable to test hypotheses H1 to H3, while using the full factor variable to test H4. This is because the first three hypotheses concern the probability of voting for the radical right, relative to all parties, whereas the fourth hypothesis concerns the probability of voting AfD, relative to the SPD and LINKE. 
+
+
+My independent variables of interest are economic insecurity, respondents’ perception of the political system’s responsiveness to their preferences, and their trust in the system. To operationalise economic insecurity, I use a dummy for actual unemployment experience in the past ten years. Given the labour market literature shows past unemployment to be strongly predictive of present unemployment risk [e.g. @autor_unexpected_2023], this dummy can be interpreted as an objective measure of economic insecurity. To capture subjectively perceived insecurity, I rely on respondents’ fear of losing their jobs in the next two years. The other two economic insecurity variables (see table 1) are merely used to probe the robustness of my findings (see appendix). Finally, following [@colantone_global_2018], I use respondents’ answers to the questions ‘Does it make a difference who is governing/who one votes for?’ and ‘How much do you trust parliament/political parties/politicians?’ as measures for the perceived responsiveness of Germany’s political system and voters’ trust in the latter.
+
 
    
-
 # Methodology and Results 
+
+
+To test the first three hypotheses, I estimate logistic regressions, given that my dependent variable is the the dummy for AfD party vote. I regress the latter on my two measures for economic insecurity as well as representation and trust, and the interactions between them and economic insecurity. In addition, I include a vector of covariates to control for potential observable confounders. Specifically, the vector includes respondents' household income, their age, education, the rurality of their place of residence and a dummy indicating whether they currently live in East or West Germany. The estimating equation^[The specification for representation is entirely analgous.] with trust as my moderating variable is thus:
+
+
+
+$$
+\begin{aligned}
+log(\frac{AfD_{i}}{1-AfD_{i}}) = \alpha + \beta_{1}Insecurity_{i} +  \beta_{2}Trust_{i} + \beta_{3}Insecurity_{i}*Trust_{i} + \beta_{4}\textbf{X}_{i} + \epsilon_{i}
+\end{aligned}
+$$
+
+
+
+
 
 
 
 + Justify model specification.
-
-+ DAG would be cool, but probably not possible.
 
 + Presentation of results + interpretation.
 
@@ -288,7 +294,7 @@ data_summary_table %>%
   
   
   
-```{r simple-models-insecurity}
+```{r simple-models-insecurity, include=FALSE}
 # simple models 
 ## job loss fear 
 afd_job_loss_fear <- glm(afd_21 ~ job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
@@ -314,7 +320,11 @@ modelplot(list(afd_job_loss_fear, afd_prof_loss_fear,
 
 
 
-```{r simple-models-lack-rep}
+
+
+
+
+```{r simple-models-lack-rep, include=FALSE}
 # simple models 
 ## difference gov
 afd_diff_gov <- glm(afd_21 ~ difference_whos_gov + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
@@ -366,7 +376,7 @@ modelplot(list(afd_diff_gov_int1, afd_diff_gov_int2,
 
 
 
-```{r interaction-models-lack-rep2}
+```{r interaction-models-lack-rep2, include=FALSE}
 # interaction models 
 ## difference gov
 ### job loss fear 
@@ -388,6 +398,60 @@ modelplot(list(afd_diff_gov_int5, afd_diff_gov_int6,
   geom_vline(xintercept = 0)
 ```
 
+
+
+
+```{r regression-results-1}
+## job loss fear / diff gov
+afd_diff_gov_int11 <- glm(afd_21 ~ difference_whos_gov*job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## job loss fear / diff voting
+afd_diff_gov_int5 <- glm(afd_21 ~ difference_who_votes*job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## unemployment experience / diff gov
+afd_diff_gov_int31 <- glm(afd_21 ~ difference_whos_gov*unemp_at_least_one_year_factor + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## unemployment experience / diff vote
+afd_diff_gov_int32 <- glm(afd_21 ~ difference_who_votes*unemp_at_least_one_year_factor + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## modelsummary 
+modelsummary(list(afd_diff_gov_int11, afd_diff_gov_int5,
+                  afd_diff_gov_int31, afd_diff_gov_int32),
+             estimate = "{estimate}{stars}", 
+             coef_map = c("job_loss_year_next2yrs" = "Fear of job loss",
+                          "unemp_at_least_one_year_factor" = "Unemployment experience dummy",
+                          "difference_who_votes" = "Difference which party one votes for",
+                          "difference_whos_gov" = "Difference which party governs",
+                          "difference_who_votes:job_loss_year_next2yrs" = "Difference which party one votes for*Fear of job loss",
+                          "difference_whos_gov:job_loss_year_next2yrs" = "Difference which party governs*Fear of job loss",
+                          "difference_who_votes:unemp_at_least_one_year_factor" = "Difference which party one votes for*Unemployment",
+                          "difference_whos_gov:unemp_at_least_one_year_factor" = "Difference which party governs*Unemployment"),
+             title = "Probability of voting for the AfD and economic insecurity") %>%
+  add_footnote("All models include the following covariates: net monthly household income, age, abitur dummy, gender, rurality of place of residence and an East-West dummy.")
+```
+
+
+```{r multinomial model}
+# reference categorc afd 
+gles_mod$btw21_zweitstimme_factor_re <- relevel(gles_mod$btw21_zweitstimme_factor, 
+                                                ref = "AfD")
+afd_diff_gov_int1_mul <- nnet::multinom(btw21_zweitstimme_factor_re ~ difference_whos_gov*job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                          trace = F, 
+                         data = gles_mod)
+# summary(afd_diff_gov_int1_mul)
+modelsummary(afd_diff_gov_int1_mul, shape = term ~ response:model,
+             estimate = "{estimate}{stars}", 
+             output = "kableExtra") %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"))
+```
+
   
   
 # Conclusion 
@@ -395,11 +459,10 @@ modelplot(list(afd_diff_gov_int5, afd_diff_gov_int6,
 + I find only extremely weak support for Eichengreen's theory. 
 
 
+\FloatBarrier
+
 # References 
 
-
-
-\FloatBarrier
 
 
 # Appendix 
@@ -409,7 +472,105 @@ modelplot(list(afd_diff_gov_int5, afd_diff_gov_int6,
 ## Descriptive statistics 
 
 
+```{r descriptive-statistics-for-variables, include=FALSE}
+gles_mod %>%
+  mutate(unemp_at_least_one_year_factor = factor(unemp_at_least_one_year_factor, 
+                                                 levels = c("1", "2"), 
+                                                 labels = "No", "Yes"),
+         job_loss_year_next2yrs_factor = factor(job_loss_year_next2yrs_factor, 
+                                                levels = c("1", "2", "3", "4"), 
+                                                labels = c("No", "Yes, I am worried about becoming unemployed", "Yes, I am worried about having to change my job", "Yes, I am worried about both")),
+         profession_loss_next2yrs_factor = factor(profession_loss_next2yrs_factor, 
+                                                  levels = c("1", "2", "3", "4"),
+                                                  labels = c("No", "Yes, I am worried that I might lose my present professional career", "Yes, I am worried that I have to change my profession", "Yes, I am worried about both")),
+         econ_current_personal_factor = factor(econ_current_personal_factor, 
+                                               levels = c("1", "2", "3", "4", "5"),
+                                               labels = c("Very good", "Good", "Neither good nor bad", "Bad", "Very bad")),
+         difference_whos_gov_factor = factor(difference_whos_gov_factor,
+                                             levels = c("1", "2", "3", "4", "5"),
+                                             labels = c("It makes no difference who is governing", "2", "3", "4", "It makes a big difference who is governing.")),
+         difference_who_votes_factor = factor(difference_who_votes_factor, 
+                                              levels = c("1", "2", "3", "4", "5"), 
+                                              labels = c("It makes no difference who one votes for", "2", "3", "4", "It makes a big difference who one votes for.")),
+         trust_in_politicians_factor = factor(trust_in_politicians_factor, 
+                                              levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                              labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         trust_in_parliament_factor = factor(trust_in_parliament_factor,
+                                             levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                             labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         trust_in_parties_factor = factor(trust_in_parties_factor,
+                                          levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                          labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         urban_rural_factor = factor(urban_rural_factor, 
+                                     levels = c("1", "2", "3", "4", "5"),
+                                     labels = c("Large city", "Outskirts or suburbs of a large city", "Medium or small town", "Rural village", "Single homestead or detached house in the countryside")),
+         household_income_factor = factor(household_income_factor, 
+                                          levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"),
+                                          labels = c("less than 500", "[500, 750)", "[750, 1000)", "[1000, 1250)", "[1250, 1500)", "[1500, 2000)", "[2000, 2500)", "[2500, 3000)", "[3000, 4000)", "[4000, 5000)", "[5000, 7500)", "[7500, 10000)", "greater than or equal to 10000"))) %>%
+  select("Zweitstimme, BTW 2021" = btw21_zweitstimme_factor, 
+         "Unemployment experience dummy" = unemp_at_least_one_year_factor, 
+         "Fear of job loss in next two years" = job_loss_year_next2yrs_factor, 
+         "Fear of losing profession" = profession_loss_next2yrs_factor, 
+         "Current perception of personal economic situation" = econ_current_personal_factor, 
+         "Difference which party governs" = difference_whos_gov_factor, 
+         "Difference which party one votes for" = difference_who_votes_factor, 
+         "Trust in politicians" = trust_in_politicians_factor, 
+         "Trust in parliament" = trust_in_parliament_factor, 
+         "Trust in parties" = trust_in_parties_factor, 
+         "Rurality of place of residence" = urban_rural_factor, 
+         "Sex" = sex1, 
+         "Abitur dummy" = abitur_factor, 
+         "East-west dummy" = ostwest_factor, 
+         "Net monthly household income" = household_income_factor) %>%
+  datasummary_skim(type = "categorical", 
+                   output = "kableExtra") %>%
+  kable_styling(latex_options = c("hold_position", "scale_down")) 
+```
 
+
+
+```{r descriptive-statistics-for-variables-pruned}
+gles_mod %>%
+  mutate(unemp_at_least_one_year_factor = factor(unemp_at_least_one_year, 
+                                          levels = c("0", "1"), 
+                                          labels = c("No", "Yes")),
+         job_loss_year_next2yrs_factor = factor(job_loss_year_next2yrs_factor, 
+                                                levels = c("1", "2", "3", "4"), 
+                                                labels = c("No", "Yes, I am worried about becoming unemployed", "Yes, I am worried about having to change my job", "Yes, I am worried about both")),
+         difference_whos_gov_factor = factor(difference_whos_gov_factor,
+                                             levels = c("1", "2", "3", "4", "5"),
+                                             labels = c("It makes no difference who is governing", "2", "3", "4", "It makes a big difference who is governing.")),
+         difference_who_votes_factor = factor(difference_who_votes_factor, 
+                                              levels = c("1", "2", "3", "4", "5"), 
+                                              labels = c("It makes no difference who one votes for", "2", "3", "4", "It makes a big difference who one votes for.")),
+         trust_in_politicians_factor = factor(trust_in_politicians_factor, 
+                                              levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                              labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         trust_in_parliament_factor = factor(trust_in_parliament_factor,
+                                             levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                             labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         trust_in_parties_factor = factor(trust_in_parties_factor,
+                                          levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                          labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         afd_21_factor = factor(afd_21,
+                                levels = c("0", "1"), 
+                                labels = c("No", "Yes"))) %>%
+  select("Zweitstimme, BTW 2021" = btw21_zweitstimme_factor, 
+         "Dummy for AfD Zweitstimme" = afd_21_factor,
+         "Unemployment experience dummy" = unemp_at_least_one_year_factor, 
+         "Fear of job loss in next two years" = job_loss_year_next2yrs_factor, 
+         "Difference which party governs" = difference_whos_gov_factor, 
+         "Difference which party one votes for" = difference_who_votes_factor, 
+         "Trust in politicians" = trust_in_politicians_factor, 
+         "Trust in parliament" = trust_in_parliament_factor, 
+         "Trust in parties" = trust_in_parties_factor) %>% 
+  datasummary_skim(type = "categorical", 
+                   output = "data.frame") %>%
+  kbl(booktabs = T, longtable = T, 
+      caption = "Summary statistics of dependent and independent variables") %>%
+  kable_styling(latex_options = c("hold_position"))
+  # add_footnote("In some instances, the percentage values do not sum to 100, indicating that there are missing values for the variable.", notation = "symbol")
+```
 
 
 ## Robustness checks 

@@ -106,6 +106,16 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
+\usepackage{siunitx}
+
+  \newcolumntype{d}{S[
+    input-open-uncertainty=,
+    input-close-uncertainty=,
+    parse-numbers = false,
+    table-align-text-pre=false,
+    table-align-text-post=false
+  ]}
+  
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -125,7 +135,7 @@
 \title{Economic insecurity, lack of representation and radical right
 voting in the context of the 2021 German federal election}
 \author{Candidate number: 1050713}
-\date{22 May 2023}
+\date{23 May 2023}
 
 \begin{document}
 \maketitle
@@ -224,11 +234,11 @@ above. Like many economic-insecurity-centred theories of radical right
 support, the theoretical argument starts from the observation that
 economic shocks, such as automation
 (\protect\hyperlink{ref-boix_democratic_2019}{Boix 2019}) or trade
-liberalisation (\protect\hyperlink{ref-autor_china_2013}{Autor, Dorn,
-and Hanson 2013}), create winners and losers. This assumption holds true
-not only for most Western European countries
+liberalisation (\protect\hyperlink{ref-autor_china_2013}{D. H. Autor,
+Dorn, and Hanson 2013}), create winners and losers. This assumption
+holds true not only for most Western European countries
 (\protect\hyperlink{ref-colantone_trade_2018}{Colantone and Stanig
-2018}; \protect\hyperlink{ref-milner_voting_2021}{Milner 2021}), in
+2018a}; \protect\hyperlink{ref-milner_voting_2021}{Milner 2021}), in
 general, but also for Germany, in particular
 (\protect\hyperlink{ref-dauth_rise_2014}{Dauth, Findeisen, and Suedekum
 2014}; \protect\hyperlink{ref-dauth_adjustment_2021}{Dauth et al.
@@ -274,8 +284,7 @@ In sum, this theoretical argument implies (at least)\footnote{Naturally,
   representation and (ii) low trust increase the probability of voting
   for the radical right. Given the space constraints and my focus on how
   these two factors moderate the effects of economic security, I
-  prescind from testing these two hypotheses.} three testable
-hypotheses.
+  prescind from testing these two hypotheses.} four testable hypotheses.
 
 \begin{itemize}
 \tightlist
@@ -291,17 +300,18 @@ hypotheses.
   H3: The effect of economic insecurity is, \emph{ceteris paribus},
   stronger for those who are more distrustful of parties and/or
   parliament.
+\item
+  H4: Economic insecurity, \emph{ceteris paribus}, increases probability
+  of voting for the radical right, relative to pro-redistributive
+  left-wing parties, notably the SPD and LINKE.
 \end{itemize}
 
 Before setting out my empirical strategy, let me briefly discuss my two
 reasons for choosing the case of the 2021 German federal election.
 First, the 2021 election occurred in the wake of the ``third wave'' of
 the Covid-19 pandemic, which caused widespread financial insecurity
-among German households, with more than one-third of households
-reporting in early 2021 that they would be unable to cover unexpected
-expenses of €2.000 within one month and had already started tapping into
-their rainy-day funds
-(\protect\hyperlink{ref-cziriak_publication_nodate}{Cziriak 2022}).
+among German households
+(\protect\hyperlink{ref-cziriak_publication_nodate}{Cziriak n.d.}).
 Secondly, the pandemic was, as in most other countries, a politically
 contentious period, causing deep divides over the desirability and
 efficacy of both non-pharmaceutical interventions, such as mask
@@ -317,66 +327,46 @@ suitable case for testing the above hypotheses.
 operationalisation}\label{data-variables-and-operationalisation}}
 
 To test the above hypotheses, I use the \emph{German Longitudinal
-Election Study's} (GLES) 2021 post-election survey\footnote{The data for
-  the 2021 \emph{Nachwahlbefragung} are available
-  \href{https://search.gesis.org/research_data/ZA7701}{here}.} - a
-high-quality survey of a cross-section of 3424 (quasi-)randomly selected
-individuals containing a rich set of questions about respondents' social
-and political attitudes as well as their socio-demographic
-characteristics.
-
-\begin{itemize}
-\tightlist
-\item
-  How do I operationalise economic insecurity?
-
-  \begin{itemize}
-  \tightlist
-  \item
-    unemployed (actual experience)
-    (\texttt{unemp\_at\_least\_one\_year})
-  \item
-    fear of job loss (\texttt{job\_loss\_year\_next2yrs})
-  \item
-    fear of losing profession or having to change profession
-    (\texttt{profession\_loss\_next2yrs})
-  \item
-    subjective evaluation of current economic situation
-  \end{itemize}
-\item
-  How do I operationalise lack of representation?
-
-  \begin{itemize}
-  \tightlist
-  \item
-    no difference who one is voting for
-  \item
-    no difference who governs
-  \end{itemize}
-\end{itemize}
+Election Study's} (GLES)
+\href{https://search.gesis.org/research_data/ZA7701}{2021 post-election
+survey} - a high-quality survey of a cross-section of 3424
+(quasi-)randomly selected individuals, containing a rich set of
+questions about respondents' social and political attitudes as well as
+their socio-demographic characteristics. Indeed, the survey was
+conducted shortly after the federal election\footnote{The federal
+  election was held on 26 September 2021, while the survey was conducted
+  between 27 September 2021 and 21 November 2021.}, meaning we get to
+observe respondents' (self-reported) voting behaviour, rather than
+merely their voting intention, while reducing the risk of recall
+problems biasing our results. That said, this survey, like most others,
+faces the limitation that we cannot rule out that respondents' actual
+voting behaviour diverges from their self-reported one.
 
 \begin{table}[!h]
 
 \caption{\label{tab:data-summary-table}Summary of variables and their operationalisation}
 \centering
 \resizebox{\linewidth}{!}{
+\fontsize{11}{13}\selectfont
 \begin{tabular}[t]{lll}
 \toprule
 Variable & Operationalisation & Survey item(s)\\
 \midrule
 \addlinespace[0.3em]
 \multicolumn{3}{l}{\textbf{dependent variable}}\\
-\hspace{1em}Radical right voting & dummy for AfD Zweitstimme & q114ba = 322\\
+\hspace{1em}Radical right voting & factor indicating party vote choice & q114ba\\
+\hspace{1em} & dummy for AfD Zweitstimme & q114ba = 322\\
 \addlinespace[0.3em]
 \multicolumn{3}{l}{\textbf{independent variables}}\\
 \hspace{1em}Economic insecurity & dummy for unemployment in past ten years & d17a-c\\
 \hspace{1em} & fear of job loss & d18\\
 \hspace{1em} & fear of losing or having to change profession & d19\\
+\hspace{1em} & personal economic situation currently & q13\\
 \hspace{1em}Political system not responsive & no difference which party governs & q117\\
 \hspace{1em} & no difference which party one votes for & q118\\
 \hspace{1em}Trust in political system & trust in parliament & q79b\\
 \hspace{1em} & trust in parties & q79c\\
-\hspace{1em} & trust in politicians & q79d\\
+ & trust in politicians & q79d\\
 \bottomrule
 \multicolumn{3}{l}{\textsuperscript{*} Unemployment experience is, following Dauth et al (2021), defined as an individual having}\\
 \multicolumn{3}{l}{been unemployed for at least one year.}\\
@@ -384,30 +374,60 @@ Variable & Operationalisation & Survey item(s)\\
 \end{tabular}}
 \end{table}
 
-\begin{itemize}
-\tightlist
-\item
-  dependent variable -\textgreater{} binary, Why?
+My dependent variable is voting for radical right, which, in the German
+context, means casting one's party vote (\emph{Zweitstimme}) for the
+AfD. As indicated in table 1,\footnote{See the appendix for summary
+  statistics of all variables in table 1.} I operationalise the
+dependent variable in two ways. I use a dummy variable to test
+hypotheses H1 to H3, while using the full factor variable to test H4.
+This is because the first three hypotheses concern the probability of
+voting for the radical right, relative to all parties, whereas the
+fourth hypothesis concerns the probability of voting AfD, relative to
+the SPD and LINKE.
 
-  \begin{itemize}
-  \tightlist
-  \item
-    Eichengreen focuses mainly on radical right, as Sonin notes
-  \item
-    hence focus justified
-  \end{itemize}
-\item
-  proxy for economic insecurity -\textgreater{} justification
-\end{itemize}
+My independent variables of interest are economic insecurity,
+respondents' perception of the political system's responsiveness to
+their preferences, and their trust in the system. To operationalise
+economic insecurity, I use a dummy for actual unemployment experience in
+the past ten years. Given the labour market literature shows past
+unemployment to be strongly predictive of present unemployment risk
+(e.g. \protect\hyperlink{ref-autor_unexpected_2023}{D. Autor, Dube, and
+McGrew 2023}), this dummy can be interpreted as an objective measure of
+economic insecurity. To capture subjectively perceived insecurity, I
+rely on respondents' fear of losing their jobs in the next two years.
+The other two economic insecurity variables (see table 1) are merely
+used to probe the robustness of my findings (see appendix). Finally,
+following (\protect\hyperlink{ref-colantone_global_2018}{Colantone and
+Stanig 2018b}), I use respondents' answers to the questions `Does it
+make a difference who is governing/who one votes for?' and `How much do
+you trust parliament/political parties/politicians?' as measures for the
+perceived responsiveness of Germany's political system and voters' trust
+in the latter.
 
 \hypertarget{methodology-and-results}{%
 \section{Methodology and Results}\label{methodology-and-results}}
 
+To test the first three hypotheses, I estimate logistic regressions,
+given that my dependent variable is the the dummy for AfD party vote. I
+regress the latter on my two measures for economic insecurity as well as
+representation and trust, and the interactions between them and economic
+insecurity. In addition, I include a vector of covariates to control for
+potential observable confounders. Specifically, the vector includes
+respondents' household income, their age, education, the rurality of
+their place of residence and a dummy indicating whether they currently
+live in East or West Germany. The estimating equation\footnote{The
+  specification for representation is entirely analgous.} with trust as
+my moderating variable is thus:
+
+\[
+\begin{aligned}
+log(\frac{AfD_{i}}{1-AfD_{i}}) = \alpha + \beta_{1}Insecurity_{i} +  \beta_{2}Trust_{i} + \beta_{3}Insecurity_{i}*Trust_{i} + \beta_{4}\textbf{X}_{i} + \epsilon_{i}
+\end{aligned}
+\]
+
 \begin{itemize}
 \item
   Justify model specification.
-\item
-  DAG would be cool, but probably not possible.
 \item
   Presentation of results + interpretation.
 \item
@@ -420,14 +440,77 @@ Variable & Operationalisation & Survey item(s)\\
   \end{itemize}
 \end{itemize}
 
-\includegraphics{AVCD_Draft_Assignment_Pruned_files/figure-latex/simple-models-insecurity-1.pdf}
-
-\includegraphics{AVCD_Draft_Assignment_Pruned_files/figure-latex/simple-models-lack-rep-1.pdf}
-
 \includegraphics{AVCD_Draft_Assignment_Pruned_files/figure-latex/interaction-models-lack-rep1-1.pdf}
 \includegraphics{AVCD_Draft_Assignment_Pruned_files/figure-latex/interaction-models-lack-rep1-2.pdf}
 
-\includegraphics{AVCD_Draft_Assignment_Pruned_files/figure-latex/interaction-models-lack-rep2-1.pdf}
+\begin{table}
+
+\caption{\label{tab:regression-results-1}Probability of voting for the AfD and economic insecurity}
+\centering
+\begin{tabular}[t]{lcccc}
+\toprule
+  & (1) & (2) & (3) & (4)\\
+\midrule
+Fear of job loss & \num{0.106} & \num{0.131} &  & \\
+ & (\num{0.424}) & (\num{0.406}) &  & \\
+Difference which party one votes for &  & \num{-0.378}* &  & \num{-0.452}***\\
+ &  & (\num{0.187}) &  & (\num{0.077})\\
+Difference which party governs & \num{-0.285} &  & \num{-0.398}*** & \\
+ & (\num{0.186}) &  & (\num{0.077}) & \\
+Difference which party one votes for*Fear of job loss &  & \num{-0.048} &  & \\
+ &  & (\num{0.121}) &  & \\
+Difference which party governs*Fear of job loss & \num{-0.024} &  &  & \\
+ & (\num{0.118}) &  &  & \\
+\midrule
+Num.Obs. & \num{1276} & \num{1265} & \num{2324} & \num{2296}\\
+AIC & \num{553.0} & \num{541.2} & \num{1017.7} & \num{988.7}\\
+BIC & \num{619.9} & \num{608.0} & \num{1092.5} & \num{1063.3}\\
+Log.Lik. & \num{-263.484} & \num{-257.589} & \num{-495.859} & \num{-481.355}\\
+RMSE & \num{0.24} & \num{0.24} & \num{0.24} & \num{0.24}\\
+\bottomrule
+\multicolumn{5}{l}{\textsuperscript{a} All models include the following covariates: net monthly household income, age, abitur dummy,}\\
+\multicolumn{5}{l}{gender, rurality of place of residence and an East-West dummy.}\\
+\end{tabular}
+\end{table}
+
+\begin{table}[!h]
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{lcccccc}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{6}{c}{(1)} \\
+\cmidrule(l{3pt}r{3pt}){2-7}
+  & CDU/CSU & SPD & FDP & GRUENE/B90 & LINKE & Other party\\
+\midrule
+(Intercept) & \num{-4.321}*** & \num{-1.227} & \num{-0.999} & \num{-2.595}* & \num{1.178} & \num{1.338}\\
+ & (\num{1.290}) & (\num{1.189}) & (\num{1.314}) & (\num{1.266}) & (\num{1.400}) & (\num{1.518})\\
+difference\_whos\_gov & \num{0.554}* & \num{0.150} & \num{0.349} & \num{0.608}** & \num{0.096} & \num{-0.162}\\
+ & (\num{0.224}) & (\num{0.209}) & (\num{0.235}) & (\num{0.226}) & (\num{0.253}) & (\num{0.278})\\
+job\_loss\_year\_next2yrs & \num{0.100} & \num{-0.439} & \num{0.073} & \num{0.196} & \num{-0.116} & \num{-0.309}\\
+ & (\num{0.532}) & (\num{0.503}) & (\num{0.557}) & (\num{0.530}) & (\num{0.583}) & (\num{0.667})\\
+household\_income & \num{0.210}** & \num{0.085} & \num{0.175}* & \num{0.157}* & \num{-0.017} & \num{0.140}\\
+ & (\num{0.070}) & (\num{0.065}) & (\num{0.073}) & (\num{0.068}) & (\num{0.077}) & (\num{0.088})\\
+age & \num{0.020}+ & \num{0.032}** & \num{-0.017} & \num{0.008} & \num{0.002} & \num{-0.041}**\\
+ & (\num{0.012}) & (\num{0.011}) & (\num{0.012}) & (\num{0.011}) & (\num{0.013}) & (\num{0.015})\\
+abitur\_factorno\_abitur & \num{-0.584}+ & \num{-0.876}** & \num{-0.913}** & \num{-1.727}*** & \num{-1.275}*** & \num{-0.382}\\
+ & (\num{0.329}) & (\num{0.317}) & (\num{0.338}) & (\num{0.324}) & (\num{0.368}) & (\num{0.398})\\
+sex1female & \num{0.782}** & \num{0.925}*** & \num{0.392} & \num{1.176}*** & \num{0.450} & \num{0.564}\\
+ & (\num{0.281}) & (\num{0.270}) & (\num{0.297}) & (\num{0.280}) & (\num{0.327}) & (\num{0.349})\\
+urban\_rural & \num{-0.065} & \num{-0.267}* & \num{-0.206} & \num{-0.364}** & \num{-0.380}* & \num{-0.222}\\
+ & (\num{0.130}) & (\num{0.125}) & (\num{0.135}) & (\num{0.128}) & (\num{0.149}) & (\num{0.160})\\
+ostwest\_factorwest & \num{1.349}*** & \num{1.554}*** & \num{1.231}*** & \num{1.966}*** & \num{0.488} & \num{0.931}**\\
+ & (\num{0.281}) & (\num{0.268}) & (\num{0.296}) & (\num{0.288}) & (\num{0.321}) & (\num{0.351})\\
+difference\_whos\_gov × job\_loss\_year\_next2yrs & \num{-0.028} & \num{0.108} & \num{-0.036} & \num{-0.040} & \num{0.043} & \num{0.032}\\
+ & (\num{0.142}) & (\num{0.135}) & (\num{0.150}) & (\num{0.141}) & (\num{0.156}) & (\num{0.187})\\
+Num.Obs. & \num{1276} &  &  &  &  & gof\\
+R2 & \num{0.589} &  &  &  &  & gof\\
+R2 Adj. & \num{0.589} &  &  &  &  & gof\\
+AIC & \num{4312.3} &  &  &  &  & gof\\
+BIC & \num{4621.4} &  &  &  &  & gof\\
+RMSE & \num{0.33} &  &  &  &  & gof\\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
@@ -438,16 +521,93 @@ Variable & Operationalisation & Survey item(s)\\
   I find only extremely weak support for Eichengreen's theory.
 \end{itemize}
 
+\FloatBarrier
+
 \hypertarget{references}{%
 \section{References}\label{references}}
-
-\FloatBarrier
 
 \hypertarget{appendix}{%
 \section{Appendix}\label{appendix}}
 
 \hypertarget{descriptive-statistics}{%
 \subsection{Descriptive statistics}\label{descriptive-statistics}}
+
+\begin{longtable}[t]{llll}
+\caption{\label{tab:descriptive-statistics-for-variables-pruned}Summary statistics of dependent and independent variables}\\
+\toprule
+  &    & N & \%\\
+\midrule
+Zweitstimme, BTW 2021 & CDU/CSU & 624 & 18.2\\
+ & SPD & 822 & 24.0\\
+ & FDP & 346 & 10.1\\
+ & GRUENE/B90 & 569 & 16.6\\
+ & LINKE & 186 & 5.4\\
+\addlinespace
+ & AfD & 193 & 5.6\\
+ & Other party & 141 & 4.1\\
+Dummy for AfD Zweitstimme & No & 2688 & 78.3\\
+ & Yes & 193 & 5.6\\
+Unemployment experience dummy & No & 2870 & 83.6\\
+\addlinespace
+ & Yes & 268 & 7.8\\
+Fear of job loss in next two years & No & 1426 & 41.6\\
+ & Yes, I am worried about becoming unemployed & 34 & 1.0\\
+ & Yes, I am worried about having to change my job & 124 & 3.6\\
+ & Yes, I am worried about both & 61 & 1.8\\
+\addlinespace
+Difference which party governs & It makes no difference who is governing & 175 & 5.1\\
+ & 2 & 253 & 7.4\\
+ & 3 & 628 & 18.3\\
+ & 4 & 1228 & 35.8\\
+ & It makes a big difference who is governing. & 1139 & 33.2\\
+\addlinespace
+Difference which party one votes for & It makes no difference who one votes for & 149 & 4.3\\
+ & 2 & 218 & 6.4\\
+ & 3 & 574 & 16.7\\
+ & 4 & 1142 & 33.3\\
+ & It makes a big difference who one votes for. & 1303 & 38.0\\
+\addlinespace
+Trust in politicians & Do not trust at all & 226 & 6.6\\
+ & 2 & 259 & 7.5\\
+ & 3 & 369 & 10.8\\
+ & 4 & 415 & 12.1\\
+ & 5 & 597 & 17.4\\
+\addlinespace
+ & 6 & 563 & 16.4\\
+ & 7 & 349 & 10.2\\
+ & 8 & 256 & 7.5\\
+ & 9 & 108 & 3.1\\
+ & 10 & 45 & 1.3\\
+\addlinespace
+ & Trust completely & 9 & 0.3\\
+Trust in parliament & Do not trust at all & 174 & 5.1\\
+ & 2 & 114 & 3.3\\
+ & 3 & 204 & 5.9\\
+ & 4 & 249 & 7.3\\
+\addlinespace
+ & 5 & 462 & 13.5\\
+ & 6 & 500 & 14.6\\
+ & 7 & 396 & 11.5\\
+ & 8 & 482 & 14.0\\
+ & 9 & 352 & 10.3\\
+\addlinespace
+ & 10 & 204 & 5.9\\
+ & Trust completely & 61 & 1.8\\
+Trust in parties & Do not trust at all & 164 & 4.8\\
+ & 2 & 189 & 5.5\\
+ & 3 & 369 & 10.8\\
+\addlinespace
+ & 4 & 463 & 13.5\\
+ & 5 & 638 & 18.6\\
+ & 6 & 584 & 17.0\\
+ & 7 & 381 & 11.1\\
+ & 8 & 237 & 6.9\\
+\addlinespace
+ & 9 & 107 & 3.1\\
+ & 10 & 42 & 1.2\\
+ & Trust completely & 13 & 0.4\\
+\bottomrule
+\end{longtable}
 
 \hypertarget{robustness-checks}{%
 \subsection*{Robustness checks}\label{robustness-checks}}
@@ -468,17 +628,26 @@ Political Science} 53 (2): 259--75.
 ---------. 2017. {``Die {Alternative} Fuer {Deutschland}.
 {Programmatik}, {Entwicklung} Und Politische {Verortung}.''}
 \emph{German Politics} 26 (2): 334--35.
+\url{https://doi.org/10.1080/09644008.2016.1269499}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-arzheimer_how_2019}{}}%
 Arzheimer, Kai, and Carl C. Berning. 2019. {``How the {Alternative} for
 {Germany} ({AfD}) and Their Voters Veered to the Radical Right,
 2013--2017.''} \emph{Electoral Studies} 60 (August): 102040.
+\url{https://doi.org/10.1016/j.electstud.2019.04.004}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-autor_china_2013}{}}%
 Autor, David H., David Dorn, and Gordon H. Hanson. 2013. {``The {China}
 {Syndrome}: {Local} {Labor} {Market} {Effects} of {Import} {Competition}
 in the {United} {States}.''} \emph{American Economic Review} 103 (6):
 2121--68.
+
+\leavevmode\vadjust pre{\hypertarget{ref-autor_unexpected_2023}{}}%
+Autor, David, Arindrajit Dube, and Annie McGrew. 2023. {``The
+{Unexpected} {Compression}: {Competition} at {Work} in the {Low} {Wage}
+{Labor} {Market}.''} Working \{Paper\}. Working {Paper} {Series}.
+National Bureau of Economic Research.
+\url{https://doi.org/10.3386/w31010}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-boix_democratic_2019}{}}%
 Boix, Carles. 2019. \emph{Democratic {Capitalism} at the {Crossroads}:
@@ -498,19 +667,23 @@ Backlash of Globalization.''} Centre for {Economic} {Performance}
 \url{https://cep.lse.ac.uk/pubs/download/dp1800.pdf}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-colantone_trade_2018}{}}%
-Colantone, Italo, and Piero Stanig. 2018. {``The {Trade} {Origins} of
+Colantone, Italo, and Piero Stanig. 2018a. {``The {Trade} {Origins} of
 {Economic} {Nationalism}: {Import} {Competition} and {Voting} {Behavior}
 in {Western} {Europe}.''} \emph{American Journal of Political Science}
 62 (4): 936--53.
+
+\leavevmode\vadjust pre{\hypertarget{ref-colantone_global_2018}{}}%
+---------. 2018b. {``Global {Competition} and {Brexit}.''}
+\emph{American Political Science Review} 112 (2): 201--18.
 
 \leavevmode\vadjust pre{\hypertarget{ref-colantone_surge_2019}{}}%
 ---------. 2019. {``The {Surge} of {Economic} {Nationalism} in {Western}
 {Europe}.''} \emph{Journal of Economic Perspectives} 33 (4): 128--51.
 
 \leavevmode\vadjust pre{\hypertarget{ref-cziriak_publication_nodate}{}}%
-Cziriak, Marius. 2022. {``Publication: {Households}' {Financial}
+Cziriak, Marius. n.d. {``Publication: {Households}' {Financial}
 {Fragility} {During} the {COVID}-19 {Pandemic} in {Germany}.''} {ZEW}
-{Discussion} {Paper}.
+{Discussion} {Paper}. Accessed May 21, 2023.
 \url{https://www.zew.de/en/publications/households-financial-fragility-during-the-covid-19-pandemic-in-germany-1}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-dauth_rise_2014}{}}%
@@ -544,7 +717,7 @@ UK: Cambridge University Press.
 Grimm, Robert. 2015. {``The Rise of the {German} {Eurosceptic} Party
 {Alternative} Für {Deutschland}, Between Ordoliberal Critique and
 Popular Anxiety.''} \emph{International Political Science Review} 36
-(3): 264--78.
+(3): 264--78. \url{https://doi.org/10.1177/0192512115575384}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-guriev_political_2022}{}}%
 Guriev, Sergei, and Elias Papaioannou. 2022. {``The {Political}
@@ -584,6 +757,7 @@ Berlin: Suhrkamp Verlag.
 Margalit, Yotam. 2019. {``Economic {Insecurity} and the {Causes} of
 {Populism}, {Reconsidered}.''} \emph{The Journal of Economic
 Perspectives} 33 (4): 152--70.
+\url{https://www.jstor.org/stable/26796840}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-margalit_cultural_2022}{}}%
 Margalit, Yotam, Shir Raviv, and Omer Solodoch. 2022. {``The {Cultural}
@@ -594,6 +768,7 @@ NY. \url{https://doi.org/10.2139/ssrn.4001543}.
 Milner, Helen V. 2021. {``Voting for {Populism} in {Europe}:
 {Globalization}, {Technological} {Change}, and the {Extreme} {Right}.''}
 \emph{Comparative Political Studies} 54 (13): 2286--2320.
+\url{https://doi.org/10.1177/0010414021997175}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-schafer_demokratische_2021}{}}%
 Schäfer, Armin, and Michael Zürn. 2021. \emph{Die Demokratische
@@ -603,7 +778,7 @@ Schäfer, Armin, and Michael Zürn. 2021. \emph{Die Demokratische
 Silva, Bruno Castanho, and Christopher Wratil. 2023. {``Do Parties'
 Representation Failures Affect Populist Attitudes? {Evidence} from a
 Multinational Survey Experiment.''} \emph{Political Science Research and
-Methods} 11 (2): 347--62.
+Methods} 11 (2): 347--62. \url{https://doi.org/10.1017/psrm.2021.63}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-sonin_historical_2022}{}}%
 Sonin, Konstantin. 2022. {``The {Historical} {Perspective} on the
