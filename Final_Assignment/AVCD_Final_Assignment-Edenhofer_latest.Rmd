@@ -773,8 +773,179 @@ modelsummary(list(afd_gender1, afd_gender2, afd_gender3, afd_gender4, afd_gender
 
 
 
+## From draft 
 
 
+```{r descriptive-statistics-for-variables, include=FALSE}
+gles_mod %>%
+  mutate(unemp_at_least_one_year_factor = factor(unemp_at_least_one_year_factor, 
+                                                 levels = c("1", "2"), 
+                                                 labels = "No", "Yes"),
+         job_loss_year_next2yrs_factor = factor(job_loss_year_next2yrs_factor, 
+                                                levels = c("1", "2", "3", "4"), 
+                                                labels = c("No", "Yes, I am worried about becoming unemployed", "Yes, I am worried about having to change my job", "Yes, I am worried about both")),
+         profession_loss_next2yrs_factor = factor(profession_loss_next2yrs_factor, 
+                                                  levels = c("1", "2", "3", "4"),
+                                                  labels = c("No", "Yes, I am worried that I might lose my present professional career", "Yes, I am worried that I have to change my profession", "Yes, I am worried about both")),
+         econ_current_personal_factor = factor(econ_current_personal_factor, 
+                                               levels = c("1", "2", "3", "4", "5"),
+                                               labels = c("Very good", "Good", "Neither good nor bad", "Bad", "Very bad")),
+         difference_whos_gov_factor = factor(difference_whos_gov_factor,
+                                             levels = c("1", "2", "3", "4", "5"),
+                                             labels = c("It makes no difference who is governing", "2", "3", "4", "It makes a big difference who is governing.")),
+         difference_who_votes_factor = factor(difference_who_votes_factor, 
+                                              levels = c("1", "2", "3", "4", "5"), 
+                                              labels = c("It makes no difference who one votes for", "2", "3", "4", "It makes a big difference who one votes for.")),
+         trust_in_politicians_factor = factor(trust_in_politicians_factor, 
+                                              levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                              labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         trust_in_parliament_factor = factor(trust_in_parliament_factor,
+                                             levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                             labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         trust_in_parties_factor = factor(trust_in_parties_factor,
+                                          levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                          labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         urban_rural_factor = factor(urban_rural_factor, 
+                                     levels = c("1", "2", "3", "4", "5"),
+                                     labels = c("Large city", "Outskirts or suburbs of a large city", "Medium or small town", "Rural village", "Single homestead or detached house in the countryside")),
+         household_income_factor = factor(household_income_factor, 
+                                          levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"),
+                                          labels = c("less than 500", "[500, 750)", "[750, 1000)", "[1000, 1250)", "[1250, 1500)", "[1500, 2000)", "[2000, 2500)", "[2500, 3000)", "[3000, 4000)", "[4000, 5000)", "[5000, 7500)", "[7500, 10000)", "greater than or equal to 10000"))) %>%
+  select("Zweitstimme, BTW 2021" = btw21_zweitstimme_factor, 
+         "Unemployment experience dummy" = unemp_at_least_one_year_factor, 
+         "Fear of job loss in next two years" = job_loss_year_next2yrs_factor, 
+         "Fear of losing profession" = profession_loss_next2yrs_factor, 
+         "Current perception of personal economic situation" = econ_current_personal_factor, 
+         "Difference which party governs" = difference_whos_gov_factor, 
+         "Difference which party one votes for" = difference_who_votes_factor, 
+         "Trust in politicians" = trust_in_politicians_factor, 
+         "Trust in parliament" = trust_in_parliament_factor, 
+         "Trust in parties" = trust_in_parties_factor, 
+         "Rurality of place of residence" = urban_rural_factor, 
+         "Sex" = sex1, 
+         "Abitur dummy" = abitur_factor, 
+         "East-west dummy" = ostwest_factor, 
+         "Net monthly household income" = household_income_factor) %>%
+  datasummary_skim(type = "categorical", 
+                   output = "kableExtra") %>%
+  kable_styling(latex_options = c("hold_position", "scale_down")) 
+```
+
+
+
+
+```{r simple-models-lack-rep, include=FALSE}
+# simple models 
+## difference gov
+afd_diff_gov <- glm(afd_21 ~ difference_whos_gov + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+## difference voting 
+afd_prof_loss_fear <- glm(afd_21 ~ difference_who_votes + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+# modelplot
+modelplot(list(afd_diff_gov, afd_prof_loss_fear)) +
+  geom_vline(xintercept = 0)
+```
+
+
+
+
+```{r simple-models-insecurity, include=FALSE}
+# simple models 
+## job loss fear 
+afd_job_loss_fear <- glm(afd_21 ~ job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+## loss of profession 
+afd_prof_loss_fear <- glm(afd_21 ~ profession_loss_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
+                          family = binomial(link = "logit"), 
+                         data = gles_mod)
+## unemployment experience 
+afd_unemp_exp <- glm(afd_21 ~ unemp_at_least_one_year + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+## econ current general situation 
+afd_econ_current <- glm(afd_21 ~ econ_current_personal + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+# modelplot 
+modelplot(list(afd_job_loss_fear, afd_prof_loss_fear, 
+               afd_unemp_exp, afd_econ_current)) +
+  geom_vline(xintercept = 0)
+```
+
+
+
+
+```{r interaction-models-lack-rep2, include=FALSE}
+# interaction models 
+## difference gov
+### job loss fear 
+afd_diff_gov_int5 <- glm(afd_21 ~ difference_who_votes*job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+### profession loss fear
+afd_diff_gov_int6 <- glm(afd_21 ~ difference_who_votes*profession_loss_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+### unemployment experience
+afd_diff_gov_int7 <- glm(afd_21 ~ difference_who_votes*unemp_at_least_one_year + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+### personal current situation
+afd_diff_gov_int8 <- glm(afd_21 ~ difference_who_votes*econ_current_personal + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+# modelplot 
+modelplot(list(afd_diff_gov_int5, afd_diff_gov_int6, 
+               afd_diff_gov_int7, afd_diff_gov_int8)) +
+  geom_vline(xintercept = 0)
+```
+
+
+
+
+## Descriptive statistics 
+
+
+```{r descriptive-statistics-for-variables-pruned}
+gles_mod %>%
+  mutate(unemp_at_least_one_year_factor = factor(unemp_at_least_one_year, 
+                                          levels = c("0", "1"), 
+                                          labels = c("No", "Yes")),
+         job_loss_year_next2yrs_factor = factor(job_loss_year_next2yrs_factor, 
+                                                levels = c("1", "2", "3", "4"), 
+                                                labels = c("No", "Yes, I am worried about becoming unemployed", "Yes, I am worried about having to change my job", "Yes, I am worried about both")),
+         difference_whos_gov_factor = factor(difference_whos_gov_factor,
+                                             levels = c("1", "2", "3", "4", "5"),
+                                             labels = c("It makes no difference who is governing", "2", "3", "4", "It makes a big difference who is governing.")),
+         difference_who_votes_factor = factor(difference_who_votes_factor, 
+                                              levels = c("1", "2", "3", "4", "5"), 
+                                              labels = c("It makes no difference who one votes for", "2", "3", "4", "It makes a big difference who one votes for.")),
+         trust_in_politicians_factor = factor(trust_in_politicians_factor, 
+                                              levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                              labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         trust_in_parliament_factor = factor(trust_in_parliament_factor,
+                                             levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                             labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         trust_in_parties_factor = factor(trust_in_parties_factor,
+                                          levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"),
+                                          labels = c("Do not trust at all", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Trust completely")),
+         afd_21_factor = factor(afd_21,
+                                levels = c("0", "1"), 
+                                labels = c("No", "Yes"))) %>%
+  select("Zweitstimme, BTW 2021" = btw21_zweitstimme_factor, 
+         "Dummy for AfD Zweitstimme" = afd_21_factor,
+         "Unemployment experience dummy" = unemp_at_least_one_year_factor, 
+         "Fear of job loss in next two years" = job_loss_year_next2yrs_factor, 
+         "Difference which party governs" = difference_whos_gov_factor, 
+         "Difference which party one votes for" = difference_who_votes_factor, 
+         "Trust in politicians" = trust_in_politicians_factor, 
+         "Trust in parliament" = trust_in_parliament_factor, 
+         "Trust in parties" = trust_in_parties_factor) %>% 
+  datasummary_skim(type = "categorical", 
+                   output = "data.frame") %>%
+  kbl(booktabs = T, longtable = T, 
+      caption = "Summary statistics of dependent and independent variables") %>%
+  kable_styling(latex_options = c("hold_position"))
+  # add_footnote("In some instances, the percentage values do not sum to 100, indicating that there are missing values for the variable.", notation = "symbol")
+```
 
 
 
