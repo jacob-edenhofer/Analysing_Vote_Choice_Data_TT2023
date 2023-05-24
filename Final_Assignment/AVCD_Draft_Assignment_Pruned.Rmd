@@ -11,6 +11,7 @@ header-includes:
   - \usepackage{pifont}
   - \usepackage{booktabs} 
   - \usepackage{placeins}
+  - \usepackage{caption}
   - \usepackage{fancyhdr}
   - \pagestyle{fancy}  
   - \fancyhf{}  
@@ -33,7 +34,7 @@ link-citations: yes
 linkcolor: gray
 urlcolor: magenta
 ---
-
+  
 
 
 ```{r setup, include=FALSE}
@@ -227,7 +228,7 @@ Before setting out my empirical strategy, let me briefly discuss my two reasons 
 # Data, variables and operationalisation
 
 
-To test the above hypotheses, I use the *German Longitudinal Election Study's* (GLES) [2021 post-election survey](https://search.gesis.org/research_data/ZA7701) - a high-quality survey of a cross-section of 3424 (quasi-)randomly selected individuals, containing a rich set of questions about respondents' social and political attitudes as well as their socio-demographic characteristics. Indeed, the survey was conducted shortly after the federal election^[The federal election was held on 26 September 2021, while the survey was conducted between 27 September 2021 and 21 November 2021.], meaning we get to observe respondents' (self-reported) voting behaviour, rather than merely their voting intention, while reducing the risk of recall problems biasing our results. That said, this survey, like most others, faces the limitation that we cannot rule out that respondents' actual voting behaviour diverges from their self-reported one.
+To test the above hypotheses, I use the *German Longitudinal Election Study's* (GLES) [2021 post-election survey](https://search.gesis.org/research_data/ZA7701) - a high-quality survey of a cross-section of 3424 (quasi-)randomly selected individuals, containing a rich set of questions about respondents' social and political attitudes as well as their socio-demographic characteristics. Indeed, the survey was conducted shortly after the federal election,^[The federal election was held on 26 September 2021, while the survey was conducted between 27 September 2021 and 21 November 2021.] meaning we get to observe respondents' (self-reported) voting behaviour, rather than merely their voting intention, while reducing the risk of recall problems biasing our results. That said, this survey, like most others, faces the limitation that we cannot rule out that respondents' actual voting behaviour diverges from their self-reported one.
 
 
 
@@ -256,10 +257,10 @@ data_summary_table %>%
 
 
 
-My dependent variable is voting for radical right, which, in the German context, means casting one’s party vote (*Zweitstimme*) for the AfD. As indicated in table 1,^[See the appendix for summary statistics of all variables in table 1.] I operationalise the dependent variable in two ways. I use a dummy variable to test hypotheses H1 to H3, while using the full factor variable to test H4. This is because the first three hypotheses concern the probability of voting for the radical right, relative to all parties, whereas the fourth hypothesis concerns the probability of voting AfD, relative to the SPD and LINKE. 
+My dependent variable is voting for radical right, which, in the German context, means casting one’s party vote (*Zweitstimme*) for the AfD. As indicated in table 1,^[See the [appendix](#appendix) for summary statistics of all variables in table 1.] I operationalise the dependent variable in two ways. I use a dummy variable to test hypotheses H1 to H3, while using the full factor variable to test H4. This is because the first three hypotheses concern the probability of voting for the radical right, relative to all parties, whereas the fourth hypothesis concerns the probability of voting AfD, relative to the SPD and LINKE. 
 
 
-My independent variables of interest are economic insecurity, respondents’ perception of the political system’s responsiveness to their preferences, and their trust in the system. To operationalise economic insecurity, I use a dummy for actual unemployment experience in the past ten years. Given the labour market literature shows past unemployment to be strongly predictive of present unemployment risk [e.g. @autor_unexpected_2023], this dummy can be interpreted as an objective measure of economic insecurity. To capture subjectively perceived insecurity, I rely on respondents’ fear of losing their jobs in the next two years. The other two economic insecurity variables (see table 1) are merely used to probe the robustness of my findings (see appendix). Finally, following [@colantone_global_2018], I use respondents’ answers to the questions ‘Does it make a difference who is governing/who one votes for?’ and ‘How much do you trust parliament/political parties?’ as measures for the perceived responsiveness of Germany’s political system and voters’ trust in the latter.
+My independent variables of interest are economic insecurity, respondents’ perception of the political system’s responsiveness to their preferences, and their trust in the system. To operationalise economic insecurity, I use a dummy for actual unemployment experience in the past ten years. Given the labour market literature shows past unemployment to be strongly predictive of present unemployment risk [e.g. @autor_unexpected_2023], this dummy can be interpreted as an objective measure of economic insecurity. To capture subjectively perceived insecurity, I rely on respondents’ fear of losing their jobs in the next two years. The other two economic insecurity variables (see table 1) are merely used to probe the robustness of my findings (see [appendix](#appendix)). Finally, following [@colantone_global_2018], I use respondents’ answers to the questions ‘Does it make a difference who is governing/who one votes for?’ and ‘How much do you trust parliament/political parties?’ as measures for the perceived responsiveness of Germany’s political system and voters’ trust in the latter.
 
 
    
@@ -277,10 +278,7 @@ log(\frac{AfD_{i}}{1-AfD_{i}}) = \alpha + \beta_{1}Insecurity_{i} +  \beta_{2}Re
 $$
 
 
-Figure 1 visualises^[See the appendix for the full regression tables.] the results from running the regressions. 
-
-
-
+[Figure 1](#fig:regression-results1-plot) visualises^[See the [appendix](#appendix) for the full regression tables, including coefficient estimates for the covariates.] the results from estimating these specifications. 
 
 
 ```{r regression-results1-plot, fig.cap="Summary of tests for H1 - H3"}
@@ -309,12 +307,12 @@ g1 <- modelplot(list(afd_diff_gov_int11, afd_diff_gov_int5,
                   afd_diff_gov_int31, afd_diff_gov_int32), 
           coef_map = c("job_loss_year_next2yrs" = "Fear of job loss",
                           "unemp_at_least_one_year_factor1" = "Unemployment ex-\nperience dummy",
-                          "difference_who_votes" = "Difference which\nparty one votes for",
-                          "difference_whos_gov" = "Difference which\nparty governs",
-                          "difference_who_votes:job_loss_year_next2yrs" = "Difference which\nparty one votes for\nx Fear of job loss",
-                          "difference_whos_gov:job_loss_year_next2yrs" = "Difference which\nparty governs\nx Fear of job loss",
-                          "difference_who_votes:unemp_at_least_one_year_factor1" = "Difference which\nparty one votes for\nx Unemployment",
-                          "difference_whos_gov:unemp_at_least_one_year_factor1" = "Difference which\nparty governs\nx Unemployment")) +
+                          "difference_who_votes" = "Diff. which party\none votes for",
+                          "difference_whos_gov" = "Diff. which party\ngoverns",
+                          "difference_who_votes:job_loss_year_next2yrs" = "Diff. which party one\nvotes for x Fear of job loss",
+                          "difference_whos_gov:job_loss_year_next2yrs" = "Diff. which party\ngoverns x Fear of job loss",
+                          "difference_who_votes:unemp_at_least_one_year_factor1" = "Diff. which party\none votes for x Unemployment",
+                          "difference_whos_gov:unemp_at_least_one_year_factor1" = "Diff. which party\ngoverns x Unemployment")) +
   geom_vline(xintercept = 0, linetype = "dashed") +
   labs(x = "Coefficient estimates and 95% CIs") +
   theme(legend.position = "bottom",
@@ -367,8 +365,11 @@ together +
   plot_annotation(title = "Coefficient plots of independent variables of interest",
                   caption = "All models include the following covariates: net monthly\nhousehold income, age, abitur dummy, gender, rurality of place of residence and an East-West dummy.",
                   theme = theme(plot.title = element_text(size = 13, hjust = 0.5),
-                                 plot.caption = element_text(size = 7.5, hjust = 1, face = "italic")))
+                                 plot.caption = element_text(size = 7.5, hjust = 1)))
 ```
+
+
+
 
 
 
@@ -390,39 +391,6 @@ together +
   
   
   
-```{r interaction-models-lack-rep1}
-# interaction models 
-## difference gov
-### job loss fear 
-afd_diff_gov_int111 <- glm(afd_21 ~ difference_whos_gov*job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
-                         family = binomial(link = "logit"), 
-                         data = gles_mod)
-afd_diff_gov_int111 <- glm(afd_21 ~ difference_whos_gov_factor*job_loss_year_next2yrs_factor + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
-                         family = binomial(link = "logit"), 
-                         data = gles_mod)
-
-### profession loss fear
-afd_diff_gov_int21 <- glm(afd_21 ~ difference_whos_gov*profession_loss_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
-                         family = binomial(link = "logit"), 
-                         data = gles_mod)
-### unemployment experience
-afd_diff_gov_int311 <- glm(afd_21 ~ difference_whos_gov*unemp_at_least_one_year + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
-                         family = binomial(link = "logit"), 
-                         data = gles_mod)
-afd_diff_gov_int3111 <- glm(afd_21 ~ difference_whos_gov_factor*unemp_at_least_one_year_factor + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
-                         family = binomial(link = "logit"), 
-                         data = gles_mod)
-# plot_predictions(afd_diff_gov_int31, condition = list("difference_whos_gov_factor", "unemp_at_least_one_year_factor"))
-# ### personal current situation
-# afd_diff_gov_int4 <- glm(afd_21 ~ difference_whos_gov*econ_current_personal + household_income + age + abitur_factor + sex1 + urban_rural_factor + ostwest_factor, 
-#                          family = binomial(link = "logit"), 
-#                          data = gles_mod)
-# # modelplot 
-# modelplot(list(afd_diff_gov_int1, afd_diff_gov_int2, 
-#                afd_diff_gov_int3, afd_diff_gov_int4)) +
-#   geom_vline(xintercept = 0)
-```
-
 
 
 
@@ -436,7 +404,7 @@ afd_diff_gov_int3111 <- glm(afd_21 ~ difference_whos_gov_factor*unemp_at_least_o
 
 
 
-# Appendix 
+# Appendix {#appendix}
 
 
 
@@ -467,6 +435,10 @@ modelsummary(list(afd_diff_gov_int11, afd_diff_gov_int5,
 
 
 
+\textcolor{red}{ME or predicted probability plot here.}
+
+
+
 ```{r regression-results-1-table2}
 modelsummary(list(afd_diff_gov_int11_1, afd_diff_gov_int5_1,
                   afd_diff_gov_int31_1, afd_diff_gov_int32_1),
@@ -476,7 +448,7 @@ modelsummary(list(afd_diff_gov_int11_1, afd_diff_gov_int5_1,
                        "trust_in_parliament" = "Trust in parliament",
                        "trust_in_parties" = "Trust in parties",
                        "trust_in_parliament:job_loss_year_next2yrs" = "Trust in parliament\nx Fear of job loss",                 "trust_in_parties:job_loss_year_next2yrs" = "Trust in parties\nx Fear of job loss",
-                       "trust_in_parliament:unemp_at_least_one_year_factor1" = "Trust in parliamen\nx Unemployment",
+                       "trust_in_parliament:unemp_at_least_one_year_factor1" = "Trust in parliament\nx Unemployment",
                        "trust_in_parties:unemp_at_least_one_year_factor1" = "Trust in parties\nx Unemployment",
                        "age" = "Age",
                        "sex1female" = "Female dummy", 
@@ -486,6 +458,10 @@ modelsummary(list(afd_diff_gov_int11_1, afd_diff_gov_int5_1,
              title = "Association between the probability of voting for the AfD and economic insecurity") %>%
   kable_styling(latex_options = "hold_position") 
 ```
+
+
+
+\textcolor{red}{ME or predicted probability plot here.}
 
 
 
@@ -511,6 +487,93 @@ modelsummary(afd_diff_gov_int1_mul, shape = term ~ response:model,
 
 
 ## Robustness checks 
+
+
+
+```{r regression-results1-robustness1}
+## fear of losing profession / diff gov
+afd_diff_gov_int11_r <- glm(afd_21 ~ difference_whos_gov*profession_loss_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## fear of losing profession / diff voting
+afd_diff_gov_int5_r <- glm(afd_21 ~ difference_who_votes*profession_loss_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## unemployment experience / diff gov
+afd_diff_gov_int31_r <- glm(afd_21 ~ difference_whos_gov*econ_current_personal + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## unemployment experience / diff vote
+afd_diff_gov_int32_r <- glm(afd_21 ~ difference_who_votes*econ_current_personal + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## regression table
+modelsummary(list(afd_diff_gov_int11_r, afd_diff_gov_int5_r,
+                  afd_diff_gov_int31_r, afd_diff_gov_int32_r),
+             coef_map = c("profession_loss_next2yrs" = "Fear of losing/changing profession",
+                       "econ_current_personal" = "Current economic situation (subjective)",
+                       "difference_who_votes" = "Diff. which party one votes for",
+                       "difference_whos_gov" = "Diff. which party governs",
+                       "difference_who_votes:profession_loss_next2yrs" = "Diff. which party one votes for x Fear of losing/changing profession",
+                       "difference_whos_gov:profession_loss_next2yrs" = "Diff. which party governs x Fear of losing/changing profession",
+                       "difference_who_votes:econ_current_personal" = "Diff. which party one votes for x Current econ. situation",
+                       "difference_whos_gov:econ_current_personal" = "Diff. which party governs x Current econ. situation",
+                       "age" = "Age",
+                       "sex1female" = "Female dummy", 
+                       "urban_rural" = "Rurality of place\nof residence",
+                       "abitur_factorno_abitur" = "No Abitur dummy",
+                       "ostwest_factorwest" = "West Germany dummy"),
+             estimate = "{estimate}{stars}",
+             title = "Robustness check I") %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+
+
+```{r regression-results1-robustness2}
+## professional loss fear / trust parliament
+afd_diff_gov_int11_1_r <- glm(afd_21 ~ trust_in_parliament*profession_loss_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## professional loss fear / trust parties
+afd_diff_gov_int5_1_r <- glm(afd_21 ~ trust_in_parties*profession_loss_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## econ current personal / diff gov
+afd_diff_gov_int31_1_r <- glm(afd_21 ~ trust_in_parliament*econ_current_personal + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## econ current personal / diff vote
+afd_diff_gov_int32_1_r <- glm(afd_21 ~ trust_in_parties*econ_current_personal + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+## regression table
+modelsummary(list(afd_diff_gov_int11_1_r, afd_diff_gov_int5_1_r,
+                  afd_diff_gov_int31_1_r, afd_diff_gov_int32_1_r),
+             coef_map = c("profession_loss_next2yrs" = "Fear of losing/changing profession",
+                       "econ_current_personal" = "Current economic situation (subjective)",
+                       "trust_in_parliament" = "Trust in parliament",
+                       "trust_in_parties" = "Trust in parties",
+                       "trust_in_parliament:profession_loss_next2yrs" = "Trust in parliament x Fear of losing/changing profession",                 "trust_in_parties:profession_loss_next2yrs" = "Trust in parties x Fear of losing/changing profession",
+                       "trust_in_parliament:econ_current_personal" = "Trust in parliament x Current econ. situation",
+                       "trust_in_parties:econ_current_personal" = "Trust in parties x Current econ. situation",
+                       "age" = "Age",
+                       "sex1female" = "Female dummy", 
+                       "urban_rural" = "Rurality of place\nof residence",
+                       "abitur_factorno_abitur" = "No Abitur dummy",
+                       "ostwest_factorwest" = "West Germany dummy"),
+             estimate = "{estimate}{stars}",
+             title = "Robustness check II") %>%
+  kable_styling(latex_options = "hold_position")
+```
 
 
 

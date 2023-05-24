@@ -85,6 +85,7 @@
 \usepackage{pifont}
 \usepackage{booktabs}
 \usepackage{placeins}
+\usepackage{caption}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
@@ -135,7 +136,7 @@
 \title{Economic insecurity, lack of representation and radical right
 voting in the context of the 2021 German federal election}
 \author{Candidate number: 1050713}
-\date{23 May 2023}
+\date{24 May 2023}
 
 \begin{document}
 \maketitle
@@ -335,9 +336,9 @@ survey} - a high-quality survey of a cross-section of 3424
 (quasi-)randomly selected individuals, containing a rich set of
 questions about respondents' social and political attitudes as well as
 their socio-demographic characteristics. Indeed, the survey was
-conducted shortly after the federal election\footnote{The federal
+conducted shortly after the federal election,\footnote{The federal
   election was held on 26 September 2021, while the survey was conducted
-  between 27 September 2021 and 21 November 2021.}, meaning we get to
+  between 27 September 2021 and 21 November 2021.} meaning we get to
 observe respondents' (self-reported) voting behaviour, rather than
 merely their voting intention, while reducing the risk of recall
 problems biasing our results. That said, this survey, like most others,
@@ -377,14 +378,14 @@ Variable & Operationalisation & Survey item(s)\\
 
 My dependent variable is voting for radical right, which, in the German
 context, means casting one's party vote (\emph{Zweitstimme}) for the
-AfD. As indicated in table 1,\footnote{See the appendix for summary
-  statistics of all variables in table 1.} I operationalise the
-dependent variable in two ways. I use a dummy variable to test
-hypotheses H1 to H3, while using the full factor variable to test H4.
-This is because the first three hypotheses concern the probability of
-voting for the radical right, relative to all parties, whereas the
-fourth hypothesis concerns the probability of voting AfD, relative to
-the SPD and LINKE.
+AfD. As indicated in table 1,\footnote{See the
+  \protect\hyperlink{appendix}{appendix} for summary statistics of all
+  variables in table 1.} I operationalise the dependent variable in two
+ways. I use a dummy variable to test hypotheses H1 to H3, while using
+the full factor variable to test H4. This is because the first three
+hypotheses concern the probability of voting for the radical right,
+relative to all parties, whereas the fourth hypothesis concerns the
+probability of voting AfD, relative to the SPD and LINKE.
 
 My independent variables of interest are economic insecurity,
 respondents' perception of the political system's responsiveness to
@@ -397,11 +398,12 @@ McGrew 2023}), this dummy can be interpreted as an objective measure of
 economic insecurity. To capture subjectively perceived insecurity, I
 rely on respondents' fear of losing their jobs in the next two years.
 The other two economic insecurity variables (see table 1) are merely
-used to probe the robustness of my findings (see appendix). Finally,
-following (\protect\hyperlink{ref-colantone_global_2018}{Colantone and
-Stanig 2018b}), I use respondents' answers to the questions `Does it
-make a difference who is governing/who one votes for?' and `How much do
-you trust parliament/political parties?' as measures for the perceived
+used to probe the robustness of my findings (see
+\protect\hyperlink{appendix}{appendix}). Finally, following
+(\protect\hyperlink{ref-colantone_global_2018}{Colantone and Stanig
+2018b}), I use respondents' answers to the questions `Does it make a
+difference who is governing/who one votes for?' and `How much do you
+trust parliament/political parties?' as measures for the perceived
 responsiveness of Germany's political system and voters' trust in the
 latter.
 
@@ -440,8 +442,10 @@ as my moderating variable as follows:
 log(\frac{AfD_{i}}{1-AfD_{i}}) = \alpha + \beta_{1}Insecurity_{i} +  \beta_{2}Representation_{i} + \beta_{3}Insecurity_{i}*Representation_{i} + \beta_{4}\textbf{X}_{i} + \epsilon_{i}
 \]
 
-Figure 1 visualises\footnote{See the appendix for the full regression
-  tables.} the results from running the regressions.
+\protect\hyperlink{fig:regression-results1-plot}{Figure 1}
+visualises\footnote{See the \protect\hyperlink{appendix}{appendix} for
+  the full regression tables, including coefficient estimates for the
+  covariates.} the results from estimating these specifications.
 
 \begin{figure}
 \centering
@@ -528,6 +532,8 @@ RMSE & \num{0.24} & \num{0.24} & \num{0.24} & \num{0.24}\\
 \end{tabular}
 \end{table}
 
+\textcolor{red}{ME or predicted probability plot here.}
+
 \begin{table}[!h]
 
 \caption{\label{tab:regression-results-1-table2}Association between the probability of voting for the AfD and economic insecurity}
@@ -550,7 +556,7 @@ x Fear of job loss & \num{-0.276}+ &  &  & \\
 Trust in parties
 x Fear of job loss &  & \num{-0.121} &  & \\
  &  & (\num{0.114}) &  & \\
-Trust in parliamen
+Trust in parliament
 x Unemployment &  &  & \num{-0.205} & \\
  &  &  & (\num{0.152}) & \\
 Trust in parties
@@ -576,6 +582,8 @@ RMSE & \num{0.23} & \num{0.22} & \num{0.22} & \num{0.23}\\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\textcolor{red}{ME or predicted probability plot here.}
 
 \begin{table}[!h]
 
@@ -622,6 +630,102 @@ RMSE & \num{0.33} &  &  &  &  & gof\\
 
 \hypertarget{robustness-checks}{%
 \subsection{Robustness checks}\label{robustness-checks}}
+
+\begin{table}[!h]
+
+\caption{\label{tab:regression-results1-robustness1}Robustness check I}
+\centering
+\begin{tabular}[t]{lcccc}
+\toprule
+  & (1) & (2) & (3) & (4)\\
+\midrule
+Fear of losing/changing profession & \num{-0.470} & \num{-1.766} &  & \\
+ & (\num{0.979}) & (\num{1.661}) &  & \\
+Current economic situation (subjective) &  &  & \num{0.435} & \num{0.332}\\
+ &  &  & (\num{0.293}) & (\num{0.285})\\
+Diff. which party one votes for &  & \num{-1.939}* &  & \num{-0.660}**\\
+ &  & (\num{0.786}) &  & (\num{0.216})\\
+Diff. which party governs & \num{-1.173}+ &  & \num{-0.460}* & \\
+ & (\num{0.602}) &  & (\num{0.217}) & \\
+Diff. which party one votes for x Fear of losing/changing profession &  & \num{0.539} &  & \\
+ &  & (\num{0.411}) &  & \\
+Diff. which party governs x Fear of losing/changing profession & \num{0.187} &  &  & \\
+ & (\num{0.275}) &  &  & \\
+Diff. which party one votes for x Current econ. situation &  &  &  & \num{0.079}\\
+ &  &  &  & (\num{0.075})\\
+Diff. which party governs x Current econ. situation &  &  & \num{0.052} & \\
+ &  &  & (\num{0.077}) & \\
+Age & \num{-0.007} & \num{-0.028} & \num{-0.005} & \num{-0.007}\\
+ & (\num{0.035}) & (\num{0.037}) & (\num{0.005}) & (\num{0.006})\\
+Female dummy & \num{-2.188}+ & \num{-2.521}+ & \num{-0.751}*** & \num{-0.788}***\\
+ & (\num{1.286}) & (\num{1.368}) & (\num{0.181}) & (\num{0.184})\\
+Rurality of place
+of residence & \num{-0.118} & \num{-0.053} & \num{0.099} & \num{0.102}\\
+ & (\num{0.313}) & (\num{0.315}) & (\num{0.081}) & (\num{0.082})\\
+No Abitur dummy & \num{0.549} & \num{0.986} & \num{0.723}** & \num{0.698}**\\
+ & (\num{0.894}) & (\num{0.930}) & (\num{0.220}) & (\num{0.222})\\
+West Germany dummy & \num{-1.639}* & \num{-2.085}* & \num{-1.078}*** & \num{-1.037}***\\
+ & (\num{0.825}) & (\num{0.890}) & (\num{0.175}) & (\num{0.178})\\
+\midrule
+Num.Obs. & \num{159} & \num{156} & \num{2417} & \num{2388}\\
+AIC & \num{73.7} & \num{69.5} & \num{1032.4} & \num{1000.2}\\
+BIC & \num{104.3} & \num{100.0} & \num{1090.3} & \num{1058.0}\\
+Log.Lik. & \num{-26.829} & \num{-24.730} & \num{-506.198} & \num{-490.110}\\
+RMSE & \num{0.21} & \num{0.21} & \num{0.24} & \num{0.23}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{verbatim}
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+\end{verbatim}
+
+\begin{table}[!h]
+
+\caption{\label{tab:regression-results1-robustness2}Robustness check II}
+\centering
+\begin{tabular}[t]{lcccc}
+\toprule
+  & (1) & (2) & (3) & (4)\\
+\midrule
+Fear of losing/changing profession & \num{38.690} & \num{1.779} &  & \\
+ & (\num{4213.436}) & (\num{1.332}) &  & \\
+Current economic situation (subjective) &  &  & \num{0.603}** & \num{0.889}***\\
+ &  &  & (\num{0.210}) & (\num{0.236})\\
+Trust in parliament & \num{18.464} &  & \num{-0.240}* & \\
+ & (\num{2106.718}) &  & (\num{0.120}) & \\
+Trust in parties &  & \num{0.346} &  & \num{-0.178}\\
+ &  & (\num{0.609}) &  & (\num{0.156})\\
+Trust in parliament x Fear of losing/changing profession & \num{-18.899} &  &  & \\
+ & (\num{2106.718}) &  &  & \\
+Trust in parties x Fear of losing/changing profession &  & \num{-0.612} &  & \\
+ &  & (\num{0.500}) &  & \\
+Trust in parliament x Current econ. situation &  &  & \num{-0.102}* & \\
+ &  &  & (\num{0.047}) & \\
+Trust in parties x Current econ. situation &  &  &  & \num{-0.146}*\\
+ &  &  &  & (\num{0.060})\\
+Age & \num{-0.023} & \num{-0.020} & \num{0.003} & \num{-0.002}\\
+ & (\num{0.047}) & (\num{0.039}) & (\num{0.006}) & (\num{0.006})\\
+Female dummy & \num{-20.322} & \num{-17.727} & \num{-0.898}*** & \num{-0.947}***\\
+ & (\num{8816.272}) & (\num{2112.882}) & (\num{0.201}) & (\num{0.202})\\
+Rurality of place
+of residence & \num{0.205} & \num{0.086} & \num{0.135} & \num{0.097}\\
+ & (\num{0.367}) & (\num{0.314}) & (\num{0.088}) & (\num{0.086})\\
+No Abitur dummy & \num{1.168} & \num{0.632} & \num{0.674}** & \num{0.787}***\\
+ & (\num{1.082}) & (\num{0.985}) & (\num{0.233}) & (\num{0.230})\\
+West Germany dummy & \num{-1.391} & \num{-1.445} & \num{-1.050}*** & \num{-1.116}***\\
+ & (\num{0.997}) & (\num{0.886}) & (\num{0.188}) & (\num{0.188})\\
+\midrule
+Num.Obs. & \num{155} & \num{156} & \num{2351} & \num{2341}\\
+AIC & \num{56.5} & \num{64.8} & \num{865.1} & \num{885.4}\\
+BIC & \num{86.9} & \num{95.3} & \num{922.8} & \num{943.0}\\
+Log.Lik. & \num{-18.228} & \num{-22.388} & \num{-422.563} & \num{-432.693}\\
+RMSE & \num{0.19} & \num{0.20} & \num{0.22} & \num{0.22}\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \FloatBarrier
 
