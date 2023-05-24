@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.3)  24 MAY 2023 10:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.3)  24 MAY 2023 15:28
 entering extended mode
 **./AVCD_Draft_Assignment_Pruned.tex
 (AVCD_Draft_Assignment_Pruned.tex
@@ -1046,67 +1046,101 @@ LaTeX Font Info:    Font shape `T1/fnc/b/n' will be
 [3]
 LaTeX Font Info:    Font shape `T1/fnc/b/n' will be
 (Font)              scaled to size 9.29993pt on input line 435.
+[4]
 <AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results1-plot-1.pdf
-, id=126, 469.755pt x 325.215pt>
+, id=145, 469.755pt x 325.215pt>
 File: AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results1-plot-
 1.pdf Graphic file (type pdf)
 <use AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results1-plot-1
 .pdf>
 Package pdftex.def Info: AVCD_Draft_Assignment_Pruned_files/figure-latex/regres
-sion-results1-plot-1.pdf  used on input line 452.
+sion-results1-plot-1.pdf  used on input line 470.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[4] [5 <./AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results1-p
-lot-1.pdf>]
-LaTeX Font Info:    Font shape `T1/fnc/b/n' will be
-(Font)              scaled to size 11.15991pt on input line 484.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[6] [7] [8]
-Overfull \hbox (35.36557pt too wide) in paragraph at lines 638--677
- [][] 
- []
-
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 6
-79.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
+88.
 ("C:\Users\jacob\mik tex\tex/latex/lm\t1lmtt.fd"
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Overfull \hbox (9.81259pt too wide) in paragraph at lines 689--728
+) [5 <./AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results1-plo
+t-1.pdf>]
+<AVCD_Draft_Assignment_Pruned_files/figure-latex/multinomial-model-plot-1.pdf, 
+id=163, 469.755pt x 325.215pt>
+File: AVCD_Draft_Assignment_Pruned_files/figure-latex/multinomial-model-plot-1.
+pdf Graphic file (type pdf)
+<use AVCD_Draft_Assignment_Pruned_files/figure-latex/multinomial-model-plot-1.p
+df>
+Package pdftex.def Info: AVCD_Draft_Assignment_Pruned_files/figure-latex/multin
+omial-model-plot-1.pdf  used on input line 503.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+LaTeX Font Info:    Font shape `T1/fnc/b/n' will be
+(Font)              scaled to size 11.15991pt on input line 533.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot1-1.p
+df, id=164, 469.755pt x 325.215pt>
+File: AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot
+1-1.pdf Graphic file (type pdf)
+<use AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot1
+-1.pdf>
+Package pdftex.def Info: AVCD_Draft_Assignment_Pruned_files/figure-latex/regres
+sion-results-1-plot1-1.pdf  used on input line 586.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot2-1.p
+df, id=165, 469.755pt x 325.215pt>
+File: AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot
+2-1.pdf Graphic file (type pdf)
+<use AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot2
+-1.pdf>
+Package pdftex.def Info: AVCD_Draft_Assignment_Pruned_files/figure-latex/regres
+sion-results-1-plot2-1.pdf  used on input line 642.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[6 <./AVCD_Draft_Assignment_Pruned_files/figure-latex/multinomial-model-plot-1.
+pdf>] [7 <./AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-
+1-plot1-1.pdf>] [8 <./AVCD_Draft_Assignment_Pruned_files/figure-latex/regressio
+n-results-1-plot2-1.pdf>] [9] [10] [11]
+Overfull \hbox (35.36557pt too wide) in paragraph at lines 694--733
+ [][] 
+ []
+
+
+Overfull \hbox (9.81259pt too wide) in paragraph at lines 739--778
  [][] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[9
+[12
 
-] [10]
-Overfull \hbox (0.22844pt too wide) in paragraph at lines 832--837
+] [13]
+Overfull \hbox (0.22844pt too wide) in paragraph at lines 882--887
 [][]$\T1/fnc/m/n/10 (+4) h t tp : / / w w w . c h r i s t i a n d u s t m a n n
  . c o m / c o n t e n t / 4 -[] r e s e a r c h / 1 4 -[] e u r o pe -[] s -[]
  t r u s t -[] d e  c it -[] c a u s es -[] a n d -[] r e m e d i e s / e u r
  []
 
-[11]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 943.
-[12]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 943.
+[14]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 993.
+[15]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 993.
 (AVCD_Draft_Assignment_Pruned.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 943.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 943.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 993.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 993.
  ) 
 Here is how much of TeX's memory you used:
- 20040 strings out of 481225
- 334578 string characters out of 2916395
- 673757 words of memory out of 3000000
- 34810 multiletter control sequences out of 15000+200000
- 657968 words of font info for 369 fonts, out of 3000000 for 9000
+ 20075 strings out of 481225
+ 336208 string characters out of 2916395
+ 672788 words of memory out of 3000000
+ 34824 multiletter control sequences out of 15000+200000
+ 658377 words of font info for 375 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 50i,14n,46p,829b,790s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 50i,14n,46p,829b,759s stack positions out of 5000i,500n,10000p,200000b,50000s
 pdfTeX warning (dest): name{fig:regression-results1-plot} has been referenced
  but does not exist, replaced by a fixed one
 
@@ -1117,9 +1151,9 @@ b><C:/Users/jacob/mik tex/fonts/type1/public/lm/lmtt10.pfb><C:/Users/jacob/mik
 tex/fonts/type1/urw/ncntrsbk/uncb8a.pfb><C:/Users/jacob/mik tex/fonts/type1/urw
 /ncntrsbk/uncr8a.pfb><C:/Users/jacob/mik tex/fonts/type1/urw/ncntrsbk/uncri8a.p
 fb>
-Output written on AVCD_Draft_Assignment_Pruned.pdf (12 pages, 159901 bytes).
+Output written on AVCD_Draft_Assignment_Pruned.pdf (15 pages, 181065 bytes).
 PDF statistics:
- 310 PDF objects out of 1000 (max. 8388607)
- 87 named destinations out of 1000 (max. 500000)
- 96342 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 354 PDF objects out of 1000 (max. 8388607)
+ 96 named destinations out of 1000 (max. 500000)
+ 96357 words of extra memory for PDF output out of 106986 (max. 10000000)
 

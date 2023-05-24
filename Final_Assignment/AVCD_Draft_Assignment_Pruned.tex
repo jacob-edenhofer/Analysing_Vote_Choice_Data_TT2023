@@ -443,9 +443,27 @@ log(\frac{AfD_{i}}{1-AfD_{i}}) = \alpha + \beta_{1}Insecurity_{i} +  \beta_{2}Re
 \]
 
 \protect\hyperlink{fig:regression-results1-plot}{Figure 1}
-visualises\footnote{See the \protect\hyperlink{appendix}{appendix} for
-  the full regression tables, including coefficient estimates for the
-  covariates.} the results from estimating these specifications.
+visualises\footnote{See tables 2 and 3 in the
+  \protect\hyperlink{appendix}{appendix} for the full regression tables,
+  including coefficient estimates for the covariates.} the results from
+estimating these specifications. Hypotheses one to three imply that
+\(\beta_{1}>0\) and \(\beta_{3}>0\). Using the unemployment experience
+and fear of job loss variables as proxies for economic insecurity,
+figure 1 shows that, contrary to the theory's expectations, economic
+insecurity does not significantly increase the probability of voting for
+the AfD. The coefficient estimates on the interaction terms are, save
+for the one on `trust in parliament' and `fear of job loss',
+statistically insignificant, suggesting that it is \emph{not} the case
+that the marginal effect of insecurity varies by the political system's
+responsiveness or respondents' trust in parliament. This conclusion is
+reinforced by figures 2 and 3 in the
+\protect\hyperlink{appendix}{appendix}, which plots the relevant
+marginal effects. Finally, this null finding is largely,\footnote{Two of
+  the interaction terms in table 7 are statistically significant.} as
+tables 5 and 6 in the \protect\hyperlink{appendix}{appendix} bear out,
+robust to relying on respondents' fear of losing their profession and
+their assessment of their personal economic situation as proxies for
+economic insecurity.
 
 \begin{figure}
 \centering
@@ -453,11 +471,41 @@ visualises\footnote{See the \protect\hyperlink{appendix}{appendix} for
 \caption{Summary of tests for H1 - H3}
 \end{figure}
 
+Testing H4 requires use to modify our estimation technique to account
+for the dependent variable being a multi-category factor, rather than a
+dichotomous variable. To that end, I use the same vector of covariates
+as above, while using respondents' fear of losing their jobs as my proxy
+for economic insecurity and their answers to the question `Does it make
+a difference who is governing?' as my measure for the political system's
+responsiveness. I also drop the interaction term since H4 is \emph{not}
+about differences in marginal effects. That is, I estimate the following
+multinomial model:
+
+\[
+RelativeProbability_{ij} = \alpha + \beta_{1}Insecurity_{i} +  \beta_{2}Representation_{i} + \beta_{3}\textbf{X}_{i} + \epsilon_{i}
+\]
+
+Our dependent variable, \texttt{RelativeProbability}, indicates the
+probability that respondent \(i\) would vote for party \(j\), rather
+than voting for the AfD. As explained above, H4 implies that
+\(\beta_{1}\) should be negative for the SPD and LINKE. Figure 2 shows
+the coefficient estimates\footnote{See table 4 in
+  \protect\hyperlink{appendix}{appendix} for the full regression table.}
+for \(\beta_{2}\) - none of which are statistically significant at
+conventional levels.\footnote{Conventional levels being the 1\%, 5\% and
+  10\% levels.} This entails, inter alia, that a unit-increase in
+economic insecurity does not significantly reduce the relative
+probability of voting for pro-redistributive, left-wing parties, here
+the SPD and Linke. Hence, we find no support for H4.
+
+\begin{figure}
+\centering
+\includegraphics{AVCD_Draft_Assignment_Pruned_files/figure-latex/multinomial-model-plot-1.pdf}
+\caption{Coefficient estimate of economic insecurity from multinomial
+model}
+\end{figure}
+
 \begin{itemize}
-\item
-  Interpret results + tie back to hypotheses.
-\item
-  Introduce multinomial model.
 \item
   Caveats.
 
@@ -474,14 +522,15 @@ visualises\footnote{See the \protect\hyperlink{appendix}{appendix} for
 \begin{itemize}
 \tightlist
 \item
-  I find only extremely weak support for Eichengreen's theory.
+  I find only extremely weak support for the theory.
 \end{itemize}
 
 \hypertarget{appendix}{%
 \section{Appendix}\label{appendix}}
 
-\hypertarget{regression-tables}{%
-\subsection{Regression tables}\label{regression-tables}}
+\hypertarget{regression-tables-and-marginal-effect-plots}{%
+\subsection{Regression tables and marginal effect
+plots}\label{regression-tables-and-marginal-effect-plots}}
 
 \begin{table}[!h]
 
@@ -532,7 +581,12 @@ RMSE & \num{0.24} & \num{0.24} & \num{0.24} & \num{0.24}\\
 \end{tabular}
 \end{table}
 
-\textcolor{red}{ME or predicted probability plot here.}
+\begin{figure}
+\centering
+\includegraphics{AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot1-1.pdf}
+\caption{Marginal effects of economic insecurity by perceived
+responsiveness}
+\end{figure}
 
 \begin{table}[!h]
 
@@ -583,11 +637,15 @@ RMSE & \num{0.23} & \num{0.22} & \num{0.22} & \num{0.23}\\
 \end{tabular}
 \end{table}
 
-\textcolor{red}{ME or predicted probability plot here.}
+\begin{figure}
+\centering
+\includegraphics{AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot2-1.pdf}
+\caption{Marginal effects of economic insecurity by trust}
+\end{figure}
 
 \begin{table}[!h]
 
-\caption{\label{tab:multinomial-model}Multinomial analysis}
+\caption{\label{tab:multinomial-model-table}Multinomial analysis}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{lcccccc}
@@ -596,31 +654,29 @@ RMSE & \num{0.23} & \num{0.22} & \num{0.22} & \num{0.23}\\
 \cmidrule(l{3pt}r{3pt}){2-7}
   & CDU/CSU & SPD & FDP & GRUENE/B90 & LINKE & Other party\\
 \midrule
-(Intercept) & \num{-4.321}*** & \num{-1.227} & \num{-0.999} & \num{-2.595}* & \num{1.178} & \num{1.338}\\
- & (\num{1.290}) & (\num{1.189}) & (\num{1.314}) & (\num{1.266}) & (\num{1.400}) & (\num{1.518})\\
-difference\_whos\_gov & \num{0.554}* & \num{0.150} & \num{0.349} & \num{0.608}** & \num{0.096} & \num{-0.162}\\
- & (\num{0.224}) & (\num{0.209}) & (\num{0.235}) & (\num{0.226}) & (\num{0.253}) & (\num{0.278})\\
-job\_loss\_year\_next2yrs & \num{0.100} & \num{-0.439} & \num{0.073} & \num{0.196} & \num{-0.116} & \num{-0.309}\\
- & (\num{0.532}) & (\num{0.503}) & (\num{0.557}) & (\num{0.530}) & (\num{0.583}) & (\num{0.667})\\
-household\_income & \num{0.210}** & \num{0.085} & \num{0.175}* & \num{0.157}* & \num{-0.017} & \num{0.140}\\
+(Intercept) & \num{-4.157}*** & \num{-1.740}+ & \num{-0.805} & \num{-2.348}* & \num{0.976} & \num{1.210}\\
+ & (\num{1.108}) & (\num{1.025}) & (\num{1.119}) & (\num{1.072}) & (\num{1.193}) & (\num{1.296})\\
+job\_loss\_year\_next2yrs & \num{-0.024} & \num{-0.033} & \num{-0.076} & \num{0.019} & \num{0.034} & \num{-0.207}\\
+ & (\num{0.176}) & (\num{0.166}) & (\num{0.187}) & (\num{0.172}) & (\num{0.195}) & (\num{0.244})\\
+difference\_whos\_gov & \num{0.519}*** & \num{0.289}** & \num{0.303}* & \num{0.552}*** & \num{0.156} & \num{-0.122}\\
+ & (\num{0.120}) & (\num{0.111}) & (\num{0.125}) & (\num{0.122}) & (\num{0.136}) & (\num{0.142})\\
+household\_income & \num{0.210}** & \num{0.085} & \num{0.175}* & \num{0.157}* & \num{-0.017} & \num{0.141}\\
  & (\num{0.070}) & (\num{0.065}) & (\num{0.073}) & (\num{0.068}) & (\num{0.077}) & (\num{0.088})\\
 age & \num{0.020}+ & \num{0.032}** & \num{-0.017} & \num{0.008} & \num{0.002} & \num{-0.041}**\\
  & (\num{0.012}) & (\num{0.011}) & (\num{0.012}) & (\num{0.011}) & (\num{0.013}) & (\num{0.015})\\
-abitur\_factorno\_abitur & \num{-0.584}+ & \num{-0.876}** & \num{-0.913}** & \num{-1.727}*** & \num{-1.275}*** & \num{-0.382}\\
+abitur\_factorno\_abitur & \num{-0.585}+ & \num{-0.877}** & \num{-0.914}** & \num{-1.728}*** & \num{-1.276}*** & \num{-0.382}\\
  & (\num{0.329}) & (\num{0.317}) & (\num{0.338}) & (\num{0.324}) & (\num{0.368}) & (\num{0.398})\\
-sex1female & \num{0.782}** & \num{0.925}*** & \num{0.392} & \num{1.176}*** & \num{0.450} & \num{0.564}\\
- & (\num{0.281}) & (\num{0.270}) & (\num{0.297}) & (\num{0.280}) & (\num{0.327}) & (\num{0.349})\\
-urban\_rural & \num{-0.065} & \num{-0.267}* & \num{-0.206} & \num{-0.364}** & \num{-0.380}* & \num{-0.222}\\
- & (\num{0.130}) & (\num{0.125}) & (\num{0.135}) & (\num{0.128}) & (\num{0.149}) & (\num{0.160})\\
-ostwest\_factorwest & \num{1.349}*** & \num{1.554}*** & \num{1.231}*** & \num{1.966}*** & \num{0.488} & \num{0.931}**\\
- & (\num{0.281}) & (\num{0.268}) & (\num{0.296}) & (\num{0.288}) & (\num{0.321}) & (\num{0.351})\\
-difference\_whos\_gov × job\_loss\_year\_next2yrs & \num{-0.028} & \num{0.108} & \num{-0.036} & \num{-0.040} & \num{0.043} & \num{0.032}\\
- & (\num{0.142}) & (\num{0.135}) & (\num{0.150}) & (\num{0.141}) & (\num{0.156}) & (\num{0.187})\\
+sex1female & \num{0.779}** & \num{0.916}*** & \num{0.389} & \num{1.173}*** & \num{0.445} & \num{0.560}\\
+ & (\num{0.280}) & (\num{0.269}) & (\num{0.297}) & (\num{0.279}) & (\num{0.326}) & (\num{0.348})\\
+urban\_rural & \num{-0.066} & \num{-0.268}* & \num{-0.206} & \num{-0.365}** & \num{-0.381}* & \num{-0.223}\\
+ & (\num{0.130}) & (\num{0.124}) & (\num{0.135}) & (\num{0.128}) & (\num{0.149}) & (\num{0.160})\\
+ostwest\_factorwest & \num{1.349}*** & \num{1.556}*** & \num{1.232}*** & \num{1.967}*** & \num{0.489} & \num{0.933}**\\
+ & (\num{0.281}) & (\num{0.268}) & (\num{0.296}) & (\num{0.288}) & (\num{0.320}) & (\num{0.351})\\
 Num.Obs. & \num{1276} &  &  &  &  & gof\\
 R2 & \num{0.589} &  &  &  &  & gof\\
-R2 Adj. & \num{0.589} &  &  &  &  & gof\\
-AIC & \num{4312.3} &  &  &  &  & gof\\
-BIC & \num{4621.4} &  &  &  &  & gof\\
+R2 Adj. & \num{0.588} &  &  &  &  & gof\\
+AIC & \num{4303.1} &  &  &  &  & gof\\
+BIC & \num{4581.3} &  &  &  &  & gof\\
 RMSE & \num{0.33} &  &  &  &  & gof\\
 \bottomrule
 \end{tabular}}
@@ -675,12 +731,6 @@ RMSE & \num{0.21} & \num{0.21} & \num{0.24} & \num{0.23}\\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\begin{verbatim}
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-\end{verbatim}
 
 \begin{table}[!h]
 

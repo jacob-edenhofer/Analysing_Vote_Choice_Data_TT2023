@@ -278,7 +278,7 @@ log(\frac{AfD_{i}}{1-AfD_{i}}) = \alpha + \beta_{1}Insecurity_{i} +  \beta_{2}Re
 $$
 
 
-[Figure 1](#fig:regression-results1-plot) visualises^[See the [appendix](#appendix) for the full regression tables, including coefficient estimates for the covariates.] the results from estimating these specifications. 
+[Figure 1](#fig:regression-results1-plot) visualises^[See tables 2 and 3 in the [appendix](#appendix) for the full regression tables, including coefficient estimates for the covariates.] the results from estimating these specifications. Hypotheses one to three imply that $\beta_{1}>0$ and $\beta_{3}>0$. Using the unemployment experience and fear of job loss variables as proxies for economic insecurity, figure 1 shows that, contrary to the theory's expectations, economic insecurity does not significantly increase the probability of voting for the AfD. The coefficient estimates on the interaction terms are, save for the one on 'trust in parliament' and 'fear of job loss', statistically insignificant, suggesting that it is *not* the case that the marginal effect of insecurity varies by the political system's responsiveness or respondents' trust in parliament. This conclusion is reinforced by figures 2 and 3 in the [appendix](#appendix), which plots the relevant marginal effects. Finally, this null finding is largely,^[Two of the interaction terms in table 7 are statistically significant.] as tables 5 and 6 in the [appendix](#appendix) bear out, robust to relying on respondents' fear of losing their profession and their assessment of their personal economic situation as proxies for economic insecurity. 
 
 
 ```{r regression-results1-plot, fig.cap="Summary of tests for H1 - H3"}
@@ -365,19 +365,45 @@ together +
   plot_annotation(title = "Coefficient plots of independent variables of interest",
                   caption = "All models include the following covariates: net monthly\nhousehold income, age, abitur dummy, gender, rurality of place of residence and an East-West dummy.",
                   theme = theme(plot.title = element_text(size = 13, hjust = 0.5),
-                                 plot.caption = element_text(size = 7.5, hjust = 1)))
+                                 plot.caption = element_text(size = 7, hjust = 1)))
 ```
 
 
 
+Testing H4 requires use to modify our estimation technique to account for the dependent variable being a multi-category factor, rather than a dichotomous variable. To that end, I use the same vector of covariates as above, while using respondents' fear of losing their jobs as my proxy for economic insecurity and their answers to the question 'Does it make a difference who is governing?' as my measure for the political system's responsiveness. I also drop the interaction term since H4 is *not* about differences in marginal effects. That is, I estimate the following multinomial model: 
 
 
+$$
+RelativeProbability_{ij} = \alpha + \beta_{1}Insecurity_{i} +  \beta_{2}Representation_{i} + \beta_{3}\textbf{X}_{i} + \epsilon_{i}
+$$
 
 
+Our dependent variable, `RelativeProbability`, indicates the probability that respondent $i$ would vote for party $j$, rather than voting for the AfD. As explained above, H4 implies that $\beta_{1}$ should be negative for the SPD and LINKE. Figure 2 shows the coefficient estimates^[See table 4 in [appendix](#appendix) for the full regression table.] for $\beta_{2}$ - none of which are statistically significant at conventional levels.^[Conventional levels being the 1\%, 5\% and 10\% levels.] This entails, inter alia, that a unit-increase in economic insecurity does not significantly reduce the relative probability of voting for pro-redistributive, left-wing parties, here the SPD and Linke. Hence, we find no support for H4.
 
-+ Interpret results + tie back to hypotheses. 
 
-+ Introduce multinomial model. 
+```{r multinomial-model-plot, fig.cap="Coefficient estimate of economic insecurity from multinomial model"}
+# reference category afd 
+gles_mod$btw21_zweitstimme_factor_re <- relevel(gles_mod$btw21_zweitstimme_factor, 
+                                                ref = "AfD")
+# model
+afd_diff_gov_int1_mul <- nnet::multinom(btw21_zweitstimme_factor_re ~ job_loss_year_next2yrs + difference_whos_gov + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                          trace = F, 
+                         data = gles_mod)
+
+# plot frame 
+broom::tidy(afd_diff_gov_int1_mul) %>%
+  filter(grepl("job_loss_year_next2yrs", term)) %>%
+  ggplot(aes(x = y.level, y = estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = estimate - std.error, 
+                    ymax = estimate + std.error), width = 0.2) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  expand_limits(y = -0.5) +
+  labs(y = "Coefficient estimate for economic insecurity", x = "", 
+       title = "Change in probability of voting for major parties,\nrelative to voting for the AfD, for unit-increase in economic insecurity", 
+       caption = "Covariates include: net monthly\nhousehold income, age, abitur dummy, gender, rurality of place of residence and an East-West dummy") +
+  theme_minimal()
+```
 
 
 
@@ -386,18 +412,9 @@ together +
   
   + not causal, correlational analysis
   
-
-
-  
-  
-  
-
-
-
-
 # Conclusion 
 
-+ I find only extremely weak support for Eichengreen's theory. 
++ I find only extremely weak support for the theory. 
 
 
 
@@ -408,7 +425,7 @@ together +
 
 
 
-## Regression tables 
+## Regression tables and marginal effect plots 
 
 
 
@@ -434,8 +451,65 @@ modelsummary(list(afd_diff_gov_int11, afd_diff_gov_int5,
 ```
 
 
+```{r regression-results-1-plot1, fig.cap="Marginal effects of economic insecurity by perceived responsiveness"}
+## job loss fear / diff gov
+afd_diff_gov_int11_cat <- glm(afd_21 ~ difference_whos_gov_factor*job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
 
-\textcolor{red}{ME or predicted probability plot here.}
+## unemployment experience / diff gov
+afd_diff_gov_int31_cat <- glm(afd_21 ~ difference_whos_gov_factor*unemp_at_least_one_year_factor + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+# plot these 
+## plot 1
+p1_me <- plot_slopes(afd_diff_gov_int11_cat, 
+            variables = "job_loss_year_next2yrs", 
+            condition = "difference_whos_gov_factor") +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  expand_limits(y = c(-0.2, 0.2)) +
+  scale_x_discrete("Does it make difference which party governs?", 
+                   labels = c("1" = "No difference",
+                              "2" = "2", 
+                              "3" = "3", 
+                              "4" = "4", 
+                              "5" = "Big difference")) +
+  labs(y = "ME of 'job loss fear' on AfD voting", 
+       title = "Marginal effect\nof fear of job loss") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11), 
+        axis.text.x = element_text(size = 8),
+        axis.title.x = element_text(size = 10), 
+        axis.title.y = element_text(size = 10))
+
+## plot 2
+p2_me <- plot_slopes(afd_diff_gov_int31_cat, 
+            variables = "unemp_at_least_one_year_factor", 
+            condition = "difference_whos_gov_factor") +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  expand_limits(y = c(-0.4)) +
+  scale_x_discrete("Does it make difference which party governs?", 
+                   labels = c("1" = "No difference",
+                              "2" = "2", 
+                              "3" = "3", 
+                              "4" = "4", 
+                              "5" = "Big difference")) +
+  labs(y = "ME of 'unemployment' on AfD voting", 
+       title = "Marginal effect\nof unemployment experience") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11), 
+        axis.text.x = element_text(size = 8),
+        axis.title.x = element_text(size = 10), 
+        axis.title.y = element_text(size = 10))
+
+## bind together 
+ggpubr::ggarrange(p1_me, p2_me, nrow = 1)
+```
+
+
+
+
 
 
 
@@ -461,19 +535,78 @@ modelsummary(list(afd_diff_gov_int11_1, afd_diff_gov_int5_1,
 
 
 
-\textcolor{red}{ME or predicted probability plot here.}
-
-
-
-```{r multinomial-model}
-# reference categorc afd 
-gles_mod$btw21_zweitstimme_factor_re <- relevel(gles_mod$btw21_zweitstimme_factor, 
-                                                ref = "AfD")
-# model
-afd_diff_gov_int1_mul <- nnet::multinom(btw21_zweitstimme_factor_re ~ difference_whos_gov*job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
-                          trace = F, 
+```{r regression-results-1-plot2, fig.cap="Marginal effects of economic insecurity by trust", warning=FALSE}
+## job loss fear / trust parliament
+afd_diff_gov_int11_1_cat <- glm(afd_21 ~ trust_in_parliament_factor*unemp_at_least_one_year_factor + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
                          data = gles_mod)
-# regression table
+
+## trust parliament / diff gov
+afd_diff_gov_int31_1_cat <- glm(afd_21 ~ trust_in_parties_factor*unemp_at_least_one_year_factor + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
+                         family = binomial(link = "logit"), 
+                         data = gles_mod)
+
+# plot
+## plot 3
+p3_me <- plot_slopes(afd_diff_gov_int11_1_cat, 
+            variables = "unemp_at_least_one_year_factor", 
+            condition = "trust_in_parliament_factor") +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  # expand_limits(y = c(-0.2, 0.2)) +
+  scale_x_discrete("How much do you trust parliament (Bundestag)?", 
+                   labels = c("1" = "Do not\ntrust at all",
+                              "2" = "2", 
+                              "3" = "3", 
+                              "4" = "4", 
+                              "5" = "5", 
+                              "6" = "6", 
+                              "7" = "7", 
+                              "8" = "8", 
+                              "9" = "9", 
+                              "10" = "10", 
+                              "11" = "Trust\nfully")) +
+  labs(y = "ME of 'job loss fear' on AfD voting", 
+       title = "Marginal effect\nof unemployment experience") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11), 
+        axis.text.x = element_text(size = 8),
+        axis.title.x = element_text(size = 10), 
+        axis.title.y = element_text(size = 10))
+
+## plot 4
+p4_me <- plot_slopes(afd_diff_gov_int31_1_cat, 
+            variables = "unemp_at_least_one_year_factor", 
+            condition = "trust_in_parties_factor") +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  # expand_limits(y = c(-0.4)) +
+  scale_x_discrete("How much do you trust political parties?", 
+                   labels = c("1" = "Do not\ntrust at all",
+                              "2" = "2", 
+                              "3" = "3", 
+                              "4" = "4", 
+                              "5" = "5", 
+                              "6" = "6", 
+                              "7" = "7", 
+                              "8" = "8", 
+                              "9" = "9", 
+                              "10" = "10", 
+                              "11" = "Trust\nfully")) +
+  labs(y = "ME of 'unemployment' on AfD voting", 
+       title = "Marginal effect\nof unemployment experience") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11), 
+        axis.text.x = element_text(size = 8),
+        axis.title.x = element_text(size = 10), 
+        axis.title.y = element_text(size = 10))
+
+## bind together 
+ggpubr::ggarrange(p3_me, p4_me, nrow = 1)
+```
+
+
+
+
+```{r multinomial-model-table}
 modelsummary(afd_diff_gov_int1_mul, shape = term ~ response:model,
              estimate = "{estimate}{stars}", 
              output = "kableExtra", 
@@ -534,7 +667,7 @@ modelsummary(list(afd_diff_gov_int11_r, afd_diff_gov_int5_r,
 
 
 
-```{r regression-results1-robustness2}
+```{r regression-results1-robustness2, warning=FALSE}
 ## professional loss fear / trust parliament
 afd_diff_gov_int11_1_r <- glm(afd_21 ~ trust_in_parliament*profession_loss_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
                          family = binomial(link = "logit"), 
