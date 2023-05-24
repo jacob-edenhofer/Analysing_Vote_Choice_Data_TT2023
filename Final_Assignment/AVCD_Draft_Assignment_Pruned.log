@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.3)  24 MAY 2023 15:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.3)  24 MAY 2023 18:58
 entering extended mode
 **./AVCD_Draft_Assignment_Pruned.tex
 (AVCD_Draft_Assignment_Pruned.tex
@@ -1072,7 +1072,7 @@ Package pdftex.def Info: AVCD_Draft_Assignment_Pruned_files/figure-latex/multin
 omial-model-plot-1.pdf  used on input line 503.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 LaTeX Font Info:    Font shape `T1/fnc/b/n' will be
-(Font)              scaled to size 11.15991pt on input line 533.
+(Font)              scaled to size 11.15991pt on input line 532.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1083,7 +1083,7 @@ File: AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot
 <use AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot1
 -1.pdf>
 Package pdftex.def Info: AVCD_Draft_Assignment_Pruned_files/figure-latex/regres
-sion-results-1-plot1-1.pdf  used on input line 586.
+sion-results-1-plot1-1.pdf  used on input line 585.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1095,7 +1095,7 @@ File: AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot
 <use AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-1-plot2
 -1.pdf>
 Package pdftex.def Info: AVCD_Draft_Assignment_Pruned_files/figure-latex/regres
-sion-results-1-plot2-1.pdf  used on input line 642.
+sion-results-1-plot2-1.pdf  used on input line 641.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1104,12 +1104,12 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 pdf>] [7 <./AVCD_Draft_Assignment_Pruned_files/figure-latex/regression-results-
 1-plot1-1.pdf>] [8 <./AVCD_Draft_Assignment_Pruned_files/figure-latex/regressio
 n-results-1-plot2-1.pdf>] [9] [10] [11]
-Overfull \hbox (35.36557pt too wide) in paragraph at lines 694--733
+Overfull \hbox (35.36557pt too wide) in paragraph at lines 693--732
  [][] 
  []
 
 
-Overfull \hbox (9.81259pt too wide) in paragraph at lines 739--778
+Overfull \hbox (9.81259pt too wide) in paragraph at lines 738--777
  [][] 
  []
 
@@ -1119,24 +1119,24 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [12
 
 ] [13]
-Overfull \hbox (0.22844pt too wide) in paragraph at lines 882--887
+Overfull \hbox (0.22844pt too wide) in paragraph at lines 881--886
 [][]$\T1/fnc/m/n/10 (+4) h t tp : / / w w w . c h r i s t i a n d u s t m a n n
  . c o m / c o n t e n t / 4 -[] r e s e a r c h / 1 4 -[] e u r o pe -[] s -[]
  t r u s t -[] d e  c it -[] c a u s es -[] a n d -[] r e m e d i e s / e u r
  []
 
 [14]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 993.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 992.
 [15]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 993.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 992.
 (AVCD_Draft_Assignment_Pruned.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 993.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 993.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 992.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 992.
  ) 
 Here is how much of TeX's memory you used:
  20075 strings out of 481225
  336208 string characters out of 2916395
- 672788 words of memory out of 3000000
+ 673788 words of memory out of 3000000
  34824 multiletter control sequences out of 15000+200000
  658377 words of font info for 375 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1151,7 +1151,7 @@ b><C:/Users/jacob/mik tex/fonts/type1/public/lm/lmtt10.pfb><C:/Users/jacob/mik
 tex/fonts/type1/urw/ncntrsbk/uncb8a.pfb><C:/Users/jacob/mik tex/fonts/type1/urw
 /ncntrsbk/uncr8a.pfb><C:/Users/jacob/mik tex/fonts/type1/urw/ncntrsbk/uncri8a.p
 fb>
-Output written on AVCD_Draft_Assignment_Pruned.pdf (15 pages, 181065 bytes).
+Output written on AVCD_Draft_Assignment_Pruned.pdf (15 pages, 181295 bytes).
 PDF statistics:
  354 PDF objects out of 1000 (max. 8388607)
  96 named destinations out of 1000 (max. 500000)

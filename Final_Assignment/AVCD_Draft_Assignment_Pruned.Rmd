@@ -378,7 +378,7 @@ RelativeProbability_{ij} = \alpha + \beta_{1}Insecurity_{i} +  \beta_{2}Represen
 $$
 
 
-Our dependent variable, `RelativeProbability`, indicates the probability that respondent $i$ would vote for party $j$, rather than voting for the AfD. As explained above, H4 implies that $\beta_{1}$ should be negative for the SPD and LINKE. Figure 2 shows the coefficient estimates^[See table 4 in [appendix](#appendix) for the full regression table.] for $\beta_{2}$ - none of which are statistically significant at conventional levels.^[Conventional levels being the 1\%, 5\% and 10\% levels.] This entails, inter alia, that a unit-increase in economic insecurity does not significantly reduce the relative probability of voting for pro-redistributive, left-wing parties, here the SPD and Linke. Hence, we find no support for H4.
+Our dependent variable, `RelativeProbability`, indicates the probability that respondent $i$ votes for party $j$, rather than voting for the AfD. As explained above, H4 implies that $\beta_{1}$ should be negative for the SPD and LINKE. Figure 2 shows the coefficient estimates^[See table 4 in [appendix](#appendix) for the full regression table.] for $\beta_{2}$ - none of which are statistically significant at conventional levels.^[Conventional levels being the 1\%, 5\% and 10\% levels.] This entails, inter alia, that a unit-increase in economic insecurity does not significantly reduce the relative probability of voting for pro-redistributive, left-wing parties, here the SPD and Linke. Hence, we find no support for H4.
 
 
 ```{r multinomial-model-plot, fig.cap="Coefficient estimate of economic insecurity from multinomial model"}
@@ -391,27 +391,26 @@ afd_diff_gov_int1_mul <- nnet::multinom(btw21_zweitstimme_factor_re ~ job_loss_y
                          data = gles_mod)
 
 # plot frame 
-broom::tidy(afd_diff_gov_int1_mul) %>%
-  filter(grepl("job_loss_year_next2yrs", term)) %>%
-  ggplot(aes(x = y.level, y = estimate)) +
+hw <- avg_slopes(afd_diff_gov_int1_mul, by = c("group")) %>% 
+  filter(grepl("job_loss_year_next2yrs", term))
+hw %>%
+  filter(!grepl("AfD|Other", group)) %>%
+  ggplot(aes(x = group, y = estimate)) +
   geom_point() +
-  geom_errorbar(aes(ymin = estimate - std.error, 
-                    ymax = estimate + std.error), width = 0.2) +
+  geom_errorbar(aes(ymin = estimate - std.error, ymax = estimate + std.error), 
+                width = 0) +
   geom_hline(yintercept = 0, linetype = "dashed") +
-  expand_limits(y = -0.5) +
   labs(y = "Coefficient estimate for economic insecurity", x = "", 
-       title = "Change in probability of voting for major parties,\nrelative to voting for the AfD, for unit-increase in economic insecurity", 
-       caption = "Covariates include: net monthly\nhousehold income, age, abitur dummy, gender, rurality of place of residence and an East-West dummy") +
+       title = "Change in probability of voting for major parties,\nrelative to voting for the AfD, for a unit-increase in economic insecurity", 
+       caption = "Covariates are held at constant at their mean and include: net monthly household\nincome, age, abitur dummy, gender, rurality of place of residence and an East-West dummy") +
   theme_minimal()
 ```
 
 
 
+Before concluding, it is worth dwelling on two limitations of the above analysis. First, the regression results should not be interpreted causally. While I control for a set of observable confounders, I cannot rule out that there are other variables, particularly unobservable ones, that confound the relationship between economic insecurity and radical right voting. Second, my measures for economic insecurity are noisy and, depending on the degree of measurement error, this can make statistical inference more difficult, especially by inflating standard errors and, thus, increasing the risk of type II errors. 
 
-+ Caveats. 
-  
-  + not causal, correlational analysis
-  
+
 # Conclusion 
 
 + I find only extremely weak support for the theory. 
