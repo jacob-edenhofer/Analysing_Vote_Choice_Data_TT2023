@@ -720,6 +720,6 @@ modelsummary(list(afd_diff_gov_int11_1_r, afd_diff_gov_int5_1_r,
 
 
 
-\FloatBarrier
+
 
 # References 
