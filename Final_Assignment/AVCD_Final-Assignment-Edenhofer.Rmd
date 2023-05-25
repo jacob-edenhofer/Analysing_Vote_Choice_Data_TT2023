@@ -262,7 +262,7 @@ My independent variables of interest are economic insecurity, respondents’ per
 
 
    
-# Methodology and Results 
+# Methodology^[The replication code can be found [here](https://github.com/jacob-edenhofer/Analysing_Vote_Choice_Data_TT2023).] and results 
 
 
 I estimate logistic regressions to test the first three hypotheses, given that my dependent variable is a dummy for AfD party vote. I regress the latter on my two measures for economic insecurity as well as the measures for representation and trust, and the interactions between them and economic insecurity. In addition, I include a vector of covariates to control for potential observable confounders. The vector includes respondents' household income, their age, education, the rurality of their place of residence and a dummy indicating whether they currently live in Eastern or Western German states. 
@@ -279,7 +279,7 @@ $$
 Figure 1 visualises^[See tables 2 and 3 in the [appendix](#appendix) for the full regression tables, including coefficient estimates for the covariates.] the results from estimating these specifications. H1, H2 and H3 imply that $\beta_{1}>0$ and $\beta_{3}>0$. Using the unemployment experience and fear of job loss variables as proxies for economic insecurity, figure 1 shows that, contrary to expectations, economic insecurity does not significantly increase the probability of voting for the AfD. The coefficient estimates on the interaction terms are, except for for one, statistically insignificant, suggesting that it is *not* the case that the marginal effect of insecurity varies by the political system's responsiveness or respondents' trust in parliament. This conclusion is reinforced by figures 2 and 3 in the [appendix](#appendix). Finally, this null finding is largely,^[Two of the interaction terms in table 7 are statistically significant.] as tables 5 and 6 in the [appendix](#appendix) bear out, robust to relying on the two other proxies for economic insecurity mentioned in table 1.  
  
 
-```{r regression-results1-plot, fig.cap="Summary of tests for H1 - H3", fig.pos="!h"}
+```{r regression-results1-plot, fig.cap="Summary of tests for H1 - H3", fig.pos="!ht"}
 ## job loss fear / diff gov
 afd_diff_gov_int11 <- glm(afd_21 ~ difference_whos_gov*job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
                          family = binomial(link = "logit"), 
@@ -379,7 +379,7 @@ $$
 
 The dependent variable indicates the probability that respondent $i$ votes for party $j$, rather than voting for the AfD. As explained above, H4 implies that $\beta_{1}$ should be negative for the SPD and LINKE. 
 
-```{r multinomial-model-plot, fig.cap="Coefficient estimate of economic insecurity from multinomial model", fig.pos="!h"}
+```{r multinomial-model-plot, fig.cap="Coefficient estimate of economic insecurity from multinomial model", fig.pos="!ht"}
 # reference category afd 
 gles_mod$btw21_zweitstimme_factor_re <- relevel(gles_mod$btw21_zweitstimme_factor, 
                                                 ref = "AfD")
