@@ -1,5 +1,5 @@
 ---
-title: "Economic insecurity, lack of representation and radical right voting in the context of the 2021 German federal election"
+title: "Economic insecurity, lack of representation and radical-right voting in the context of the 2021 German federal election"
 author: "Candidate number: 1050713"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 header-includes: 
@@ -136,11 +136,6 @@ gles_mod <- gles %>%
          cancel_culture_subjektiv_factor = as.factor(cancel_culture_subjektiv),
          infrastruktur_subjektiv = ifelse(q46c < 0, NA, q46c),
          infrastruktur_subjektiv_factor = as.factor(infrastruktur_subjektiv),
-         # unemployed_last10_yrs = ifelse(d17a < 0, NA, d17a),
-         # unemployed_last10yrs_months = ifelse(d17b < 0, NA, d17b),
-         # unemployed_last10yrs_weeks = ifelse(d17c < 0, NA, d17c),
-         # unemployed_dummy = ifelse(unemployed_last10_yrs != 0, 1, 0),
-         # unemployed_dummy_factor = as.factor(unemployed_dummy),
          trust_in_politicians = ifelse(q79d < 0, NA, q79d),
          trust_in_politicians_factor = as.factor(trust_in_politicians),
          trust_in_parliament = ifelse(q79b < 0, NA, q79b),
@@ -189,31 +184,34 @@ gles_mod <- gles %>%
 
 
 
-# Introduction 
+# Introduction  
 
-+ State research questions.
-
-+ Structure of essay. 
+This essay examines whether, as some argue, the association between economic insecurity and radical-right support is moderated by voters' sense that the political system is incapable of addressing their economic grievances. To that end, I will, first, contextualise this research question in relation to the relevant literature, and, secondly, discuss the operationalisation of my dependent and independent variables. Thirdly, I will present my methodology and results, which do *not* support the argument that the political system's perceived lack of responsiveness moderates the relationship between economic insecurity and radical-right voting in the context of the 2021 German federal election.  
 
 
 # Motivation and relation to literature {#motivation}
 
+2023 marks the tenth year of the *Alternative für Deutschland*’s (AfD) existence. Originally founded by a coterie of eurosceptic professors, the AfD had, by late 2015, morphed into a classic radical-right party, when it started to adopt a strongly nativist, anti-immigrant platform [@arzheimer_how_2019; @cantoni_persistence_2020]. The AfD’s entry into the *Bundestag* in 2017 was part of the wave of populist success that many (Western) European countries witnessed during the mid-2010s. This wave led to the debate about the determinants of radical-right support – which had been ongoing among political scientists at least since the late 1990s [e.g. @kitschelt_radical_1995] – gaining greater attention in both other disciplines [@guriev_political_2022] and public discourse.
 
-2023 marks the tenth year of the Alternative für Deutschland’s (AfD) existence. Originally founded by a coterie of eurosceptic professors, the AfD ran on an anti-Euro platform in the 2013 federal election [@grimm_rise_2015], failing to clear the five-percent threshold for parliamentary representation only by a whisker.^[The [AfD won 4.7\%](https://www.bundeswahlleiterin.de/bundestagswahlen/2013/ergebnisse/bund-99.html) of the party votes (*Zweitstimmen*).] Starting in mid 2015, as the influx of refugees rose, the AfD increasingly morphed into a nationalistic, anti-immigration party [@arzheimer_alternative_2017; @arzheimer_how_2019; @cantoni_persistence_2020]. With the salience of immigration high during the 2017 federal election [@kellermann_immigration_2022], the [AfD won 12.6\%](https://www.bundeswahlleiterin.de/info/presse/mitteilungen/bundestagswahl-2017/34_17_endgueltiges_ergebnis.html) of party votes, making it the largest opposition party. The AfD’s entry into the *Bundestag* led to the debate about the determinants of radical right support – which had been ongoing among political scientists at least since the late 1990s [e.g. @kitschelt_radical_1995; @arzheimer_contextual_2009] – gaining greater attention in both other disciplines^[@guriev_political_2022 do an excellent job of summarising especially economists' contributions to the literature on the determinants of voting for populist parties.] and public discourse.
+
+While much of the debate on the demand-side of radical-right voting has focused on the relative importance of economic and cultural factors respectively [@colantone_surge_2019; @margalit_economic_2019; @art_myth_2022; @margalit_cultural_2022], the theoretical framework I test below belongs to another, somewhat more nascent strand of the literature. This strand argues, inter alia, that the effect of economic grievances is moderated by (i) voters' trust in political institutions, notably parties and parliaments, and (ii) the degree to which they feel their preferences are represented in the party system [e.g. @dustmann_europes_2017; @eichengreen_populist_2018; @ivanov_economic_2023]. 
 
 
-While much of the debate on the demand-side determinants of radical-right voting has focused on the relative importance of economic and cultural factors respectively,^[Those on the economic side of the debate mostly do not deny the importance of cultural factors, such as nativist attitudes - but attribute these attitudes to economic factors or shocks [e.g. @colantone_surge_2019; @colantone_backlash_2021]. The cultural camp [@art_myth_2022], by contrast, sees such attitudes, at least in part, as exogenous to economic shocks, instead, conceiving of them as the key background condition without which economic insecurity would not have given rise to the electoral success of populists [@margalit_economic_2019; @margalit_cultural_2022].] the theoretical framework I test below belongs to another, somewhat more nascent strand of the literature. This strand argues, inter alia, that the effect of economic grievances is likely moderated by (i) voters' trust in political institutions, notably parties and parliaments, and (ii) the degree to which they feel their preferences are represented in the party system [e.g. @dustmann_europes_2017; @eichengreen_populist_2018; @ivanov_economic_2023]. This set of theoretical hypotheses - though often not explicitly acknowledged by non-political-scientists - echo not only the work by @katz_cartel_2009 on the cartelisation of (Western) European party systems, but also more recent work stressing the importance of representational deficits in driving populist support [e.g. @manow_ent-demokratisierung_2020; @schafer_demokratische_2021; @zurn_how_2022; @silva_parties_2023]. More importantly, these hypotheses have been subjected to little empirical testing, with @ivanov_economic_2023 being a notable exception, as, for instance, @sonin_historical_2022 notes in his review of the work by @eichengreen_populist_2018. This essay is intended as a small step towards filling this gap in the literature. 
+Though often not explicitly acknowledged by non-political-scientists, this set of theoretical hypotheses echoes not only the work by @katz_cartel_2009 on the cartelisation of Western European party systems, but also more recent work stressing the importance of representational deficits in driving populist support [e.g. @manow_ent-demokratisierung_2020; @schafer_demokratische_2021; @silva_parties_2023]. More importantly, these hypotheses have been subjected to relatively little empirical testing, as @sonin_historical_2022 notes in his review of the work by @eichengreen_populist_2018. This essay is intended as a small step towards filling this gap in the literature. 
+
 
 # Theory and case selection {#theory}
 
-To the end, let me expatiate on the theoretical intuition outlined above. Like many economic-insecurity-centred theories of radical right support, the theoretical argument starts from the observation that economic shocks, such as automation [@boix_democratic_2019] or trade liberalisation [@autor_china_2013], create winners and losers. This assumption holds true not only for most Western European countries [@colantone_trade_2018; @milner_voting_2021], in general, but also for Germany, in particular [@dauth_rise_2014; @dauth_adjustment_2021]. Those losers, the argument goes on, who do not believe the current political system can address their grievances will then turn to populist radical right parties. 
+
+Like many economic-insecurity-centred accounts of radical-right support, the theoretical argument starts from the observation that economic shocks, such as automation [@boix_democratic_2019] or trade liberalisation [@autor_china_2013], create winners and losers. This assumption holds true not only for most Western European countries [@colantone_trade_2018; @milner_voting_2021], in general, but also for Germany, in particular [@dauth_rise_2014; @dauth_adjustment_2021]. Those losers, the argument goes on, who do not believe the current political system can address their grievances will then turn to populist radical-right parties. 
+
 
 By way of unpacking this argument, note, first, that losers may believe the political system to be incapable of redressing their economic grievances for two distinct reasons. First, they might deem all mainstream parties to be much of a muchness, meaning none of the supposedly different parties is seen by losers as representing their preferences. In that instance, losers are likely to think it does not matter which mainstream party they vote for, or which of those parties governs. Second, even if voters believe at least one mainstream party to endorse policies conducive to redressing their economic grievances, they might not trust any mainstream politician to follow through on these promises.^[This ‘trust’ channel is distinct from a ‘valence’ channel, where voters fundamentally trust politicians, but judge their levels of competence to differ [@green_politics_2017].] 
 
 
-These two reasons also show why the theory predicts economic losers to turn to radical right parties, as opposed to left-wing parties, as a result of their grievances. Many other economic-insecurity-type arguments are unable to resolve this puzzle, which arises because the latter’s platforms tend to be significantly more pro-redistributive than the former’s platforms. Using the terminology by @linz_breakdown_1978, the reason is that losers, as @eichengreen_populist_2018 notes, regard left-wing parties as loyal to the political system and in cahoots with the other mainstream actors. So, their redistributive promises lack credibility. By contrast, radical right parties’ semi-loyalty or disloyalty to the system means that voting for them increase the likelihood that the political system, characterised by the mainstream cartel [@katz_cartel_2009], will be disrupted. 
+These two reasons also show why the theory predicts economic losers to turn to radical-right parties, as opposed to left-wing parties, as a result of their grievances. Many other economic-insecurity-type arguments are unable to resolve this puzzle, which arises because the latter’s platforms tend to be significantly more pro-redistributive than the former’s platforms. Using the terminology by @linz_breakdown_1978, the reason is that losers, as @eichengreen_populist_2018 notes, regard left-wing parties as loyal to the political system and in cahoots with the other mainstream actors. So, their redistributive promises lack credibility. By contrast, radical-right parties’ semi-loyalty or disloyalty to the system means that voting for them increase the likelihood that the political system, characterised by the mainstream cartel [@katz_cartel_2009], will be disrupted. 
 
-In sum, this theoretical argument implies (at least)^[Naturally, the argument could also be taken to imply that (i) a perceived lack of representation and (ii) low trust increase the probability of voting for the radical right. Given the space constraints and my focus on how these two factors moderate the effects of economic security, I prescind from testing these two hypotheses.] four testable hypotheses.
+In sum, this theoretical argument implies (at least)^[The argument could also be taken to imply that (i) a perceived lack of representation and (ii) low trust increase the probability of voting for the radical right. Given the space constraints, I prescind from testing these two hypotheses.] four testable hypotheses.
 
 + H1: Economic insecurity, *ceteris paribus*, increases probability of voting for the radical right.
 + H2: The effect of economic insecurity on the probability of voting for the radical right is, *ceteris paribus*, stronger for those who believe their interests not be represented in the current party system. 
@@ -221,7 +219,7 @@ In sum, this theoretical argument implies (at least)^[Naturally, the argument co
 + H4: Economic insecurity, *ceteris paribus*, increases probability of voting for the radical right, relative to pro-redistributive left-wing parties, notably the SPD and LINKE. 
 
 
-Before setting out my empirical strategy, let me briefly discuss my two reasons for choosing the case of the 2021 German federal election. First, the 2021 election occurred in the wake of the “third wave” of the Covid-19 pandemic, which caused widespread financial insecurity among German households [@cziriak_publication_nodate]. Secondly, the pandemic was, as in most other countries, a politically contentious period, causing deep divides over the desirability and efficacy of both non-pharmaceutical interventions, such as mask mandates, and vaccination. The *Querdenker* movement, in particular, used their protests to stress that their interests were not represented by any mainstream party [e.g. @plumper_strategy_2021]. Both factors mean that economic insecurity and subjectively perceived representational deficits were likely salient in the minds of some voters, making this election a suitable case for testing the above hypotheses.
+Before setting out my empirical strategy, let me briefly discuss my two reasons for choosing the case of the 2021 German federal election. First, the 2021 election occurred in the wake of the “third wave” of the Covid-19 pandemic, which caused widespread financial insecurity among German households [@cziriak_publication_nodate]. Secondly, the pandemic was a politically contentious period, causing deep divides over the desirability and efficacy of both non-pharmaceutical interventions, such as mask mandates, and vaccination. The *Querdenker* movement, in particular, used their protests to stress that their interests were not represented by any mainstream party [e.g. @plumper_strategy_2021]. Both factors mean that economic insecurity and subjectively perceived representational deficits were likely salient in the minds of some voters, making this election a suitable case for testing the above hypotheses.
 
 
 
@@ -234,7 +232,7 @@ To test the above hypotheses, I use the *German Longitudinal Election Study's* (
 
 ```{r data-summary-table}
 data_summary_table <- tribble(~"Variable", ~"Operationalisation", ~"Survey item(s)",  
-                              "Radical right voting", "factor indicating party vote choice", "q114ba",
+                              "Radical-right voting", "factor indicating party vote choice", "q114ba",
                               "", "dummy for AfD Zweitstimme", "q114ba = 322", 
                               "Economic insecurity", "dummy for unemployment in past ten years", "d17a-c", 
                               "", "fear of job loss", "d18",
@@ -257,7 +255,7 @@ data_summary_table %>%
 
 
 
-My dependent variable is voting for radical right, which, in the German context, means casting one’s party vote (*Zweitstimme*) for the AfD. As indicated in table 1,^[See the [appendix](#appendix) for summary statistics of all variables in table 1.] I operationalise the dependent variable in two ways. I use a dummy variable to test hypotheses H1 to H3, while using the full factor variable to test H4. This is because the first three hypotheses concern the probability of voting for the radical right, relative to all parties, whereas the fourth hypothesis concerns the probability of voting AfD, relative to the SPD and LINKE. 
+My dependent variable is radical-right voting, which, in the German context, means casting one’s party vote (*Zweitstimme*) for the AfD. As indicated in table 1, I operationalise the dependent variable in two ways. I use a dummy variable to test hypotheses H1 to H3, while using the full factor variable to test H4. This is because the first three hypotheses concern the probability of voting for the radical right, relative to all parties, whereas the fourth hypothesis concerns the probability of voting AfD, relative to the SPD and LINKE. 
 
 
 My independent variables of interest are economic insecurity, respondents’ perception of the political system’s responsiveness to their preferences, and their trust in the system. To operationalise economic insecurity, I use a dummy for actual unemployment experience in the past ten years. Given the labour market literature shows past unemployment to be strongly predictive of present unemployment risk [e.g. @autor_unexpected_2023], this dummy can be interpreted as an objective measure of economic insecurity. To capture subjectively perceived insecurity, I rely on respondents’ fear of losing their jobs in the next two years. The other two economic insecurity variables (see table 1) are merely used to probe the robustness of my findings (see [appendix](#appendix)). Finally, following [@colantone_global_2018], I use respondents’ answers to the questions ‘Does it make a difference who is governing/who one votes for?’ and ‘How much do you trust parliament/political parties?’ as measures for the perceived responsiveness of Germany’s political system and voters’ trust in the latter.
@@ -267,10 +265,10 @@ My independent variables of interest are economic insecurity, respondents’ per
 # Methodology and Results 
 
 
-To test the first three hypotheses, I estimate logistic regressions, given that my dependent variable is the dummy for AfD party vote. I regress the latter on my two measures for economic insecurity as well as the measures for representation and trust, and the interactions between them and economic insecurity. In addition, I include a vector of covariates to control for potential observable confounders. The vector includes respondents' household income, their age, education, the rurality of their place of residence and a dummy indicating whether they currently live in Eastern or Western German states. 
+I estimate logistic regressions to test the first three hypotheses, given that my dependent variable is a dummy for AfD party vote. I regress the latter on my two measures for economic insecurity as well as the measures for representation and trust, and the interactions between them and economic insecurity. In addition, I include a vector of covariates to control for potential observable confounders. The vector includes respondents' household income, their age, education, the rurality of their place of residence and a dummy indicating whether they currently live in Eastern or Western German states. 
 
+Save for the East-West dummy and, possibly, the rurality variable, these are standard covariates in the literature, with, for instance, @colantone_surge_2019 explaining why these might confound the relationship between economic insecurity and radical-right voting. The inclusion of the rurality variable is motivated by the work of @haffert_stadt_2022, who shows that geographic location has become an important determinant of voting behaviour in Germany in recent years. The East-West dummy accounts for the economic, cultural, and political differences between these two parts of Germany [e.g. @becker_2020_separation]. Letting $\textbf{X}$ denote this vector and $\epsilon$ the error term, we can write the estimating equation^[The specification for trust is entirely analogous.] for the logistic regression with the political system's responsiveness as the moderating variable as follows:
 
-Save for the East-West dummy and, possibly, the rurality variable, these are standard covariates in the literature, with, for instance, @colantone_surge_2019 explaining why these might confound the relationship between economic insecurity and radical right voting. The inclusion of the rurality variable is motivated by the work of @haffert_stadt_2022, who shows that geographic location has become an important determinant of voting behaviour in Germany in recent years. The East-West dummy accounts for the economic, cultural, and political differences between these two parts of Germany [e.g. @becker_2020_separation]. Letting $\textbf{X}$ denote this vector and $\epsilon$ the error term, we can write the estimating equation^[The specification for trust is entirely analogous.] for the logistic regression with the political system's responsiveness as my moderating variable as follows:
 
 
 $$
@@ -278,10 +276,10 @@ log(\frac{AfD_{i}}{1-AfD_{i}}) = \alpha + \beta_{1}Insecurity_{i} +  \beta_{2}Re
 $$
 
 
-[Figure 1](#fig:regression-results1-plot) visualises^[See tables 2 and 3 in the [appendix](#appendix) for the full regression tables, including coefficient estimates for the covariates.] the results from estimating these specifications. Hypotheses one to three imply that $\beta_{1}>0$ and $\beta_{3}>0$. Using the unemployment experience and fear of job loss variables as proxies for economic insecurity, figure 1 shows that, contrary to the theory's expectations, economic insecurity does not significantly increase the probability of voting for the AfD. The coefficient estimates on the interaction terms are, save for the one on 'trust in parliament' and 'fear of job loss', statistically insignificant, suggesting that it is *not* the case that the marginal effect of insecurity varies by the political system's responsiveness or respondents' trust in parliament. This conclusion is reinforced by figures 2 and 3 in the [appendix](#appendix), which plots the relevant marginal effects. Finally, this null finding is largely,^[Two of the interaction terms in table 7 are statistically significant.] as tables 5 and 6 in the [appendix](#appendix) bear out, robust to relying on respondents' fear of losing their profession and their assessment of their personal economic situation as proxies for economic insecurity. 
+Figure 1 visualises^[See tables 2 and 3 in the [appendix](#appendix) for the full regression tables, including coefficient estimates for the covariates.] the results from estimating these specifications. H1, H2 and H3 imply that $\beta_{1}>0$ and $\beta_{3}>0$. Using the unemployment experience and fear of job loss variables as proxies for economic insecurity, figure 1 shows that, contrary to expectations, economic insecurity does not significantly increase the probability of voting for the AfD. The coefficient estimates on the interaction terms are, except for for one, statistically insignificant, suggesting that it is *not* the case that the marginal effect of insecurity varies by the political system's responsiveness or respondents' trust in parliament. This conclusion is reinforced by figures 2 and 3 in the [appendix](#appendix). Finally, this null finding is largely,^[Two of the interaction terms in table 7 are statistically significant.] as tables 5 and 6 in the [appendix](#appendix) bear out, robust to relying on the two other proxies for economic insecurity mentioned in table 1.  
+ 
 
-
-```{r regression-results1-plot, fig.cap="Summary of tests for H1 - H3"}
+```{r regression-results1-plot, fig.cap="Summary of tests for H1 - H3", fig.pos="!h"}
 ## job loss fear / diff gov
 afd_diff_gov_int11 <- glm(afd_21 ~ difference_whos_gov*job_loss_year_next2yrs + household_income + age + abitur_factor + sex1 + urban_rural + ostwest_factor, 
                          family = binomial(link = "logit"), 
@@ -366,11 +364,12 @@ together +
                   caption = "All models include the following covariates: net monthly\nhousehold income, age, abitur dummy, gender, rurality of place of residence and an East-West dummy.",
                   theme = theme(plot.title = element_text(size = 13, hjust = 0.5),
                                  plot.caption = element_text(size = 7, hjust = 1)))
+# ggsave("coefficient_plot_main.png", g3)
 ```
 
 
 
-Testing H4 requires use to modify our estimation technique to account for the dependent variable being a multi-category factor, rather than a dichotomous variable. To that end, I use the same vector of covariates as above, while using respondents' fear of losing their jobs as my proxy for economic insecurity and their answers to the question 'Does it make a difference who is governing?' as my measure for the political system's responsiveness. I also drop the interaction term since H4 is *not* about differences in marginal effects. That is, I estimate the following multinomial model: 
+Testing H4 requires use to modify our estimation technique to account for the dependent variable being a multi-category factor, rather than a dichotomous variable. To that end, I estimate a multinomial model, using the same vector of covariates as above. Respondents' fear of losing their jobs serves as my proxy for economic insecurity and their answers to the question 'Does it make a difference who is governing?' as my measure for the political system's responsiveness. I also drop the interaction term since H4 is *not* about differences in marginal effects, i.e.:  
 
 
 $$
@@ -378,10 +377,9 @@ RelativeProbability_{ij} = \alpha + \beta_{1}Insecurity_{i} +  \beta_{2}Represen
 $$
 
 
-Our dependent variable, `RelativeProbability`, indicates the probability that respondent $i$ votes for party $j$, rather than voting for the AfD. As explained above, H4 implies that $\beta_{1}$ should be negative for the SPD and LINKE. Figure 2 shows the coefficient estimates^[See table 4 in [appendix](#appendix) for the full regression table.] for $\beta_{2}$ - none of which are statistically significant at conventional levels.^[Conventional levels being the 1\%, 5\% and 10\% levels.] This entails, inter alia, that a unit-increase in economic insecurity does not significantly reduce the relative probability of voting for pro-redistributive, left-wing parties, here the SPD and Linke. Hence, we find no support for H4.
+The dependent variable indicates the probability that respondent $i$ votes for party $j$, rather than voting for the AfD. As explained above, H4 implies that $\beta_{1}$ should be negative for the SPD and LINKE. 
 
-
-```{r multinomial-model-plot, fig.cap="Coefficient estimate of economic insecurity from multinomial model"}
+```{r multinomial-model-plot, fig.cap="Coefficient estimate of economic insecurity from multinomial model", fig.pos="!h"}
 # reference category afd 
 gles_mod$btw21_zweitstimme_factor_re <- relevel(gles_mod$btw21_zweitstimme_factor, 
                                                 ref = "AfD")
@@ -407,16 +405,15 @@ hw %>%
 ```
 
 
+Figure 2 shows the coefficient estimates^[See table 4 in [appendix](#appendix) for the full regression table.] for $\beta_{2}$ - none of which are statistically significant at conventional levels.^[Conventional levels being the 1\%, 5\% and 10\% levels.] This entails, inter alia, that a unit-increase in economic insecurity does not significantly reduce the relative probability of voting for pro-redistributive, left-wing parties, here the SPD and Linke. Hence, we find no support for H4.
 
-Before concluding, it is worth dwelling on two limitations of the above analysis. First, the regression results should not be interpreted causally. While I control for a set of observable confounders, I cannot rule out that there are other variables, particularly unobservable ones, that confound the relationship between economic insecurity and radical right voting. Second, my measures for economic insecurity are noisy and, depending on the degree of measurement error, this can make statistical inference more difficult, especially by inflating standard errors and, thus, increasing the risk of type II errors. 
+
+Before concluding, it is worth dwelling on two limitations of the above analysis. First, the regression results should not be interpreted causally. While I control for a set of observable confounders, I cannot rule out that other variables, particularly unobservable ones, confound the relationship between economic insecurity and radical-right voting. Second, my measures for the key independent variables (see table 1), particularly economic insecurity, are noisy, which can complicate statistical inference by inflating standard errors and, thus, increasing the risk of type II errors or null results. 
 
 
 # Conclusion 
 
-+ I find only extremely weak support for the theory. 
-
-
-
+In summary, I examined whether the German political system's perceived responsiveness and voter's trust in the latter moderate the relationship between economic insecurity and AfD support. By estimating a series of logisitic and multinomial regressions models, I found this *not* to be the case in the 2021 German federal election. While this null finding is robust to different operationalisations of the key independent variables, the analysis is subject to considerable limitations, implying that the results should be interpreted as tentative, rather than definitive, evidence against the hypotheses tested here.   
 
 
 
@@ -424,7 +421,7 @@ Before concluding, it is worth dwelling on two limitations of the above analysis
 
 
 
-## Regression tables and marginal effect plots 
+## Marginal effect plots and regression tables   
 
 
 
@@ -441,7 +438,8 @@ modelsummary(list(afd_diff_gov_int11, afd_diff_gov_int5,
                           "difference_who_votes:unemp_at_least_one_year_factor1" = "Difference which party one votes for\nx Unemployment",
                           "difference_whos_gov:unemp_at_least_one_year_factor1" = "Difference which party governs\nx Unemployment",
                           "age" = "Age",
-                          "sex1female" = "Female dummy", 
+                          "sex1female" = "Female dummy",
+                          "household_income" = "Household income",
                           "urban_rural" = "Rurality of place\nof residence",
                           "abitur_factorno_abitur" = "No Abitur dummy",
                           "ostwest_factorwest" = "West Germany dummy"),
@@ -524,7 +522,8 @@ modelsummary(list(afd_diff_gov_int11_1, afd_diff_gov_int5_1,
                        "trust_in_parliament:unemp_at_least_one_year_factor1" = "Trust in parliament\nx Unemployment",
                        "trust_in_parties:unemp_at_least_one_year_factor1" = "Trust in parties\nx Unemployment",
                        "age" = "Age",
-                       "sex1female" = "Female dummy", 
+                       "sex1female" = "Female dummy",
+                       "household_income" = "Household income",
                        "urban_rural" = "Rurality of place\nof residence",
                        "abitur_factorno_abitur" = "No Abitur dummy",
                        "ostwest_factorwest" = "West Germany dummy"),
@@ -606,9 +605,19 @@ ggpubr::ggarrange(p3_me, p4_me, nrow = 1)
 
 
 ```{r multinomial-model-table}
-modelsummary(afd_diff_gov_int1_mul, shape = term ~ response:model,
-             estimate = "{estimate}{stars}", 
-             output = "kableExtra", 
+modelsummary(list("Multinomial model with AfD as reference category" = afd_diff_gov_int1_mul), 
+             shape = term ~ response:model,
+             estimate = "{estimate}{stars}",
+             coef_map = c("(Intercept)" = "Intercept", 
+                          "job_loss_year_next2yrs" = "Fear of job loss", 
+                          "difference_whos_gov" = "Difference which party governs",
+                          "age" = "Age",
+                          "sex1female" = "Female dummy",
+                          "household_income" = "Household income",
+                          "urban_rural" = "Rurality of place\nof residence",
+                          "abitur_factorno_abitur" = "No Abitur dummy",
+                          "ostwest_factorwest" = "West Germany dummy"), 
+             output = "kableExtra",
              title = "Multinomial analysis") %>%
   kable_styling(latex_options = c("scale_down", "hold_position"))
 ```
@@ -655,7 +664,8 @@ modelsummary(list(afd_diff_gov_int11_r, afd_diff_gov_int5_r,
                        "difference_who_votes:econ_current_personal" = "Diff. which party one votes for x Current econ. situation",
                        "difference_whos_gov:econ_current_personal" = "Diff. which party governs x Current econ. situation",
                        "age" = "Age",
-                       "sex1female" = "Female dummy", 
+                       "sex1female" = "Female dummy",
+                       "household_income" = "Household income",
                        "urban_rural" = "Rurality of place\nof residence",
                        "abitur_factorno_abitur" = "No Abitur dummy",
                        "ostwest_factorwest" = "West Germany dummy"),
@@ -698,7 +708,8 @@ modelsummary(list(afd_diff_gov_int11_1_r, afd_diff_gov_int5_1_r,
                        "trust_in_parliament:econ_current_personal" = "Trust in parliament x Current econ. situation",
                        "trust_in_parties:econ_current_personal" = "Trust in parties x Current econ. situation",
                        "age" = "Age",
-                       "sex1female" = "Female dummy", 
+                       "sex1female" = "Female dummy",
+                       "household_income" = "Household income",
                        "urban_rural" = "Rurality of place\nof residence",
                        "abitur_factorno_abitur" = "No Abitur dummy",
                        "ostwest_factorwest" = "West Germany dummy"),
