@@ -52,7 +52,7 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{5}
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
 \newlength{\csllabelwidth}
@@ -90,7 +90,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{Final AVCD assignment}
-\lhead{1050713}
+\lhead{Jacob Edenhofer}
 \renewcommand{\headrulewidth}{0pt}
 \cfoot{\thepage}
 \usepackage{booktabs}
@@ -125,7 +125,7 @@
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
   pdftitle={Economic insecurity, lack of representation and radical-right voting in the context of the 2021 German federal election},
-  pdfauthor={Candidate number: 1050713},
+  pdfauthor={Jacob Edenhofer},
   colorlinks=true,
   linkcolor={gray},
   filecolor={Maroon},
@@ -135,7 +135,7 @@
 
 \title{Economic insecurity, lack of representation and radical-right
 voting in the context of the 2021 German federal election}
-\author{Candidate number: 1050713}
+\author{Jacob Edenhofer}
 \date{26 May 2023}
 
 \begin{document}
@@ -442,7 +442,7 @@ the two other proxies for economic insecurity mentioned in table 1.
 
 \begin{figure}
 \centering
-\includegraphics{AVCD_Final-Assignment-1050713_files/figure-latex/regression-results1-plot-1.pdf}
+\includegraphics{AVCD_Final-Assignment-Edenhofer_files/figure-latex/regression-results1-plot-1.pdf}
 \caption{Summary of tests for H1 - H3}
 \end{figure}
 
@@ -467,7 +467,7 @@ LINKE.
 
 \begin{figure}
 \centering
-\includegraphics{AVCD_Final-Assignment-1050713_files/figure-latex/multinomial-model-plot-1.pdf}
+\includegraphics{AVCD_Final-Assignment-Edenhofer_files/figure-latex/multinomial-model-plot-1.pdf}
 \caption{Coefficient estimate of economic insecurity from multinomial
 model}
 \end{figure}
@@ -506,272 +506,10 @@ definitive, evidence against the hypotheses tested here.
 
 \emph{Word count: 2098}
 
-\hypertarget{appendix}{%
-\section{Appendix}\label{appendix}}
-
-\hypertarget{marginal-effect-plots-and-regression-tables}{%
-\subsection{Marginal effect plots and regression
-tables}\label{marginal-effect-plots-and-regression-tables}}
-
-\begin{table}[!h]
-
-\caption{\label{tab:regression-results-1-table1}Association between the probability of voting for the AfD and economic insecurity}
-\centering
-\begin{tabular}[t]{lcccc}
-\toprule
-  & (1) & (2) & (3) & (4)\\
-\midrule
-Fear of job loss & \num{0.130} & \num{0.147} &  & \\
- & (\num{0.425}) & (\num{0.407}) &  & \\
-Unemployment experience dummy &  &  & \num{-0.613} & \num{1.277}+\\
- &  &  & (\num{0.801}) & (\num{0.767})\\
-Difference which party one votes for &  & \num{-0.375}* &  & \num{-0.451}***\\
- &  & (\num{0.187}) &  & (\num{0.077})\\
-Difference which party governs & \num{-0.281} &  & \num{-0.402}*** & \\
- & (\num{0.186}) &  & (\num{0.077}) & \\
-Difference which party one votes for
-x Fear of job loss &  & \num{-0.050} &  & \\
- &  & (\num{0.121}) &  & \\
-Difference which party governs
-x Fear of job loss & \num{-0.028} &  &  & \\
- & (\num{0.118}) &  &  & \\
-Difference which party one votes for
-x Unemployment &  &  &  & \num{-0.219}\\
- &  &  &  & (\num{0.211})\\
-Difference which party governs
-x Unemployment &  &  & \num{0.304} & \\
- &  &  & (\num{0.207}) & \\
-Age & \num{-0.009} & \num{-0.010} & \num{-0.008} & \num{-0.009}\\
- & (\num{0.010}) & (\num{0.010}) & (\num{0.005}) & (\num{0.006})\\
-Female dummy & \num{-0.778}** & \num{-0.781}** & \num{-0.676}*** & \num{-0.708}***\\
- & (\num{0.252}) & (\num{0.255}) & (\num{0.183}) & (\num{0.187})\\
-Household income & \num{-0.123}* & \num{-0.106}+ & \num{-0.097}* & \num{-0.081}*\\
- & (\num{0.060}) & (\num{0.061}) & (\num{0.039}) & (\num{0.040})\\
-Rurality of place
-of residence & \num{0.241}* & \num{0.243}* & \num{0.092} & \num{0.109}\\
- & (\num{0.117}) & (\num{0.118}) & (\num{0.082}) & (\num{0.084})\\
-No Abitur dummy & \num{1.013}*** & \num{0.982}** & \num{0.818}*** & \num{0.773}***\\
- & (\num{0.299}) & (\num{0.303}) & (\num{0.221}) & (\num{0.223})\\
-West Germany dummy & \num{-1.385}*** & \num{-1.336}*** & \num{-1.047}*** & \num{-1.017}***\\
- & (\num{0.245}) & (\num{0.248}) & (\num{0.178}) & (\num{0.182})\\
-\midrule
-Num.Obs. & \num{1276} & \num{1265} & \num{2324} & \num{2296}\\
-AIC & \num{548.7} & \num{537.0} & \num{1013.5} & \num{984.9}\\
-BIC & \num{600.2} & \num{588.4} & \num{1071.1} & \num{1042.3}\\
-Log.Lik. & \num{-264.344} & \num{-258.483} & \num{-496.774} & \num{-482.439}\\
-RMSE & \num{0.24} & \num{0.24} & \num{0.24} & \num{0.24}\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}
-\centering
-\includegraphics{AVCD_Final-Assignment-1050713_files/figure-latex/regression-results-1-plot1-1.pdf}
-\caption{Marginal effects of economic insecurity by perceived
-responsiveness}
-\end{figure}
-
-\begin{table}[!h]
-
-\caption{\label{tab:regression-results-1-table2}Association between the probability of voting for the AfD and economic insecurity}
-\centering
-\begin{tabular}[t]{lcccc}
-\toprule
-  & (1) & (2) & (3) & (4)\\
-\midrule
-Fear of job loss & \num{0.515} & \num{0.261} &  & \\
- & (\num{0.347}) & (\num{0.348}) &  & \\
-Unemployment experience dummy &  &  & \num{1.051}+ & \num{0.352}\\
- &  &  & (\num{0.599}) & (\num{0.621})\\
-Trust in parliament & \num{-0.151} &  & \num{-0.491}*** & \\
- & (\num{0.170}) &  & (\num{0.045}) & \\
-Trust in parties &  & \num{-0.401}** &  & \num{-0.578}***\\
- &  & (\num{0.155}) &  & (\num{0.059})\\
-Trust in parliament
-x Fear of job loss & \num{-0.276}+ &  &  & \\
- & (\num{0.150}) &  &  & \\
-Trust in parties
-x Fear of job loss &  & \num{-0.121} &  & \\
- &  & (\num{0.114}) &  & \\
-Trust in parliament
-x Unemployment &  &  & \num{-0.205} & \\
- &  &  & (\num{0.152}) & \\
-Trust in parties
-x Unemployment &  &  &  & \num{0.003}\\
- &  &  &  & (\num{0.163})\\
-Age & \num{-0.002} & \num{-0.005} & \num{0.003} & \num{-0.004}\\
- & (\num{0.011}) & (\num{0.011}) & (\num{0.006}) & (\num{0.006})\\
-Female dummy & \num{-0.911}*** & \num{-0.934}*** & \num{-0.834}*** & \num{-0.830}***\\
- & (\num{0.271}) & (\num{0.272}) & (\num{0.202}) & (\num{0.199})\\
-Household income & \num{-0.071} & \num{-0.107}+ & \num{-0.048} & \num{-0.080}+\\
- & (\num{0.066}) & (\num{0.064}) & (\num{0.044}) & (\num{0.042})\\
-Rurality of place
-of residence & \num{0.214}+ & \num{0.203}+ & \num{0.111} & \num{0.091}\\
- & (\num{0.126}) & (\num{0.121}) & (\num{0.090}) & (\num{0.087})\\
-No Abitur dummy & \num{0.902}** & \num{1.037}*** & \num{0.652}** & \num{0.793}***\\
- & (\num{0.315}) & (\num{0.309}) & (\num{0.233}) & (\num{0.230})\\
-West Germany dummy & \num{-1.237}*** & \num{-1.292}*** & \num{-1.034}*** & \num{-1.054}***\\
- & (\num{0.259}) & (\num{0.256}) & (\num{0.191}) & (\num{0.188})\\
-\midrule
-Num.Obs. & \num{1247} & \num{1242} & \num{2272} & \num{2263}\\
-AIC & \num{466.1} & \num{477.6} & \num{837.4} & \num{865.3}\\
-BIC & \num{517.4} & \num{528.8} & \num{894.6} & \num{922.6}\\
-Log.Lik. & \num{-223.064} & \num{-228.793} & \num{-408.682} & \num{-422.655}\\
-RMSE & \num{0.23} & \num{0.22} & \num{0.22} & \num{0.23}\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}
-\centering
-\includegraphics{AVCD_Final-Assignment-1050713_files/figure-latex/regression-results-1-plot2-1.pdf}
-\caption{Marginal effects of economic insecurity by trust}
-\end{figure}
-
-\begin{table}[!h]
-
-\caption{\label{tab:multinomial-model-table}Multinomial analysis}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{lcccccc}
-\toprule
-\multicolumn{1}{c}{ } & \multicolumn{6}{c}{Multinomial model with AfD as reference category} \\
-\cmidrule(l{3pt}r{3pt}){2-7}
-  & CDU/CSU & SPD & FDP & GRUENE/B90 & LINKE & Other party\\
-\midrule
-Intercept & \num{-4.157}*** & \num{-1.740}+ & \num{-0.805} & \num{-2.348}* & \num{0.976} & \num{1.210}\\
- & (\num{1.108}) & (\num{1.025}) & (\num{1.119}) & (\num{1.072}) & (\num{1.193}) & (\num{1.296})\\
-Fear of job loss & \num{-0.024} & \num{-0.033} & \num{-0.076} & \num{0.019} & \num{0.034} & \num{-0.207}\\
- & (\num{0.176}) & (\num{0.166}) & (\num{0.187}) & (\num{0.172}) & (\num{0.195}) & (\num{0.244})\\
-Difference which party governs & \num{0.519}*** & \num{0.289}** & \num{0.303}* & \num{0.552}*** & \num{0.156} & \num{-0.122}\\
- & (\num{0.120}) & (\num{0.111}) & (\num{0.125}) & (\num{0.122}) & (\num{0.136}) & (\num{0.142})\\
-Age & \num{0.020}+ & \num{0.032}** & \num{-0.017} & \num{0.008} & \num{0.002} & \num{-0.041}**\\
- & (\num{0.012}) & (\num{0.011}) & (\num{0.012}) & (\num{0.011}) & (\num{0.013}) & (\num{0.015})\\
-Female dummy & \num{0.779}** & \num{0.916}*** & \num{0.389} & \num{1.173}*** & \num{0.445} & \num{0.560}\\
- & (\num{0.280}) & (\num{0.269}) & (\num{0.297}) & (\num{0.279}) & (\num{0.326}) & (\num{0.348})\\
-Household income & \num{0.210}** & \num{0.085} & \num{0.175}* & \num{0.157}* & \num{-0.017} & \num{0.141}\\
- & (\num{0.070}) & (\num{0.065}) & (\num{0.073}) & (\num{0.068}) & (\num{0.077}) & (\num{0.088})\\
-Rurality of place
-of residence & \num{-0.066} & \num{-0.268}* & \num{-0.206} & \num{-0.365}** & \num{-0.381}* & \num{-0.223}\\
- & (\num{0.130}) & (\num{0.124}) & (\num{0.135}) & (\num{0.128}) & (\num{0.149}) & (\num{0.160})\\
-No Abitur dummy & \num{-0.585}+ & \num{-0.877}** & \num{-0.914}** & \num{-1.728}*** & \num{-1.276}*** & \num{-0.382}\\
- & (\num{0.329}) & (\num{0.317}) & (\num{0.338}) & (\num{0.324}) & (\num{0.368}) & (\num{0.398})\\
-West Germany dummy & \num{1.349}*** & \num{1.556}*** & \num{1.232}*** & \num{1.967}*** & \num{0.489} & \num{0.933}**\\
- & (\num{0.281}) & (\num{0.268}) & (\num{0.296}) & (\num{0.288}) & (\num{0.320}) & (\num{0.351})\\
-Num.Obs. & \num{1276} &  &  &  &  & gof\\
-R2 & \num{0.589} &  &  &  &  & gof\\
-R2 Adj. & \num{0.588} &  &  &  &  & gof\\
-AIC & \num{4303.1} &  &  &  &  & gof\\
-BIC & \num{4581.3} &  &  &  &  & gof\\
-RMSE & \num{0.33} &  &  &  &  & gof\\
-\bottomrule
-\end{tabular}}
-\end{table}
-
-\FloatBarrier
-
-\hypertarget{robustness-checks}{%
-\subsection{Robustness checks}\label{robustness-checks}}
-
-\begin{table}[!h]
-
-\caption{\label{tab:regression-results1-robustness1}Robustness check I}
-\centering
-\begin{tabular}[t]{lcccc}
-\toprule
-  & (1) & (2) & (3) & (4)\\
-\midrule
-Fear of losing/changing profession & \num{-0.470} & \num{-1.766} &  & \\
- & (\num{0.979}) & (\num{1.661}) &  & \\
-Current economic situation (subjective) &  &  & \num{0.435} & \num{0.332}\\
- &  &  & (\num{0.293}) & (\num{0.285})\\
-Diff. which party one votes for &  & \num{-1.939}* &  & \num{-0.660}**\\
- &  & (\num{0.786}) &  & (\num{0.216})\\
-Diff. which party governs & \num{-1.173}+ &  & \num{-0.460}* & \\
- & (\num{0.602}) &  & (\num{0.217}) & \\
-Diff. which party one votes for x Fear of losing/changing profession &  & \num{0.539} &  & \\
- &  & (\num{0.411}) &  & \\
-Diff. which party governs x Fear of losing/changing profession & \num{0.187} &  &  & \\
- & (\num{0.275}) &  &  & \\
-Diff. which party one votes for x Current econ. situation &  &  &  & \num{0.079}\\
- &  &  &  & (\num{0.075})\\
-Diff. which party governs x Current econ. situation &  &  & \num{0.052} & \\
- &  &  & (\num{0.077}) & \\
-Age & \num{-0.007} & \num{-0.028} & \num{-0.005} & \num{-0.007}\\
- & (\num{0.035}) & (\num{0.037}) & (\num{0.005}) & (\num{0.006})\\
-Female dummy & \num{-2.188}+ & \num{-2.521}+ & \num{-0.751}*** & \num{-0.788}***\\
- & (\num{1.286}) & (\num{1.368}) & (\num{0.181}) & (\num{0.184})\\
-Household income & \num{-0.034} & \num{0.065} & \num{-0.034} & \num{-0.024}\\
- & (\num{0.172}) & (\num{0.185}) & (\num{0.040}) & (\num{0.041})\\
-Rurality of place
-of residence & \num{-0.118} & \num{-0.053} & \num{0.099} & \num{0.102}\\
- & (\num{0.313}) & (\num{0.315}) & (\num{0.081}) & (\num{0.082})\\
-No Abitur dummy & \num{0.549} & \num{0.986} & \num{0.723}** & \num{0.698}**\\
- & (\num{0.894}) & (\num{0.930}) & (\num{0.220}) & (\num{0.222})\\
-West Germany dummy & \num{-1.639}* & \num{-2.085}* & \num{-1.078}*** & \num{-1.037}***\\
- & (\num{0.825}) & (\num{0.890}) & (\num{0.175}) & (\num{0.178})\\
-\midrule
-Num.Obs. & \num{159} & \num{156} & \num{2417} & \num{2388}\\
-AIC & \num{73.7} & \num{69.5} & \num{1032.4} & \num{1000.2}\\
-BIC & \num{104.3} & \num{100.0} & \num{1090.3} & \num{1058.0}\\
-Log.Lik. & \num{-26.829} & \num{-24.730} & \num{-506.198} & \num{-490.110}\\
-RMSE & \num{0.21} & \num{0.21} & \num{0.24} & \num{0.23}\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[!h]
-
-\caption{\label{tab:regression-results1-robustness2}Robustness check II}
-\centering
-\begin{tabular}[t]{lcccc}
-\toprule
-  & (1) & (2) & (3) & (4)\\
-\midrule
-Fear of losing/changing profession & \num{38.690} & \num{1.779} &  & \\
- & (\num{4213.436}) & (\num{1.332}) &  & \\
-Current economic situation (subjective) &  &  & \num{0.603}** & \num{0.889}***\\
- &  &  & (\num{0.210}) & (\num{0.236})\\
-Trust in parliament & \num{18.464} &  & \num{-0.240}* & \\
- & (\num{2106.718}) &  & (\num{0.120}) & \\
-Trust in parties &  & \num{0.346} &  & \num{-0.178}\\
- &  & (\num{0.609}) &  & (\num{0.156})\\
-Trust in parliament x Fear of losing/changing profession & \num{-18.899} &  &  & \\
- & (\num{2106.718}) &  &  & \\
-Trust in parties x Fear of losing/changing profession &  & \num{-0.612} &  & \\
- &  & (\num{0.500}) &  & \\
-Trust in parliament x Current econ. situation &  &  & \num{-0.102}* & \\
- &  &  & (\num{0.047}) & \\
-Trust in parties x Current econ. situation &  &  &  & \num{-0.146}*\\
- &  &  &  & (\num{0.060})\\
-Age & \num{-0.023} & \num{-0.020} & \num{0.003} & \num{-0.002}\\
- & (\num{0.047}) & (\num{0.039}) & (\num{0.006}) & (\num{0.006})\\
-Female dummy & \num{-20.322} & \num{-17.727} & \num{-0.898}*** & \num{-0.947}***\\
- & (\num{8816.272}) & (\num{2112.882}) & (\num{0.201}) & (\num{0.202})\\
-Household income & \num{0.436} & \num{0.027} & \num{-0.028} & \num{-0.027}\\
- & (\num{0.339}) & (\num{0.191}) & (\num{0.046}) & (\num{0.044})\\
-Rurality of place
-of residence & \num{0.205} & \num{0.086} & \num{0.135} & \num{0.097}\\
- & (\num{0.367}) & (\num{0.314}) & (\num{0.088}) & (\num{0.086})\\
-No Abitur dummy & \num{1.168} & \num{0.632} & \num{0.674}** & \num{0.787}***\\
- & (\num{1.082}) & (\num{0.985}) & (\num{0.233}) & (\num{0.230})\\
-West Germany dummy & \num{-1.391} & \num{-1.445} & \num{-1.050}*** & \num{-1.116}***\\
- & (\num{0.997}) & (\num{0.886}) & (\num{0.188}) & (\num{0.188})\\
-\midrule
-Num.Obs. & \num{155} & \num{156} & \num{2351} & \num{2341}\\
-AIC & \num{56.5} & \num{64.8} & \num{865.1} & \num{885.4}\\
-BIC & \num{86.9} & \num{95.3} & \num{922.8} & \num{943.0}\\
-Log.Lik. & \num{-18.228} & \num{-22.388} & \num{-422.563} & \num{-432.693}\\
-RMSE & \num{0.19} & \num{0.20} & \num{0.22} & \num{0.22}\\
-\bottomrule
-\end{tabular}
-\end{table}
-
 \FloatBarrier
 
 \hypertarget{references}{%
-\section*{References}\label{references}}
-\addcontentsline{toc}{section}{References}
+\section{References}\label{references}}
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
@@ -931,5 +669,266 @@ Sonin, Konstantin. 2022. {``The {Historical} {Perspective} on the
 Literature} 60 (3): 1029--38.
 
 \end{CSLReferences}
+
+\hypertarget{appendix}{%
+\section{Appendix}\label{appendix}}
+
+\hypertarget{marginal-effect-plots-and-regression-tables}{%
+\subsection{Marginal effect plots and regression
+tables}\label{marginal-effect-plots-and-regression-tables}}
+
+\begin{table}[!h]
+
+\caption{\label{tab:regression-results-1-table1}Association between the probability of voting for the AfD and economic insecurity}
+\centering
+\begin{tabular}[t]{lcccc}
+\toprule
+  & (1) & (2) & (3) & (4)\\
+\midrule
+Fear of job loss & \num{0.130} & \num{0.147} &  & \\
+ & (\num{0.425}) & (\num{0.407}) &  & \\
+Unemployment experience dummy &  &  & \num{-0.613} & \num{1.277}+\\
+ &  &  & (\num{0.801}) & (\num{0.767})\\
+Difference which party one votes for &  & \num{-0.375}* &  & \num{-0.451}***\\
+ &  & (\num{0.187}) &  & (\num{0.077})\\
+Difference which party governs & \num{-0.281} &  & \num{-0.402}*** & \\
+ & (\num{0.186}) &  & (\num{0.077}) & \\
+Difference which party one votes for
+x Fear of job loss &  & \num{-0.050} &  & \\
+ &  & (\num{0.121}) &  & \\
+Difference which party governs
+x Fear of job loss & \num{-0.028} &  &  & \\
+ & (\num{0.118}) &  &  & \\
+Difference which party one votes for
+x Unemployment &  &  &  & \num{-0.219}\\
+ &  &  &  & (\num{0.211})\\
+Difference which party governs
+x Unemployment &  &  & \num{0.304} & \\
+ &  &  & (\num{0.207}) & \\
+Age & \num{-0.009} & \num{-0.010} & \num{-0.008} & \num{-0.009}\\
+ & (\num{0.010}) & (\num{0.010}) & (\num{0.005}) & (\num{0.006})\\
+Female dummy & \num{-0.778}** & \num{-0.781}** & \num{-0.676}*** & \num{-0.708}***\\
+ & (\num{0.252}) & (\num{0.255}) & (\num{0.183}) & (\num{0.187})\\
+Household income & \num{-0.123}* & \num{-0.106}+ & \num{-0.097}* & \num{-0.081}*\\
+ & (\num{0.060}) & (\num{0.061}) & (\num{0.039}) & (\num{0.040})\\
+Rurality of place
+of residence & \num{0.241}* & \num{0.243}* & \num{0.092} & \num{0.109}\\
+ & (\num{0.117}) & (\num{0.118}) & (\num{0.082}) & (\num{0.084})\\
+No Abitur dummy & \num{1.013}*** & \num{0.982}** & \num{0.818}*** & \num{0.773}***\\
+ & (\num{0.299}) & (\num{0.303}) & (\num{0.221}) & (\num{0.223})\\
+West Germany dummy & \num{-1.385}*** & \num{-1.336}*** & \num{-1.047}*** & \num{-1.017}***\\
+ & (\num{0.245}) & (\num{0.248}) & (\num{0.178}) & (\num{0.182})\\
+\midrule
+Num.Obs. & \num{1276} & \num{1265} & \num{2324} & \num{2296}\\
+AIC & \num{548.7} & \num{537.0} & \num{1013.5} & \num{984.9}\\
+BIC & \num{600.2} & \num{588.4} & \num{1071.1} & \num{1042.3}\\
+Log.Lik. & \num{-264.344} & \num{-258.483} & \num{-496.774} & \num{-482.439}\\
+RMSE & \num{0.24} & \num{0.24} & \num{0.24} & \num{0.24}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics{AVCD_Final-Assignment-Edenhofer_files/figure-latex/regression-results-1-plot1-1.pdf}
+\caption{Marginal effects of economic insecurity by perceived
+responsiveness}
+\end{figure}
+
+\begin{table}[!h]
+
+\caption{\label{tab:regression-results-1-table2}Association between the probability of voting for the AfD and economic insecurity}
+\centering
+\begin{tabular}[t]{lcccc}
+\toprule
+  & (1) & (2) & (3) & (4)\\
+\midrule
+Fear of job loss & \num{0.515} & \num{0.261} &  & \\
+ & (\num{0.347}) & (\num{0.348}) &  & \\
+Unemployment experience dummy &  &  & \num{1.051}+ & \num{0.352}\\
+ &  &  & (\num{0.599}) & (\num{0.621})\\
+Trust in parliament & \num{-0.151} &  & \num{-0.491}*** & \\
+ & (\num{0.170}) &  & (\num{0.045}) & \\
+Trust in parties &  & \num{-0.401}** &  & \num{-0.578}***\\
+ &  & (\num{0.155}) &  & (\num{0.059})\\
+Trust in parliament
+x Fear of job loss & \num{-0.276}+ &  &  & \\
+ & (\num{0.150}) &  &  & \\
+Trust in parties
+x Fear of job loss &  & \num{-0.121} &  & \\
+ &  & (\num{0.114}) &  & \\
+Trust in parliament
+x Unemployment &  &  & \num{-0.205} & \\
+ &  &  & (\num{0.152}) & \\
+Trust in parties
+x Unemployment &  &  &  & \num{0.003}\\
+ &  &  &  & (\num{0.163})\\
+Age & \num{-0.002} & \num{-0.005} & \num{0.003} & \num{-0.004}\\
+ & (\num{0.011}) & (\num{0.011}) & (\num{0.006}) & (\num{0.006})\\
+Female dummy & \num{-0.911}*** & \num{-0.934}*** & \num{-0.834}*** & \num{-0.830}***\\
+ & (\num{0.271}) & (\num{0.272}) & (\num{0.202}) & (\num{0.199})\\
+Household income & \num{-0.071} & \num{-0.107}+ & \num{-0.048} & \num{-0.080}+\\
+ & (\num{0.066}) & (\num{0.064}) & (\num{0.044}) & (\num{0.042})\\
+Rurality of place
+of residence & \num{0.214}+ & \num{0.203}+ & \num{0.111} & \num{0.091}\\
+ & (\num{0.126}) & (\num{0.121}) & (\num{0.090}) & (\num{0.087})\\
+No Abitur dummy & \num{0.902}** & \num{1.037}*** & \num{0.652}** & \num{0.793}***\\
+ & (\num{0.315}) & (\num{0.309}) & (\num{0.233}) & (\num{0.230})\\
+West Germany dummy & \num{-1.237}*** & \num{-1.292}*** & \num{-1.034}*** & \num{-1.054}***\\
+ & (\num{0.259}) & (\num{0.256}) & (\num{0.191}) & (\num{0.188})\\
+\midrule
+Num.Obs. & \num{1247} & \num{1242} & \num{2272} & \num{2263}\\
+AIC & \num{466.1} & \num{477.6} & \num{837.4} & \num{865.3}\\
+BIC & \num{517.4} & \num{528.8} & \num{894.6} & \num{922.6}\\
+Log.Lik. & \num{-223.064} & \num{-228.793} & \num{-408.682} & \num{-422.655}\\
+RMSE & \num{0.23} & \num{0.22} & \num{0.22} & \num{0.23}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics{AVCD_Final-Assignment-Edenhofer_files/figure-latex/regression-results-1-plot2-1.pdf}
+\caption{Marginal effects of economic insecurity by trust}
+\end{figure}
+
+\begin{table}[!h]
+
+\caption{\label{tab:multinomial-model-table}Multinomial analysis}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{lcccccc}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{6}{c}{Multinomial model with AfD as reference category} \\
+\cmidrule(l{3pt}r{3pt}){2-7}
+  & CDU/CSU & SPD & FDP & GRUENE/B90 & LINKE & Other party\\
+\midrule
+Intercept & \num{-4.157}*** & \num{-1.740}+ & \num{-0.805} & \num{-2.348}* & \num{0.976} & \num{1.210}\\
+ & (\num{1.108}) & (\num{1.025}) & (\num{1.119}) & (\num{1.072}) & (\num{1.193}) & (\num{1.296})\\
+Fear of job loss & \num{-0.024} & \num{-0.033} & \num{-0.076} & \num{0.019} & \num{0.034} & \num{-0.207}\\
+ & (\num{0.176}) & (\num{0.166}) & (\num{0.187}) & (\num{0.172}) & (\num{0.195}) & (\num{0.244})\\
+Difference which party governs & \num{0.519}*** & \num{0.289}** & \num{0.303}* & \num{0.552}*** & \num{0.156} & \num{-0.122}\\
+ & (\num{0.120}) & (\num{0.111}) & (\num{0.125}) & (\num{0.122}) & (\num{0.136}) & (\num{0.142})\\
+Age & \num{0.020}+ & \num{0.032}** & \num{-0.017} & \num{0.008} & \num{0.002} & \num{-0.041}**\\
+ & (\num{0.012}) & (\num{0.011}) & (\num{0.012}) & (\num{0.011}) & (\num{0.013}) & (\num{0.015})\\
+Female dummy & \num{0.779}** & \num{0.916}*** & \num{0.389} & \num{1.173}*** & \num{0.445} & \num{0.560}\\
+ & (\num{0.280}) & (\num{0.269}) & (\num{0.297}) & (\num{0.279}) & (\num{0.326}) & (\num{0.348})\\
+Household income & \num{0.210}** & \num{0.085} & \num{0.175}* & \num{0.157}* & \num{-0.017} & \num{0.141}\\
+ & (\num{0.070}) & (\num{0.065}) & (\num{0.073}) & (\num{0.068}) & (\num{0.077}) & (\num{0.088})\\
+Rurality of place
+of residence & \num{-0.066} & \num{-0.268}* & \num{-0.206} & \num{-0.365}** & \num{-0.381}* & \num{-0.223}\\
+ & (\num{0.130}) & (\num{0.124}) & (\num{0.135}) & (\num{0.128}) & (\num{0.149}) & (\num{0.160})\\
+No Abitur dummy & \num{-0.585}+ & \num{-0.877}** & \num{-0.914}** & \num{-1.728}*** & \num{-1.276}*** & \num{-0.382}\\
+ & (\num{0.329}) & (\num{0.317}) & (\num{0.338}) & (\num{0.324}) & (\num{0.368}) & (\num{0.398})\\
+West Germany dummy & \num{1.349}*** & \num{1.556}*** & \num{1.232}*** & \num{1.967}*** & \num{0.489} & \num{0.933}**\\
+ & (\num{0.281}) & (\num{0.268}) & (\num{0.296}) & (\num{0.288}) & (\num{0.320}) & (\num{0.351})\\
+Num.Obs. & \num{1276} &  &  &  &  & gof\\
+R2 & \num{0.589} &  &  &  &  & gof\\
+R2 Adj. & \num{0.588} &  &  &  &  & gof\\
+AIC & \num{4303.1} &  &  &  &  & gof\\
+BIC & \num{4581.3} &  &  &  &  & gof\\
+RMSE & \num{0.33} &  &  &  &  & gof\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\FloatBarrier
+
+\hypertarget{robustness-checks}{%
+\subsection{Robustness checks}\label{robustness-checks}}
+
+\begin{table}[!h]
+
+\caption{\label{tab:regression-results1-robustness1}Robustness check I}
+\centering
+\begin{tabular}[t]{lcccc}
+\toprule
+  & (1) & (2) & (3) & (4)\\
+\midrule
+Fear of losing/changing profession & \num{-0.470} & \num{-1.766} &  & \\
+ & (\num{0.979}) & (\num{1.661}) &  & \\
+Current economic situation (subjective) &  &  & \num{0.435} & \num{0.332}\\
+ &  &  & (\num{0.293}) & (\num{0.285})\\
+Diff. which party one votes for &  & \num{-1.939}* &  & \num{-0.660}**\\
+ &  & (\num{0.786}) &  & (\num{0.216})\\
+Diff. which party governs & \num{-1.173}+ &  & \num{-0.460}* & \\
+ & (\num{0.602}) &  & (\num{0.217}) & \\
+Diff. which party one votes for x Fear of losing/changing profession &  & \num{0.539} &  & \\
+ &  & (\num{0.411}) &  & \\
+Diff. which party governs x Fear of losing/changing profession & \num{0.187} &  &  & \\
+ & (\num{0.275}) &  &  & \\
+Diff. which party one votes for x Current econ. situation &  &  &  & \num{0.079}\\
+ &  &  &  & (\num{0.075})\\
+Diff. which party governs x Current econ. situation &  &  & \num{0.052} & \\
+ &  &  & (\num{0.077}) & \\
+Age & \num{-0.007} & \num{-0.028} & \num{-0.005} & \num{-0.007}\\
+ & (\num{0.035}) & (\num{0.037}) & (\num{0.005}) & (\num{0.006})\\
+Female dummy & \num{-2.188}+ & \num{-2.521}+ & \num{-0.751}*** & \num{-0.788}***\\
+ & (\num{1.286}) & (\num{1.368}) & (\num{0.181}) & (\num{0.184})\\
+Household income & \num{-0.034} & \num{0.065} & \num{-0.034} & \num{-0.024}\\
+ & (\num{0.172}) & (\num{0.185}) & (\num{0.040}) & (\num{0.041})\\
+Rurality of place
+of residence & \num{-0.118} & \num{-0.053} & \num{0.099} & \num{0.102}\\
+ & (\num{0.313}) & (\num{0.315}) & (\num{0.081}) & (\num{0.082})\\
+No Abitur dummy & \num{0.549} & \num{0.986} & \num{0.723}** & \num{0.698}**\\
+ & (\num{0.894}) & (\num{0.930}) & (\num{0.220}) & (\num{0.222})\\
+West Germany dummy & \num{-1.639}* & \num{-2.085}* & \num{-1.078}*** & \num{-1.037}***\\
+ & (\num{0.825}) & (\num{0.890}) & (\num{0.175}) & (\num{0.178})\\
+\midrule
+Num.Obs. & \num{159} & \num{156} & \num{2417} & \num{2388}\\
+AIC & \num{73.7} & \num{69.5} & \num{1032.4} & \num{1000.2}\\
+BIC & \num{104.3} & \num{100.0} & \num{1090.3} & \num{1058.0}\\
+Log.Lik. & \num{-26.829} & \num{-24.730} & \num{-506.198} & \num{-490.110}\\
+RMSE & \num{0.21} & \num{0.21} & \num{0.24} & \num{0.23}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!h]
+
+\caption{\label{tab:regression-results1-robustness2}Robustness check II}
+\centering
+\begin{tabular}[t]{lcccc}
+\toprule
+  & (1) & (2) & (3) & (4)\\
+\midrule
+Fear of losing/changing profession & \num{38.690} & \num{1.779} &  & \\
+ & (\num{4213.436}) & (\num{1.332}) &  & \\
+Current economic situation (subjective) &  &  & \num{0.603}** & \num{0.889}***\\
+ &  &  & (\num{0.210}) & (\num{0.236})\\
+Trust in parliament & \num{18.464} &  & \num{-0.240}* & \\
+ & (\num{2106.718}) &  & (\num{0.120}) & \\
+Trust in parties &  & \num{0.346} &  & \num{-0.178}\\
+ &  & (\num{0.609}) &  & (\num{0.156})\\
+Trust in parliament x Fear of losing/changing profession & \num{-18.899} &  &  & \\
+ & (\num{2106.718}) &  &  & \\
+Trust in parties x Fear of losing/changing profession &  & \num{-0.612} &  & \\
+ &  & (\num{0.500}) &  & \\
+Trust in parliament x Current econ. situation &  &  & \num{-0.102}* & \\
+ &  &  & (\num{0.047}) & \\
+Trust in parties x Current econ. situation &  &  &  & \num{-0.146}*\\
+ &  &  &  & (\num{0.060})\\
+Age & \num{-0.023} & \num{-0.020} & \num{0.003} & \num{-0.002}\\
+ & (\num{0.047}) & (\num{0.039}) & (\num{0.006}) & (\num{0.006})\\
+Female dummy & \num{-20.322} & \num{-17.727} & \num{-0.898}*** & \num{-0.947}***\\
+ & (\num{8816.272}) & (\num{2112.882}) & (\num{0.201}) & (\num{0.202})\\
+Household income & \num{0.436} & \num{0.027} & \num{-0.028} & \num{-0.027}\\
+ & (\num{0.339}) & (\num{0.191}) & (\num{0.046}) & (\num{0.044})\\
+Rurality of place
+of residence & \num{0.205} & \num{0.086} & \num{0.135} & \num{0.097}\\
+ & (\num{0.367}) & (\num{0.314}) & (\num{0.088}) & (\num{0.086})\\
+No Abitur dummy & \num{1.168} & \num{0.632} & \num{0.674}** & \num{0.787}***\\
+ & (\num{1.082}) & (\num{0.985}) & (\num{0.233}) & (\num{0.230})\\
+West Germany dummy & \num{-1.391} & \num{-1.445} & \num{-1.050}*** & \num{-1.116}***\\
+ & (\num{0.997}) & (\num{0.886}) & (\num{0.188}) & (\num{0.188})\\
+\midrule
+Num.Obs. & \num{155} & \num{156} & \num{2351} & \num{2341}\\
+AIC & \num{56.5} & \num{64.8} & \num{865.1} & \num{885.4}\\
+BIC & \num{86.9} & \num{95.3} & \num{922.8} & \num{943.0}\\
+Log.Lik. & \num{-18.228} & \num{-22.388} & \num{-422.563} & \num{-432.693}\\
+RMSE & \num{0.19} & \num{0.20} & \num{0.22} & \num{0.22}\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \end{document}

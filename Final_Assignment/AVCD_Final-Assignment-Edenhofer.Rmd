@@ -1,6 +1,6 @@
 ---
 title: "Economic insecurity, lack of representation and radical-right voting in the context of the 2021 German federal election"
-author: "Candidate number: 1050713"
+author: "Jacob Edenhofer"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 header-includes: 
   - \usepackage[T1]{fontenc}
@@ -16,12 +16,13 @@ header-includes:
   - \pagestyle{fancy}  
   - \fancyhf{}  
   - \rhead{Final AVCD assignment}  
-  - \lhead{1050713}
+  - \lhead{Jacob Edenhofer}
   - \renewcommand{\headrulewidth}{0pt}
   - \cfoot{\thepage}   
 mainfont: fouriernc
 output:
   pdf_document:
+    number_sections: true
     fig_caption: true
     keep_tex: true
     includes:
@@ -413,14 +414,24 @@ Before concluding, it is worth dwelling on two limitations of the above analysis
 
 # Conclusion 
 
+
 In summary, I examined whether the German political system's perceived responsiveness and voter's trust in the latter moderate the relationship between economic insecurity and AfD support. By estimating a series of logistic and multinomial regressions models, I found this *not* to be the case in the 2021 German federal election. While this null finding is robust to different operationalisations of the key independent variables, the analysis is subject to considerable limitations, implying that the results should be interpreted as tentative, rather than definitive, evidence against the hypotheses tested here.   
 
 
 *Word count: 2098*
 
 
-# Appendix {#appendix}
 
+\FloatBarrier
+
+
+# References 
+
+
+<div id="refs"></div>
+
+
+# Appendix {#appendix}
 
 
 ## Marginal effect plots and regression tables   
@@ -723,7 +734,8 @@ modelsummary(list(afd_diff_gov_int11_1_r, afd_diff_gov_int5_1_r,
 
 
 
-\FloatBarrier
 
 
-# References 
+
+
+
