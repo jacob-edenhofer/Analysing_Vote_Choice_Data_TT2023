@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.3)  26 MAY 2023 10:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.3)  26 MAY 2023 11:00
 entering extended mode
 **./AVCD_Final-Assignment-1050713.tex
 (AVCD_Final-Assignment-1050713.tex
@@ -1133,11 +1133,11 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 935.
 Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 935.
  ) 
 Here is how much of TeX's memory you used:
- 20041 strings out of 481225
- 335767 string characters out of 2916395
+ 20044 strings out of 481225
+ 335797 string characters out of 2916395
  674789 words of memory out of 3000000
  34807 multiletter control sequences out of 15000+200000
- 660385 words of font info for 380 fonts, out of 3000000 for 9000
+ 660558 words of font info for 382 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  50i,14n,46p,830b,759s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/jacob/mik tex/fonts/enc/dvips/base/8r.enc}<C:/Users/jacob/mik tex/f
@@ -1145,7 +1145,7 @@ onts/type1/public/fourier/fourier-mlit.pfb><C:/Users/jacob/mik tex/fonts/type1/
 public/fourier/fourier-ms.pfb><C:/Users/jacob/mik tex/fonts/type1/urw/ncntrsbk/
 uncb8a.pfb><C:/Users/jacob/mik tex/fonts/type1/urw/ncntrsbk/uncr8a.pfb><C:/User
 s/jacob/mik tex/fonts/type1/urw/ncntrsbk/uncri8a.pfb>
-Output written on AVCD_Final-Assignment-1050713.pdf (15 pages, 148810 bytes).
+Output written on AVCD_Final-Assignment-1050713.pdf (15 pages, 148899 bytes).
 PDF statistics:
  297 PDF objects out of 1000 (max. 8388607)
  86 named destinations out of 1000 (max. 500000)
