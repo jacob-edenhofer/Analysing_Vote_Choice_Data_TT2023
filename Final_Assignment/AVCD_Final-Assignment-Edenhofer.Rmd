@@ -1,7 +1,7 @@
 ---
 title: "Economic insecurity, lack of representation and radical-right voting in the context of the 2021 German federal election"
 author: "Jacob Edenhofer"
-date: "`r format(Sys.time(), '%d %B %Y')`"
+date: "`26 May 2023"
 header-includes: 
   - \usepackage[T1]{fontenc}
   - \usepackage{fouriernc}
@@ -185,6 +185,7 @@ gles_mod <- gles %>%
 
 
 
+
 # Introduction  
 
 This essay examines whether, as some argue, the association between economic insecurity and radical-right support is moderated by voters' sense that the political system is incapable of addressing their economic grievances. To that end, I will, first, contextualise this research question in relation to the relevant literature, and, secondly, discuss the operationalisation of my dependent and independent variables. Thirdly, I will present my methodology and results, which do *not* support the argument that the political system's perceived lack of responsiveness moderates the relationship between economic insecurity and radical-right voting in the context of the 2021 German federal election.  
@@ -210,7 +211,7 @@ Like many economic-insecurity-centred accounts of radical-right support, the the
 By way of unpacking this argument, note, first, that losers may believe the political system to be incapable of redressing their economic grievances for two distinct reasons. First, they might deem all mainstream parties to be much of a muchness, meaning none of the supposedly different parties is seen by losers as representing their preferences. In that instance, losers are likely to think that it does not matter which mainstream party they vote for, or which of those parties governs. Second, even if voters believe at least one mainstream party to endorse policies conducive to redressing their economic grievances, they might not trust any mainstream politician to follow through on these promises.^[This ‘trust’ channel is distinct from a ‘valence’ channel, where voters fundamentally trust politicians, but judge their levels of competence to differ [@green_politics_2017].] 
 
 
-These two reasons also show why the theory predicts economic losers, as a result of their grievances, to turn to radical-right parties, rather than left-wing parties. Many other economic-insecurity-type arguments are unable to resolve this puzzle, which arises because the latter’s platforms tend to be significantly more pro-redistributive than the former’s platforms. Using the terminology introduced by @linz_breakdown_1978, the reason is that losers regard left-wing parties as loyal to the political system and in cahoots with the other mainstream actors. Their redistributive promises therefore lack credibility. By contrast, radical-right parties’ semi-loyalty or outright disloyalty to the system means that voting for them increases the likelihood that the political system, characterised by the mainstream cartel [@katz_cartel_2009], will be disrupted. 
+These two reasons also show why the theory predicts economic losers, as a result of their grievances, to turn to radical-right parties, rather than left-wing parties. Many other economic-insecurity-type arguments are unable to resolve this puzzle, which arises because the left-wing parties' platforms tend to be significantly more pro-redistributive than the radical-right parties' platforms. Using the terminology introduced by @linz_breakdown_1978, the reason is that losers regard left-wing parties as loyal to the political system and in cahoots with the other mainstream actors. Their redistributive promises therefore lack credibility. By contrast, radical-right parties’ semi-loyalty or outright disloyalty to the system means that voting for them increases the likelihood that the political system, characterised by the mainstream cartel [@katz_cartel_2009], will be disrupted. 
 
 
 In sum, this theoretical argument implies (at least)^[The argument could also be taken to imply that (i) a perceived lack of representation and (ii) low trust increase the probability of voting for the radical right. Given the space constraints, I prescind from testing these two hypotheses.] four testable hypotheses.
@@ -221,7 +222,7 @@ In sum, this theoretical argument implies (at least)^[The argument could also be
 + H4: Economic insecurity, *ceteris paribus*, increases the probability of voting for the radical right, relative to pro-redistributive left-wing parties, notably the SPD and LINKE. 
 
 
-Before setting out my empirical strategy, let me briefly discuss my two reasons for choosing the case of the 2021 German federal election. First, the 2021 election occurred in the wake of the third wave of the Covid-19 pandemic, which caused widespread financial insecurity among German households [@cziriak_publication_nodate]. Secondly, the pandemic was a politically contentious period, causing deep divides over the desirability and efficacy of both non-pharmaceutical interventions, such as mask mandates, and vaccination. The *Querdenker* movement, in particular, used their protests to stress that their interests were not represented by any mainstream party [e.g. @plumper_strategy_2021]. Both factors mean that economic insecurity and subjectively perceived representational deficits were likely salient in the minds of some voters, making this election a suitable case for testing the above hypotheses.
+Before setting out my empirical strategy, let me briefly discuss my two reasons for choosing the case of the 2021 German federal election. First, the 2021 election occurred in the wake of the third wave of the Covid-19 pandemic, which caused widespread financial insecurity among German households [@cziriak_publication_nodate]. Secondly, the pandemic was a politically contentious period, causing deep divides over the desirability and efficacy of both non-pharmaceutical interventions, such as mask mandates, and vaccination. The *Querdenker*, in particular, used their protests to stress that their interests were not represented by any mainstream party [e.g. @plumper_strategy_2021]. Both factors mean that economic insecurity and subjectively perceived representational deficits were likely salient in the minds of some voters, making this election a suitable case for testing the above hypotheses.
 
 
 

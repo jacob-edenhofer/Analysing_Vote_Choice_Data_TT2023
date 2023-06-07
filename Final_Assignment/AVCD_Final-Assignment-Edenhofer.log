@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.3)  26 MAY 2023 21:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.3)  1 JUN 2023 12:12
 entering extended mode
 **./AVCD_Final-Assignment-Edenhofer.tex
 (AVCD_Final-Assignment-Edenhofer.tex
@@ -1022,33 +1022,33 @@ LaTeX Font Info:    Font shape `TS1/fnc/m/n' will be
 (Font)              scaled to size 9.29993pt on input line 270.
 [2]
 LaTeX Font Info:    Font shape `T1/fnc/m/n' will be
-(Font)              scaled to size 10.22992pt on input line 353.
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 353.
+(Font)              scaled to size 10.22992pt on input line 352.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 352.
 LaTeX Font Info:    Font shape `T1/fnc/m/n' will be
-(Font)              scaled to size 7.77467pt on input line 353.
+(Font)              scaled to size 7.77467pt on input line 352.
 LaTeX Font Info:    Font shape `T1/fnc/m/n' will be
-(Font)              scaled to size 6.138pt on input line 353.
+(Font)              scaled to size 6.138pt on input line 352.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 10.11998pt on input line 353.
+(Font)              scaled to size 10.11998pt on input line 352.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 7.69112pt on input line 353.
+(Font)              scaled to size 7.69112pt on input line 352.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 6.07204pt on input line 353.
+(Font)              scaled to size 6.07204pt on input line 352.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 10.11998pt on input line 353.
+(Font)              scaled to size 10.11998pt on input line 352.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 7.69112pt on input line 353.
+(Font)              scaled to size 7.69112pt on input line 352.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 6.07204pt on input line 353.
+(Font)              scaled to size 6.07204pt on input line 352.
 LaTeX Font Info:    Font shape `T1/fnc/b/n' will be
-(Font)              scaled to size 10.22992pt on input line 353.
+(Font)              scaled to size 10.22992pt on input line 352.
 [3]
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 13.24796pt on input line 390.
+(Font)              scaled to size 13.24796pt on input line 389.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 13.24796pt on input line 390.
+(Font)              scaled to size 13.24796pt on input line 389.
 LaTeX Font Info:    Font shape `T1/fnc/b/n' will be
-(Font)              scaled to size 9.29993pt on input line 414.
+(Font)              scaled to size 9.29993pt on input line 413.
 <AVCD_Final-Assignment-Edenhofer_files/figure-latex/regression-results1-plot-1.
 pdf, id=110, 469.755pt x 325.215pt>
 File: AVCD_Final-Assignment-Edenhofer_files/figure-latex/regression-results1-pl
@@ -1056,7 +1056,7 @@ ot-1.pdf Graphic file (type pdf)
 <use AVCD_Final-Assignment-Edenhofer_files/figure-latex/regression-results1-plo
 t-1.pdf>
 Package pdftex.def Info: AVCD_Final-Assignment-Edenhofer_files/figure-latex/reg
-ression-results1-plot-1.pdf  used on input line 445.
+ression-results1-plot-1.pdf  used on input line 444.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [4] [5 <./AVCD_Final-Assignment-Edenhofer_files/figure-latex/regression-results
 1-plot-1.pdf>]
@@ -1067,18 +1067,18 @@ File: AVCD_Final-Assignment-Edenhofer_files/figure-latex/multinomial-model-plot
 <use AVCD_Final-Assignment-Edenhofer_files/figure-latex/multinomial-model-plot-
 1.pdf>
 Package pdftex.def Info: AVCD_Final-Assignment-Edenhofer_files/figure-latex/mul
-tinomial-model-plot-1.pdf  used on input line 470.
+tinomial-model-plot-1.pdf  used on input line 469.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [6 <./AVCD_Final-Assignment-Edenhofer_files/figure-latex/multinomial-model-plot
 -1.pdf>] [7]
-Overfull \hbox (0.22844pt too wide) in paragraph at lines 585--590
+Overfull \hbox (0.22844pt too wide) in paragraph at lines 584--589
 [][]$\T1/fnc/m/n/10 (+4) h t tp : / / w w w . c h r i s t i a n d u s t m a n n
  . c o m / c o n t e n t / 4 -[] r e s e a r c h / 1 4 -[] e u r o pe -[] s -[]
  t r u s t -[] d e  c it -[] c a u s es -[] a n d -[] r e m e d i e s / e u r
  []
 
 LaTeX Font Info:    Font shape `T1/fnc/b/n' will be
-(Font)              scaled to size 11.15991pt on input line 678.
+(Font)              scaled to size 11.15991pt on input line 677.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1089,7 +1089,7 @@ lot1-1.pdf Graphic file (type pdf)
 <use AVCD_Final-Assignment-Edenhofer_files/figure-latex/regression-results-1-pl
 ot1-1.pdf>
 Package pdftex.def Info: AVCD_Final-Assignment-Edenhofer_files/figure-latex/reg
-ression-results-1-plot1-1.pdf  used on input line 733.
+ression-results-1-plot1-1.pdf  used on input line 732.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1101,7 +1101,7 @@ lot2-1.pdf Graphic file (type pdf)
 <use AVCD_Final-Assignment-Edenhofer_files/figure-latex/regression-results-1-pl
 ot2-1.pdf>
 Package pdftex.def Info: AVCD_Final-Assignment-Edenhofer_files/figure-latex/reg
-ression-results-1-plot2-1.pdf  used on input line 791.
+ression-results-1-plot2-1.pdf  used on input line 790.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1109,33 +1109,33 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [8] [9 <./AVCD_Final-Assignment-Edenhofer_files/figure-latex/regression-results
 -1-plot1-1.pdf>] [10 <./AVCD_Final-Assignment-Edenhofer_files/figure-latex/regr
 ession-results-1-plot2-1.pdf>] [11] [12] [13]
-Overfull \hbox (35.36557pt too wide) in paragraph at lines 844--885
+Overfull \hbox (35.36557pt too wide) in paragraph at lines 843--884
  [][] 
  []
 
 
-Overfull \hbox (9.81259pt too wide) in paragraph at lines 891--932
+Overfull \hbox (9.81259pt too wide) in paragraph at lines 890--931
  [][] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 934.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 933.
 [14
 
 ] [15]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 934.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 933.
 (AVCD_Final-Assignment-Edenhofer.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 934.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 934.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 933.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 933.
  ) 
 Here is how much of TeX's memory you used:
- 20044 strings out of 481225
- 335851 string characters out of 2916395
- 680748 words of memory out of 3000000
+ 20041 strings out of 481225
+ 335821 string characters out of 2916395
+ 680749 words of memory out of 3000000
  34807 multiletter control sequences out of 15000+200000
- 660558 words of font info for 382 fonts, out of 3000000 for 9000
+ 660385 words of font info for 380 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  50i,14n,46p,832b,761s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/jacob/mik tex/fonts/enc/dvips/base/8r.enc}<C:/Users/jacob/mik tex/f
@@ -1143,7 +1143,7 @@ onts/type1/public/fourier/fourier-mlit.pfb><C:/Users/jacob/mik tex/fonts/type1/
 public/fourier/fourier-ms.pfb><C:/Users/jacob/mik tex/fonts/type1/urw/ncntrsbk/
 uncb8a.pfb><C:/Users/jacob/mik tex/fonts/type1/urw/ncntrsbk/uncr8a.pfb><C:/User
 s/jacob/mik tex/fonts/type1/urw/ncntrsbk/uncri8a.pfb>
-Output written on AVCD_Final-Assignment-Edenhofer.pdf (15 pages, 150457 bytes).
+Output written on AVCD_Final-Assignment-Edenhofer.pdf (15 pages, 150428 bytes).
 
 PDF statistics:
  297 PDF objects out of 1000 (max. 8388607)
