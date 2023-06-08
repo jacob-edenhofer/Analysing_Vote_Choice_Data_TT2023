@@ -1,7 +1,7 @@
 ---
 title: "Economic insecurity, lack of representation and radical-right voting in the context of the 2021 German federal election"
 author: "Jacob Edenhofer"
-date: "`26 May 2023"
+date: "26 May 2023"
 header-includes: 
   - \usepackage[T1]{fontenc}
   - \usepackage{fouriernc}
